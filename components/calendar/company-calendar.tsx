@@ -9,7 +9,7 @@ import {
 } from 'date-fns'
 import { useState, useMemo } from 'react'
 import { Button } from '@/components/ui/button'
-import { ChevronLeft, ChevronRight, CalendarPlus } from 'lucide-react'
+import { ChevronLeft, ChevronRight, CalendarPlus, Calendar } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { NewEventModal } from './new-event-modal'
 
@@ -91,7 +91,10 @@ function MonthView({ date, events, onDayClick }: {
                     </div>
                 ))}
             </div>
-            <div className="grid grid-cols-7 flex-1 border-l border-slate-200 overflow-hidden">
+            <div
+                style={{ gridTemplateRows: `repeat(${Math.ceil(days.length / 7)}, 1fr)` }}
+                className="grid grid-cols-7 flex-1 border-l border-slate-200 overflow-hidden"
+            >
                 {days.map((day, i) => {
                     const key = format(day, 'yyyy-MM-dd')
                     const dayEvs = byDate.get(key) ?? []
@@ -102,7 +105,7 @@ function MonthView({ date, events, onDayClick }: {
                             key={i}
                             onClick={() => onDayClick(key)}
                             className={cn(
-                                'border-r border-b border-slate-200 p-1.5 min-h-[90px] cursor-pointer transition-colors',
+                                'border-r border-b border-slate-200 p-1.5 cursor-pointer transition-colors overflow-hidden',
                                 inMonth ? 'bg-white hover:bg-slate-50' : 'bg-slate-50/60 hover:bg-slate-100/60'
                             )}
                         >
@@ -307,11 +310,13 @@ export function CompanyCalendar({ events, onRefresh }: CompanyCalendarProps) {
         }
     }
 
-    const views: { key: ViewMode; label: string }[] = [
-        { key: 'day', label: 'Day' },
-        { key: 'week', label: 'Week' },
-        { key: 'month', label: 'Month' },
-    ]
+    const VIEW_CYCLE: ViewMode[] = ['month', 'week', 'day']
+    const VIEW_LABELS: Record<ViewMode, string> = { month: 'Month', week: 'Week', day: 'Day' }
+
+    const cycleView = () => {
+        const idx = VIEW_CYCLE.indexOf(view)
+        setView(VIEW_CYCLE[(idx + 1) % VIEW_CYCLE.length])
+    }
 
     return (
         <div className="flex flex-col gap-4 h-full">
@@ -331,23 +336,16 @@ export function CompanyCalendar({ events, onRefresh }: CompanyCalendarProps) {
                 </div>
 
                 <div className="flex items-center gap-2">
-                    {/* View toggle */}
-                    <div className="flex rounded-lg border border-slate-200 overflow-hidden">
-                        {views.map((v) => (
-                            <button
-                                key={v.key}
-                                onClick={() => setView(v.key)}
-                                className={cn(
-                                    'px-3 py-1.5 text-xs font-semibold transition-colors border-r border-slate-200 last:border-0',
-                                    view === v.key
-                                        ? 'bg-brand-navy text-white'
-                                        : 'bg-white text-slate-500 hover:bg-slate-50'
-                                )}
-                            >
-                                {v.label}
-                            </button>
-                        ))}
-                    </div>
+                    {/* Single cycle button */}
+                    <button
+                        onClick={cycleView}
+                        className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"
+                        title="Click to switch view"
+                    >
+                        <Calendar className="h-3.5 w-3.5 text-brand-teal" />
+                        {VIEW_LABELS[view]}
+                        <span className="ml-0.5 text-slate-300">↻</span>
+                    </button>
                     <Button
                         size="sm"
                         className="bg-brand-teal hover:bg-teal-700 text-white h-8"
