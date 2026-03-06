@@ -9,16 +9,14 @@ import { cn } from "@/lib/utils"
 import { usePulse } from "@/hooks/use-pulse"
 import { formatDistanceToNow } from "date-fns"
 import Link from "next/link"
+import { NoticeCard } from "@/components/notices/notice-card"
+import { NoticeComposer } from "@/components/notices/notice-composer"
 
 function PulseSection({ title, icon: Icon, defaultOpen = true, children, count = 0 }: any) {
     const [isOpen, setIsOpen] = useState(defaultOpen)
 
     return (
-        <Collapsible
-            open={isOpen}
-            onOpenChange={setIsOpen}
-            className="mb-4"
-        >
+        <Collapsible open={isOpen} onOpenChange={setIsOpen} className="mb-4">
             <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md bg-slate-100/50 px-4 py-2 hover:bg-slate-100 transition-colors">
                 <div className="flex items-center gap-2">
                     <Icon className="h-4 w-4 text-brand-teal" />
@@ -41,7 +39,16 @@ function PulseSection({ title, icon: Icon, defaultOpen = true, children, count =
 }
 
 export function ThePulse() {
-    const { connected, priorityApprovals, isQaOrAdmin } = usePulse()
+    const { connected, priorityApprovals, isQaOrAdmin, notices, acknowledgedIds, currentUserId } = usePulse()
+    const [composerOpen, setComposerOpen] = useState(false)
+    const [localNotices, setLocalNotices] = useState<typeof notices>(notices)
+
+    // Keep local copy in sync when hook updates
+    const displayNotices = notices
+
+    const handleDelete = (id: string) => {
+        // The hook's Realtime subscription will auto-remove it
+    }
 
     return (
         <aside className="fixed right-0 top-12 bottom-0 w-[300px] border-l border-slate-200 bg-slate-50 flex flex-col hidden md:flex z-40 transform transition-transform duration-300">
@@ -56,7 +63,7 @@ export function ThePulse() {
             </div>
 
             <ScrollArea className="flex-1 p-4">
-                {/* Priority Approvals — QA/Admin only with live data */}
+                {/* Priority Approvals — QA/Admin only */}
                 {isQaOrAdmin && (
                     <PulseSection title="Priority Approvals" icon={PenTool} count={priorityApprovals.length}>
                         {priorityApprovals.length === 0 ? (
@@ -87,8 +94,22 @@ export function ThePulse() {
                     <p className="text-xs text-slate-400 py-2 text-center italic">No tasks due today.</p>
                 </PulseSection>
 
-                <PulseSection title="Notices" icon={BellRing}>
-                    <p className="text-xs text-slate-400 py-2 text-center italic">No new notices.</p>
+                {/* Live Notices */}
+                <PulseSection title="Notices" icon={BellRing} count={displayNotices.filter(n => !acknowledgedIds.has(n.id) && n.author_id !== currentUserId).length}>
+                    {displayNotices.length === 0 ? (
+                        <p className="text-xs text-slate-400 py-2 text-center italic">No notices.</p>
+                    ) : (
+                        displayNotices.map((n) => (
+                            <NoticeCard
+                                key={n.id}
+                                notice={n}
+                                currentUserId={currentUserId}
+                                isAuthor={n.author_id === currentUserId}
+                                isAcknowledged={acknowledgedIds.has(n.id)}
+                                onDelete={handleDelete}
+                            />
+                        ))
+                    )}
                 </PulseSection>
 
                 <PulseSection title="Today's Schedule" icon={CalendarDays} defaultOpen={false}>
@@ -97,11 +118,16 @@ export function ThePulse() {
             </ScrollArea>
 
             <div className="border-t border-slate-200 bg-white p-4">
-                <Button className="w-full bg-brand-navy hover:bg-slate-800 text-white shadow-sm flex items-center justify-center gap-2 h-10">
+                <Button
+                    className="w-full bg-brand-navy hover:bg-slate-800 text-white shadow-sm flex items-center justify-center gap-2 h-10"
+                    onClick={() => setComposerOpen(true)}
+                >
                     <Send className="h-4 w-4" />
                     Send Notice
                 </Button>
             </div>
+
+            <NoticeComposer open={composerOpen} onOpenChange={setComposerOpen} />
         </aside>
     )
 }
