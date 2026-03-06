@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
-import { Check, Users, ShieldAlert, ArrowRight } from 'lucide-react'
+import { Check, Users, ShieldAlert, ArrowRight, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export default function OnboardingRole() {
