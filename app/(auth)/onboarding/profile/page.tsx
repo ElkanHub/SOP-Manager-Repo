@@ -27,11 +27,11 @@ export default function OnboardingProfile() {
             if (!user) throw new Error('Not logged in')
 
             const fileExt = file.name.split('.').pop()
-            const filePath = `${user.id}-${Math.random()}.${fileExt}`
+            const filePath = `${user.id}/avatar.${fileExt}`
 
             const { error: uploadError } = await supabase.storage
                 .from('avatars')
-                .upload(filePath, file)
+                .upload(filePath, file, { upsert: true })
 
             if (uploadError) throw uploadError
 

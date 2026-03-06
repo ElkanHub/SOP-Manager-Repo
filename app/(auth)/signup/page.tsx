@@ -8,12 +8,12 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Loader2, ShieldCheck } from 'lucide-react'
+import { toast } from 'sonner'
 
 export default function SignupPage() {
     const [fullName, setFullName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     const supabase = createClient()
@@ -21,7 +21,6 @@ export default function SignupPage() {
     const handleSignup = async (e: React.FormEvent) => {
         e.preventDefault()
         setLoading(true)
-        setError(null)
 
         try {
             const { error } = await supabase.auth.signUp({
@@ -36,10 +35,16 @@ export default function SignupPage() {
 
             if (error) throw error
 
+            toast.success('Account created successfully!', {
+                description: 'Please check your email to confirm your account before logging in.'
+            })
+
             // On successful signup, redirect to the onboarding flow
             router.push('/onboarding')
         } catch (err: any) {
-            setError(err.message || 'Failed to create account')
+            toast.error('Signup Failed', {
+                description: err.message || 'Failed to create account. Please try again.'
+            })
         } finally {
             setLoading(false)
         }
@@ -59,11 +64,6 @@ export default function SignupPage() {
                 </div>
 
                 <form onSubmit={handleSignup} className="space-y-6">
-                    {error && (
-                        <div className="rounded-md bg-red-100 p-3 text-sm text-red-600">
-                            {error}
-                        </div>
-                    )}
 
                     <div className="space-y-2">
                         <Label htmlFor="fullName">Full Name</Label>
@@ -73,7 +73,6 @@ export default function SignupPage() {
                             value={fullName}
                             onChange={(e) => setFullName(e.target.value)}
                             required
-                            className={error ? 'border-red-500 ring-red-200' : ''}
                         />
                     </div>
 
@@ -86,7 +85,6 @@ export default function SignupPage() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            className={error ? 'border-red-500 ring-red-200' : ''}
                         />
                     </div>
 
@@ -99,7 +97,6 @@ export default function SignupPage() {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                             minLength={6}
-                            className={error ? 'border-red-500 ring-red-200' : ''}
                         />
                         <p className="text-xs text-slate-500">Must be at least 6 characters</p>
                     </div>

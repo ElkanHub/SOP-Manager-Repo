@@ -107,7 +107,7 @@ export default function OnboardingSignature() {
             const res = await fetch(dataURL)
             const blob = await res.blob()
 
-            const filePath = `${user.id}.png`
+            const filePath = `${user.id}/signature.png`
 
             // 1. Upload signature to Storage
             const { error: uploadError } = await supabase.storage

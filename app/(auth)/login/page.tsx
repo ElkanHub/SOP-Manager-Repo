@@ -8,11 +8,11 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { CheckCircle2, Loader2, ShieldCheck } from 'lucide-react'
+import { toast } from 'sonner'
 
 export default function LoginPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     const supabase = createClient()
@@ -20,7 +20,6 @@ export default function LoginPage() {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
         setLoading(true)
-        setError(null)
 
         try {
             const { error } = await supabase.auth.signInWithPassword({
@@ -33,7 +32,9 @@ export default function LoginPage() {
             router.push('/dashboard')
             router.refresh()
         } catch (err: any) {
-            setError(err.message || 'Invalid credentials')
+            toast.error('Login Failed', {
+                description: err.message || 'Invalid credentials. Please ensure your email and password are correct.'
+            })
         } finally {
             setLoading(false)
         }
@@ -89,12 +90,6 @@ export default function LoginPage() {
                     </div>
 
                     <form onSubmit={handleLogin} className="space-y-6">
-                        {error && (
-                            <div className="rounded-md bg-red-100 p-3 text-sm text-red-600">
-                                {error}
-                            </div>
-                        )}
-
                         <div className="space-y-2">
                             <Label htmlFor="email">Work Email</Label>
                             <Input
@@ -104,7 +99,6 @@ export default function LoginPage() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
-                                className={error ? 'border-red-500 ring-red-200' : ''}
                             />
                         </div>
 
@@ -121,7 +115,6 @@ export default function LoginPage() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
-                                className={error ? 'border-red-500 ring-red-200' : ''}
                             />
                         </div>
 
