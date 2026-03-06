@@ -29,6 +29,8 @@ interface DataTableProps<TData, TValue> {
     searchPlaceholder?: string
     searchColumn?: string
     className?: string
+    emptyStateIcon?: React.ReactNode
+    emptyStateMessage?: React.ReactNode
 }
 
 export function DataTable<TData, TValue>({
@@ -38,6 +40,8 @@ export function DataTable<TData, TValue>({
     searchPlaceholder = 'Search...',
     searchColumn,
     className,
+    emptyStateIcon,
+    emptyStateMessage,
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([])
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -103,8 +107,17 @@ export function DataTable<TData, TValue>({
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={columns.length} className="h-32 text-center text-slate-400 text-sm">
-                                    No records found.
+                                <TableCell colSpan={columns.length} className="h-48 text-center text-slate-500">
+                                    <div className="flex flex-col items-center justify-center p-6 space-y-3">
+                                        {emptyStateIcon && (
+                                            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+                                                {emptyStateIcon}
+                                            </div>
+                                        )}
+                                        <div className="max-w-md text-sm">
+                                            {emptyStateMessage || "No records found."}
+                                        </div>
+                                    </div>
                                 </TableCell>
                             </TableRow>
                         )}

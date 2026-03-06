@@ -247,10 +247,10 @@ export function DepartmentManager() {
                                         </div>
                                     ) : (
                                         <div className="flex items-center justify-end gap-1">
-                                            <Button variant="ghost" size="icon" onClick={() => startEdit(dept)} className="h-8 w-8 text-slate-400 hover:text-brand-navy">
+                                            <Button variant="ghost" size="icon" onClick={() => startEdit(dept)} className="h-8 w-8 text-slate-400 hover:text-brand-navy" aria-label={`Edit ${dept.name} department`}>
                                                 <Pencil className="h-4 w-4" />
                                             </Button>
-                                            <Button variant="ghost" size="icon" onClick={() => handleDelete(dept.id, dept.name)} className="h-8 w-8 text-slate-400 hover:text-red-600">
+                                            <Button variant="ghost" size="icon" onClick={() => handleDelete(dept.id, dept.name)} className="h-8 w-8 text-slate-400 hover:text-red-600" aria-label={`Delete ${dept.name} department`}>
                                                 <Trash2 className="h-4 w-4" />
                                             </Button>
                                         </div>

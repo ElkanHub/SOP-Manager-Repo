@@ -9,8 +9,11 @@ import {
     FileText,
     Settings,
     ShieldAlert,
-    Building2
+    Building2,
+    LogOut
 } from "lucide-react"
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 import {
     Sidebar,
@@ -148,18 +151,30 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarFooter className="border-t border-slate-100 p-4">
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton asChild className="text-slate-600 hover:bg-slate-50 hover:text-brand-navy h-10">
+                        <SidebarMenuButton asChild className="text-slate-600 hover:bg-slate-50 hover:text-brand-navy h-10 mb-2">
                             <Link href="/settings">
                                 <Settings className="h-4 w-4" />
                                 <span>Settings</span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
-                    <SidebarMenuItem className="mt-2 py-2 px-2 flex flex-col items-start gap-2 group-data-[collapsible=icon]:hidden">
-                        <span className="text-xs text-slate-500 font-medium">System Role:</span>
-                        <Badge variant="outline" className="text-[10px] uppercase font-bold text-brand-navy border-brand-blue/20 bg-blue-50 w-full justify-center">
-                            {profile?.role || '...'}
-                        </Badge>
+
+                    {/* User Profile Block */}
+                    <SidebarMenuItem className="mt-2 pt-4 border-t border-slate-100 group-data-[collapsible=icon]:hidden flex items-center gap-3">
+                        <Avatar className="h-10 w-10 border border-slate-200 shrink-0">
+                            <AvatarImage src={profile?.avatar_url || ''} alt="Avatar" />
+                            <AvatarFallback className="bg-brand-navy text-xs text-white">
+                                {profile?.full_name?.charAt(0) || 'U'}
+                            </AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col overflow-hidden leading-tight">
+                            <span className="text-sm font-semibold text-brand-navy truncate">
+                                {profile?.full_name || 'Loading...'}
+                            </span>
+                            <span className="text-xs text-slate-500 capitalize truncate">
+                                {profile?.role || '...'}
+                            </span>
+                        </div>
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarFooter>

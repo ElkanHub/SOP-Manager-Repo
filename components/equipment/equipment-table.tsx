@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { format, differenceInCalendarDays } from 'date-fns'
 import { cn } from '@/lib/utils'
-import { MoreHorizontal, Plus, ExternalLink } from 'lucide-react'
+import { MoreHorizontal, Plus, ExternalLink, SearchX } from 'lucide-react'
 import { useState } from 'react'
 import { AddEquipmentModal } from './add-equipment-modal'
 import { AssetDetailSheet } from './asset-detail-sheet'
@@ -141,7 +141,7 @@ export function EquipmentTable({ equipment, isLoading, onRefresh }: EquipmentTab
             cell: ({ row }) => (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-                        <Button variant="ghost" size="icon" className="h-7 w-7">
+                        <Button variant="ghost" size="icon" className="h-7 w-7" aria-label="Equipment actions">
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
@@ -174,6 +174,13 @@ export function EquipmentTable({ equipment, isLoading, onRefresh }: EquipmentTab
                 data={equipment}
                 onRowClick={(row) => { setSelectedEquipment(row); setSheetOpen(true) }}
                 searchPlaceholder="Search by name, asset ID, or department..."
+                emptyStateIcon={<SearchX className="h-6 w-6" />}
+                emptyStateMessage={
+                    <div className="space-y-1">
+                        <p className="font-semibold text-slate-700">No equipment found</p>
+                        <p className="text-slate-500">Add your first piece of equipment by clicking the "Add Equipment" button above.</p>
+                    </div>
+                }
             />
 
             <AddEquipmentModal

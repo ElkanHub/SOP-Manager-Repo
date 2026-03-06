@@ -7,7 +7,7 @@ import { useSopTabStore } from '@/stores/useSopTabStore'
 import type { SopRecordWithDept } from '@/types/app.types'
 import { format } from 'date-fns'
 import { cn } from '@/lib/utils'
-import { MoreHorizontal, ExternalLink } from 'lucide-react'
+import { MoreHorizontal, ExternalLink, SearchX } from 'lucide-react'
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -118,7 +118,7 @@ export function SopLibraryTable({ sops, isLoading, error }: SopLibraryTableProps
             cell: ({ row }) => (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-                        <Button variant="ghost" size="icon" className="h-7 w-7">
+                        <Button variant="ghost" size="icon" className="h-7 w-7" aria-label="SOP actions">
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
@@ -168,6 +168,13 @@ export function SopLibraryTable({ sops, isLoading, error }: SopLibraryTableProps
             data={sops}
             onRowClick={handleRowClick}
             searchPlaceholder="Search SOPs by name, number, or status..."
+            emptyStateIcon={<SearchX className="h-6 w-6" />}
+            emptyStateMessage={
+                <div className="space-y-1">
+                    <p className="font-semibold text-slate-700">No SOPs found</p>
+                    <p className="text-slate-500">There are no Standard Operating Procedures matching your search criteria, or your department hasn't published any yet.</p>
+                </div>
+            }
         />
     )
 }
