@@ -53,10 +53,12 @@ export default function CalendarPage() {
             </div>
 
             <div className="flex-1 overflow-y-auto p-6">
-                <CompanyCalendar
-                    events={events}
-                    onRefresh={fetchEvents}
-                />
+                <div className="min-h-[550px] h-full">
+                    <CompanyCalendar
+                        events={events}
+                        onRefresh={fetchEvents}
+                    />
+                </div>
             </div>
         </div>
     )
