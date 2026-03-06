@@ -33,7 +33,7 @@ import { cn } from "@/lib/utils"
 const mainNavItems = [
     { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
     { title: "SOP Library", url: "/sops", icon: Library },
-    { title: "Equipment", url: "/equipment", icon: Wrench },
+    { title: "Equipments", url: "/equipment", icon: Wrench },
     { title: "Calendar", url: "/calendar", icon: Calendar },
     { title: "Reports", url: "/reports", icon: FileText },
 ]
