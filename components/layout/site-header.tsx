@@ -4,6 +4,7 @@ import { Bell, Search, ShieldCheck } from 'lucide-react'
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { createClient } from '@/lib/supabase/client'
 import { useEffect, useState } from 'react'
 
@@ -45,7 +46,8 @@ export function SiteHeader() {
                 </div>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 pr-2">
+                <ThemeToggle />
                 {/* Bell Icon */}
                 <Button variant="ghost" size="icon" className="relative text-white hover:bg-slate-800">
                     <Bell className="h-5 w-5" />
