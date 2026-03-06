@@ -69,20 +69,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     }, [])
 
     return (
-        <Sidebar collapsible="icon" className="pt-14 border-r border-slate-200 bg-white" {...props}>
-            <SidebarHeader className="border-b border-slate-100 py-1">
+        <Sidebar collapsible="icon" className="pt-14 border-r border-sidebar-border bg-sidebar" {...props}>
+            <SidebarHeader className="border-b border-sidebar-border py-1">
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarGroupLabel className="text-xs font-bold tracking-wider text-slate-500 uppercase group-data-[collapsible=icon]:hidden">
+                        <SidebarGroupLabel className="text-xs font-bold tracking-wider text-sidebar-foreground/70 uppercase group-data-[collapsible=icon]:hidden">
                             My Department
                         </SidebarGroupLabel>
-                        <SidebarMenuButton size="lg" className="mt-2 bg-slate-50 pointer-events-none w-full justify-start group-data-[collapsible=icon]:justify-center">
+                        <SidebarMenuButton size="lg" className="mt-2 bg-sidebar-accent pointer-events-none w-full justify-start group-data-[collapsible=icon]:justify-center">
                             <div className="flex h-8 w-8 items-center justify-center rounded-md bg-brand-navy text-white shrink-0">
                                 <Building2 className="h-4 w-4 shrink-0" />
                             </div>
                             <div className="flex flex-col gap-0.5 leading-none px-2 truncate group-data-[collapsible=icon]:hidden">
-                                <span className="font-semibold text-brand-navy truncate">{department?.name || 'Loading...'}</span>
-                                <span className="text-xs text-slate-500 truncate">Active Workspace</span>
+                                <span className="font-semibold text-sidebar-foreground truncate">{department?.name || 'Loading...'}</span>
+                                <span className="text-xs text-sidebar-foreground/70 truncate">Active Workspace</span>
                             </div>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -104,8 +104,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                             className={cn(
                                                 "transition-all h-10",
                                                 isActive
-                                                    ? "bg-blue-50 text-brand-blue font-semibold border-l-4 border-brand-teal !pl-2"
-                                                    : "text-slate-600 hover:bg-slate-50 hover:text-brand-navy border-l-4 border-transparent"
+                                                    ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold border-l-4 border-brand-teal !pl-2"
+                                                    : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground border-l-4 border-transparent"
                                             )}
                                         >
                                             <Link href={item.url}>
@@ -123,7 +123,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 {/* QA Conditional: All Departments */}
                 {allDepartments.length > 0 && (
                     <SidebarGroup className="mt-4">
-                        <SidebarGroupLabel className="text-xs font-bold tracking-wider text-slate-500 uppercase flex items-center">
+                        <SidebarGroupLabel className="text-xs font-bold tracking-wider text-sidebar-foreground/70 uppercase flex items-center">
                             <ShieldAlert className="h-3 w-3 text-brand-teal mr-1" />
                             QA Oversight
                         </SidebarGroupLabel>
@@ -132,7 +132,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 {allDepartments.map((dept) => (
                                     <SidebarMenuItem key={dept.id}>
                                         <SidebarMenuButton
-                                            className="text-slate-600 hover:bg-slate-50 hover:text-brand-navy h-8"
+                                            className="text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8"
                                         >
                                             <div
                                                 className="w-2 h-2 rounded-full shrink-0"
@@ -148,10 +148,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 )}
             </SidebarContent>
 
-            <SidebarFooter className="border-t border-slate-100 p-4">
+            <SidebarFooter className="border-t border-sidebar-border p-4">
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton asChild className="text-slate-600 hover:bg-slate-50 hover:text-brand-navy h-10 mb-2">
+                        <SidebarMenuButton asChild className="text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-10 mb-2">
                             <Link href="/settings">
                                 <Settings className="h-4 w-4" />
                                 <span>Settings</span>
@@ -160,18 +160,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </SidebarMenuItem>
 
                     {/* User Profile Block */}
-                    <SidebarMenuItem className="mt-2 pt-4 border-t border-slate-100 flex items-center justify-center gap-3">
-                        <Avatar className="h-8 w-8 border border-slate-200 shrink-0">
+                    <SidebarMenuItem className="mt-2 pt-4 border-t border-sidebar-border flex items-center justify-center gap-3">
+                        <Avatar className="h-8 w-8 border border-border shrink-0">
                             <AvatarImage src={profile?.avatar_url || ''} alt="Avatar" />
                             <AvatarFallback className="bg-brand-navy text-xs text-white">
                                 {profile?.full_name?.charAt(0) || 'U'}
                             </AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col overflow-hidden leading-tight flex-1 group-data-[collapsible=icon]:hidden">
-                            <span className="text-sm font-semibold text-brand-navy truncate">
+                            <span className="text-sm font-semibold text-sidebar-foreground truncate">
                                 {profile?.full_name || 'Loading...'}
                             </span>
-                            <span className="text-xs text-slate-500 capitalize truncate">
+                            <span className="text-xs text-sidebar-foreground/70 capitalize truncate">
                                 {profile?.role || '...'}
                             </span>
                         </div>

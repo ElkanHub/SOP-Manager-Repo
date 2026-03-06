@@ -80,7 +80,7 @@ export function AiRiskCard({ deptId }: AiRiskCardProps) {
     }, [deptId]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
-        <div className="rounded-xl border border-slate-200 bg-white overflow-hidden flex flex-col h-full shadow-sm max-w-3xl">
+        <div className="rounded-xl border border-border bg-card overflow-hidden flex flex-col h-full shadow-sm max-w-3xl">
             {/* Header */}
             <div className="bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-5 flex items-start justify-between shrink-0">
                 <div>
@@ -107,25 +107,25 @@ export function AiRiskCard({ deptId }: AiRiskCardProps) {
             <div className="p-6 flex-1 flex flex-col justify-center min-h-[300px]">
                 {loading ? (
                     <div className="flex flex-col items-center justify-center animate-pulse">
-                        <div className="h-12 w-12 border-4 border-purple-100 border-t-purple-600 rounded-full animate-spin mb-4" />
-                        <p className="text-slate-500 font-medium">Crunching your database metrics...</p>
+                        <div className="h-12 w-12 border-4 border-muted border-t-purple-600 rounded-full animate-spin mb-4" />
+                        <p className="text-muted-foreground font-medium">Crunching your database metrics...</p>
                     </div>
                 ) : error ? (
                     <div className="text-center">
                         <AlertTriangle className="h-10 w-10 text-red-400 mx-auto mb-3" />
-                        <p className="text-slate-600 font-medium">{error}</p>
+                        <p className="text-muted-foreground font-medium">{error}</p>
                     </div>
                 ) : insights ? (
                     <div className="animate-in fade-in slide-in-from-bottom-2 duration-500 space-y-6">
 
                         {/* Risk Badge */}
                         <div className="flex items-center gap-4">
-                            <span className="text-sm font-semibold text-slate-500 uppercase tracking-widest">Calculated Risk Level</span>
+                            <span className="text-sm font-semibold text-muted-foreground uppercase tracking-widest">Calculated Risk Level</span>
                             <div className={cn(
                                 "flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-bold",
-                                insights.riskLevel === 'Low' && "bg-green-100 text-green-700",
-                                insights.riskLevel === 'Medium' && "bg-amber-100 text-amber-700",
-                                insights.riskLevel === 'High' && "bg-red-100 text-red-700",
+                                insights.riskLevel === 'Low' && "bg-green-500/10 text-green-600 dark:text-green-500",
+                                insights.riskLevel === 'Medium' && "bg-amber-500/10 text-amber-600 dark:text-amber-500",
+                                insights.riskLevel === 'High' && "bg-red-500/10 text-red-600 dark:text-red-500",
                             )}>
                                 {insights.riskLevel === 'Low' && <CheckCircle className="h-4 w-4" />}
                                 {insights.riskLevel === 'Medium' && <Info className="h-4 w-4" />}
@@ -135,12 +135,12 @@ export function AiRiskCard({ deptId }: AiRiskCardProps) {
                         </div>
 
                         {/* Bullets */}
-                        <div className="bg-slate-50 rounded-lg p-5 border border-slate-100">
-                            <h3 className="text-sm font-bold text-slate-800 mb-4">Key Takeaways & Recommendations</h3>
+                        <div className="bg-muted/50 rounded-lg p-5 border border-border">
+                            <h3 className="text-sm font-bold text-foreground mb-4">Key Takeaways & Recommendations</h3>
                             <ul className="space-y-3">
                                 {insights.insights.map((pt, i) => (
-                                    <li key={i} className="flex gap-3 text-slate-700 leading-snug">
-                                        <span className="shrink-0 flex h-6 w-6 items-center justify-center rounded-full bg-white border border-slate-200 text-xs font-bold text-slate-400">
+                                    <li key={i} className="flex gap-3 text-muted-foreground leading-snug">
+                                        <span className="shrink-0 flex h-6 w-6 items-center justify-center rounded-full bg-background border border-border text-xs font-bold text-muted-foreground">
                                             {i + 1}
                                         </span>
                                         <span className="pt-0.5">{pt}</span>

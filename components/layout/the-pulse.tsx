@@ -17,18 +17,18 @@ function PulseSection({ title, icon: Icon, defaultOpen = true, children, count =
 
     return (
         <Collapsible open={isOpen} onOpenChange={setIsOpen} className="mb-4">
-            <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md bg-slate-100/50 px-4 py-2 hover:bg-slate-100 transition-colors">
+            <CollapsibleTrigger className="flex w-full items-center justify-between rounded-md bg-muted/50 px-4 py-2 hover:bg-muted transition-colors">
                 <div className="flex items-center gap-2">
                     <Icon className="h-4 w-4 text-brand-teal" />
-                    <span className="text-sm font-semibold text-brand-navy uppercase tracking-wider">{title}</span>
+                    <span className="text-sm font-semibold text-foreground uppercase tracking-wider">{title}</span>
                 </div>
                 <div className="flex items-center gap-2">
                     {count > 0 && (
-                        <span className="flex h-5 items-center justify-center rounded-full bg-red-100 px-2 text-[10px] font-bold text-red-600">
+                        <span className="flex h-5 items-center justify-center rounded-full bg-destructive/10 px-2 text-[10px] font-bold text-destructive">
                             {count}
                         </span>
                     )}
-                    <ChevronDown className={cn("h-4 w-4 text-slate-400 transition-transform", isOpen && "rotate-180")} />
+                    <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform", isOpen && "rotate-180")} />
                 </div>
             </CollapsibleTrigger>
             <CollapsibleContent className="px-2 pt-2 pb-1 space-y-2">
@@ -51,14 +51,14 @@ export function ThePulse() {
     }
 
     return (
-        <aside className="fixed right-0 top-12 bottom-0 w-[300px] border-l border-slate-200 bg-slate-50 flex flex-col hidden md:flex z-40 transform transition-transform duration-300">
-            <div className="flex h-12 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4 shadow-sm">
+        <aside className="fixed right-0 top-12 bottom-0 w-[300px] border-l border-border bg-card flex flex-col hidden md:flex z-40 transform transition-transform duration-300">
+            <div className="flex h-12 shrink-0 items-center justify-between border-b border-border bg-card px-4 shadow-sm">
                 <div className="flex items-center gap-2">
                     <div className="relative flex h-2 w-2">
                         <span className={cn("absolute inline-flex h-full w-full animate-ping rounded-full opacity-75", connected ? "bg-brand-teal" : "bg-red-400")}></span>
                         <span className={cn("relative inline-flex h-2 w-2 rounded-full", connected ? "bg-brand-teal" : "bg-red-500")}></span>
                     </div>
-                    <h2 className="text-sm font-bold text-brand-navy tracking-tight uppercase">The Pulse</h2>
+                    <h2 className="text-sm font-bold text-foreground tracking-tight uppercase">The Pulse</h2>
                 </div>
             </div>
 
@@ -67,18 +67,18 @@ export function ThePulse() {
                 {isQaOrAdmin && (
                     <PulseSection title="Priority Approvals" icon={PenTool} count={priorityApprovals.length}>
                         {priorityApprovals.length === 0 ? (
-                            <p className="text-xs text-slate-400 py-2 text-center italic">No pending approvals.</p>
+                            <p className="text-xs text-muted-foreground/70 py-2 text-center italic">No pending approvals.</p>
                         ) : (
                             priorityApprovals.map((a) => (
                                 <Link key={a.id} href={`/qa/approvals/${a.id}`} className="block">
-                                    <div className="rounded-lg border border-red-100 bg-white p-3 shadow-sm cursor-pointer hover:border-red-200 transition-colors">
+                                    <div className="rounded-lg border border-destructive/20 bg-card p-3 shadow-sm cursor-pointer hover:border-destructive/40 transition-colors">
                                         <div className="flex items-start gap-2">
                                             <div className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]" />
                                             <div className="min-w-0">
-                                                <p className="text-xs font-semibold text-brand-navy leading-snug truncate">
+                                                <p className="text-xs font-semibold text-foreground leading-snug truncate">
                                                     {(a.sops as any)?.sop_number} — {(a.sops as any)?.title}
                                                 </p>
-                                                <p className="text-[10px] text-slate-500 mt-1">
+                                                <p className="text-[10px] text-muted-foreground mt-1">
                                                     {a.type === 'new' ? 'New' : 'Update'} by {(a.profiles as any)?.full_name} · {formatDistanceToNow(new Date(a.created_at), { addSuffix: true })}
                                                 </p>
                                             </div>
@@ -91,13 +91,13 @@ export function ThePulse() {
                 )}
 
                 <PulseSection title="Daily To-Do" icon={CheckCircle2} count={0}>
-                    <p className="text-xs text-slate-400 py-2 text-center italic">No tasks due today.</p>
+                    <p className="text-xs text-muted-foreground/70 py-2 text-center italic">No tasks due today.</p>
                 </PulseSection>
 
                 {/* Live Notices */}
                 <PulseSection title="Notices" icon={BellRing} count={displayNotices.filter(n => !acknowledgedIds.has(n.id) && n.author_id !== currentUserId).length}>
                     {displayNotices.length === 0 ? (
-                        <p className="text-xs text-slate-400 py-2 text-center italic">No notices.</p>
+                        <p className="text-xs text-muted-foreground/70 py-2 text-center italic">No notices.</p>
                     ) : (
                         displayNotices.map((n) => (
                             <NoticeCard
@@ -113,11 +113,11 @@ export function ThePulse() {
                 </PulseSection>
 
                 <PulseSection title="Today's Schedule" icon={CalendarDays} defaultOpen={false}>
-                    <p className="text-xs text-slate-500 text-center py-4 italic">No events scheduled.</p>
+                    <p className="text-xs text-muted-foreground text-center py-4 italic">No events scheduled.</p>
                 </PulseSection>
             </ScrollArea>
 
-            <div className="border-t border-slate-200 bg-white p-4">
+            <div className="border-t border-border bg-card p-4">
                 <Button
                     className="w-full bg-brand-navy hover:bg-slate-800 text-white shadow-sm flex items-center justify-center gap-2 h-10"
                     onClick={() => setComposerOpen(true)}

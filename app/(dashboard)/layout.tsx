@@ -10,7 +10,7 @@ export default function DashboardLayout({
 }) {
     return (
         <SidebarProvider>
-            <div className="flex flex-col w-full h-svh overflow-hidden bg-slate-50">
+            <div className="flex flex-col w-full h-svh overflow-hidden bg-background">
                 <SiteHeader />
                 <div className="flex flex-1 overflow-hidden relative w-full">
                     <AppSidebar />

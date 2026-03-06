@@ -57,21 +57,21 @@ export default function SettingsPage() {
     const visibleTabs = tabs.filter(t => !t.adminOnly || isAdmin)
 
     return (
-        <div className="flex-1 flex flex-col h-full bg-slate-50 overflow-hidden">
+        <div className="flex-1 flex flex-col h-full bg-background overflow-hidden">
             {/* Header */}
-            <div className="flex items-center gap-3 border-b border-slate-200 bg-white px-6 py-4 shrink-0">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-navy text-white">
+            <div className="flex items-center gap-3 border-b border-border bg-card px-6 py-4 shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                     <Settings className="h-4 w-4" />
                 </div>
                 <div>
-                    <h1 className="text-xl font-bold text-brand-navy">Settings</h1>
-                    <p className="text-sm text-slate-500">Manage your account and preferences</p>
+                    <h1 className="text-xl font-bold text-foreground">Settings</h1>
+                    <p className="text-sm text-muted-foreground">Manage your account and preferences</p>
                 </div>
             </div>
 
             <div className="flex-1 flex overflow-hidden">
                 {/* Sidebar Navigation */}
-                <div className="w-64 border-r border-slate-200 bg-white shrink-0 hidden md:block overflow-y-auto p-4">
+                <div className="w-50 border-r border-border bg-card/50 shrink-0 hidden md:block overflow-y-auto p-4">
                     <nav className="space-y-1">
                         {visibleTabs.map(tab => {
                             const Icon = tab.icon
@@ -83,11 +83,11 @@ export default function SettingsPage() {
                                     className={cn(
                                         "flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
                                         isActive
-                                            ? "bg-brand-navy border border-brand-navy text-white shadow-sm"
-                                            : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                                            ? "bg-primary text-primary-foreground shadow-sm"
+                                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
                                     )}
                                 >
-                                    <Icon className={cn("h-4 w-4", isActive ? "text-brand-teal" : "text-slate-400")} />
+                                    <Icon className={cn("h-4 w-4", isActive ? "text-primary-foreground" : "text-muted-foreground/70")} />
                                     {tab.label}
                                 </button>
                             )
@@ -96,7 +96,7 @@ export default function SettingsPage() {
                 </div>
 
                 {/* Mobile Tabs (Scrollable horizontal) */}
-                <div className="md:hidden border-b border-slate-200 bg-white px-4 shrink-0 flex gap-4 overflow-x-auto absolute w-full top-[73px] z-10">
+                <div className="md:hidden border-b border-border bg-card px-4 shrink-0 flex gap-4 overflow-x-auto absolute w-full top-[73px] z-10">
                     {visibleTabs.map(tab => {
                         const Icon = tab.icon
                         const isActive = activeTab === tab.id
@@ -107,8 +107,8 @@ export default function SettingsPage() {
                                 className={cn(
                                     "flex items-center gap-2 py-3 text-sm font-semibold border-b-2 whitespace-nowrap transition-colors",
                                     isActive
-                                        ? "border-brand-navy text-brand-navy"
-                                        : "border-transparent text-slate-500 hover:text-slate-700"
+                                        ? "border-primary text-primary"
+                                        : "border-transparent text-muted-foreground hover:text-foreground"
                                 )}
                             >
                                 <Icon className="h-4 w-4" />

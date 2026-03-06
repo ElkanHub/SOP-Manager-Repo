@@ -78,7 +78,7 @@ export function SopLibraryTable({ sops, isLoading, error }: SopLibraryTableProps
             accessorKey: 'version',
             header: 'Version',
             cell: ({ row }) => (
-                <span className="text-xs text-slate-500 font-mono">{row.original.version}</span>
+                <span className="text-xs text-muted-foreground font-mono">{row.original.version}</span>
             ),
         },
         {

@@ -17,18 +17,18 @@ export interface UpcomingPm {
 export function UpcomingPmList({ tasks }: { tasks: UpcomingPm[] }) {
     if (tasks.length === 0) {
         return (
-            <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm min-h-[300px] flex flex-col items-center justify-center">
+            <div className="rounded-xl border border-border bg-card p-6 shadow-sm min-h-[300px] flex flex-col items-center justify-center">
                 <CheckCircle className="h-8 w-8 text-green-400 mb-2" />
-                <p className="text-sm font-medium text-slate-500">All caught up!</p>
-                <p className="text-xs text-slate-400 mt-1">No pending maintenance tasks.</p>
+                <p className="text-sm font-medium text-muted-foreground">All caught up!</p>
+                <p className="text-xs text-muted-foreground/70 mt-1">No pending maintenance tasks.</p>
             </div>
         )
     }
 
     return (
-        <div className="rounded-xl border border-slate-200 bg-white shadow-sm h-[400px] flex flex-col overflow-hidden">
-            <div className="border-b border-slate-100 px-5 py-4 shrink-0 bg-slate-50/50 flex justify-between items-center">
-                <h3 className="text-sm font-bold text-brand-navy flex items-center gap-2">
+        <div className="rounded-xl border border-border bg-card shadow-sm h-[400px] flex flex-col overflow-hidden">
+            <div className="border-b border-border px-5 py-4 shrink-0 bg-muted/50 flex justify-between items-center">
+                <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
                     <CalendarClock className="h-4 w-4 text-brand-teal" />
                     Upcoming PMs
                 </h3>
@@ -45,7 +45,7 @@ export function UpcomingPmList({ tasks }: { tasks: UpcomingPm[] }) {
                     const urgency = isOverdue ? 'red' : diffDays <= 7 ? 'amber' : 'green'
 
                     return (
-                        <div key={task.id} className="flex items-center gap-3 rounded-lg border border-slate-100 p-3 transition-colors hover:bg-slate-50">
+                        <div key={task.id} className="flex items-center gap-3 rounded-lg border border-border p-3 transition-colors hover:bg-muted/50">
                             <div className={cn(
                                 "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border",
                                 urgency === 'red' ? 'bg-red-50 border-red-200 text-red-600' :
@@ -55,10 +55,10 @@ export function UpcomingPmList({ tasks }: { tasks: UpcomingPm[] }) {
                                 {isOverdue ? <AlertCircle className="h-5 w-5" /> : <CalendarClock className="h-5 w-5" />}
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="text-sm font-bold text-brand-navy truncate">
+                                <p className="text-sm font-bold text-foreground truncate">
                                     {task.equipment?.name ?? 'Unknown Asset'}
                                 </p>
-                                <p className="text-xs text-slate-500 font-medium">
+                                <p className="text-xs text-muted-foreground font-medium">
                                     {task.equipment?.asset_id}
                                 </p>
                             </div>
@@ -71,7 +71,7 @@ export function UpcomingPmList({ tasks }: { tasks: UpcomingPm[] }) {
                                 )}>
                                     {isOverdue ? 'Overdue' : `In ${diffDays} day${diffDays === 1 ? '' : 's'}`}
                                 </p>
-                                <p className="text-xs text-slate-400">
+                                <p className="text-xs text-muted-foreground">
                                     {formatDistanceToNow(d, { addSuffix: true })}
                                 </p>
                             </div>

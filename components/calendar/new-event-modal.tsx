@@ -112,7 +112,7 @@ export function NewEventModal({ open, onOpenChange, defaultDate, onSuccess }: Ne
 
                     <div className="space-y-1.5">
                         <Label>Visibility</Label>
-                        <div className="flex rounded-lg border border-slate-200 overflow-hidden">
+                        <div className="flex rounded-lg border border-border overflow-hidden">
                             {(['public', 'dept'] as const).map((v) => (
                                 <button
                                     key={v}
@@ -121,7 +121,7 @@ export function NewEventModal({ open, onOpenChange, defaultDate, onSuccess }: Ne
                                         'flex-1 py-2 text-sm font-medium capitalize transition-colors',
                                         visibility === v
                                             ? 'bg-brand-navy text-white'
-                                            : 'text-slate-500 hover:bg-slate-50'
+                                            : 'text-muted-foreground hover:bg-muted/50'
                                     )}
                                 >
                                     {v === 'public' ? 'Public (Everyone)' : 'My Department'}

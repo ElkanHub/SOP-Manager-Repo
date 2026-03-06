@@ -60,7 +60,7 @@ export function ReportFilters({ onDateChange, onDeptChange, onExport, isExportab
     }, [supabase, onDeptChange])
 
     return (
-        <div className="flex flex-col sm:flex-row items-center gap-3 p-4 border border-slate-200 bg-slate-50 rounded-lg">
+        <div className="flex flex-col sm:flex-row items-center gap-3 p-4 border border-border bg-muted/50 rounded-lg">
 
             {/* Date Range Picker */}
             <div className="flex-1 w-full sm:w-auto">
@@ -69,7 +69,7 @@ export function ReportFilters({ onDateChange, onDeptChange, onExport, isExportab
                         <Button
                             variant={"outline"}
                             className={cn(
-                                "w-full sm:w-[260px] justify-start text-left font-normal bg-white",
+                                "w-full sm:w-[260px] justify-start text-left font-normal bg-card",
                                 !dateRange && "text-muted-foreground"
                             )}
                         >
@@ -113,7 +113,7 @@ export function ReportFilters({ onDateChange, onDeptChange, onExport, isExportab
                 }}
                 disabled={!isQAAdmin}
             >
-                <SelectTrigger className="w-full sm:w-[220px] bg-white">
+                <SelectTrigger className="w-full sm:w-[220px] bg-card">
                     <SelectValue placeholder="All Departments" />
                 </SelectTrigger>
                 <SelectContent>
@@ -125,7 +125,7 @@ export function ReportFilters({ onDateChange, onDeptChange, onExport, isExportab
             </Select>
 
             {/* View / Clear Filters
-            <Button variant="ghost" className="text-slate-500 hover:text-slate-800" onClick={() => {
+            <Button variant="ghost" className="text-muted-foreground hover:text-foreground" onClick={() => {
                 setDateRange(undefined)
                 if (isQAAdmin) setSelectedDept('all')
                 onDateChange(undefined)
@@ -137,7 +137,7 @@ export function ReportFilters({ onDateChange, onDeptChange, onExport, isExportab
             <div className="flex-1 w-full flex sm:justify-end">
                 <Button
                     variant="outline"
-                    className="w-full sm:w-auto bg-white hover:bg-slate-50 border-slate-200"
+                    className="w-full sm:w-auto bg-card hover:bg-muted/50 border-border"
                     onClick={onExport}
                     disabled={!isExportable}
                 >

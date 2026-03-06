@@ -205,7 +205,7 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
                                         'flex flex-1 items-center justify-center gap-1.5 rounded-lg border py-2 text-xs font-medium transition-all',
                                         audience === opt.value
                                             ? 'border-brand-teal bg-teal-50 text-brand-navy'
-                                            : 'border-slate-200 text-slate-500 hover:border-slate-300'
+                                            : 'border-border text-muted-foreground hover:border-muted-foreground'
                                     )}
                                 >
                                     {opt.icon}
@@ -220,7 +220,7 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
                         <div className="space-y-1.5">
                             <Label>Select Department</Label>
                             {loadingDepts ? (
-                                <div className="flex items-center gap-2 text-xs text-slate-400 py-2">
+                                <div className="flex items-center gap-2 text-xs text-muted-foreground py-2">
                                     <Loader2 className="h-3.5 w-3.5 animate-spin" /> Loading departments...
                                 </div>
                             ) : (
@@ -232,11 +232,11 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
                                             className={cn(
                                                 'flex items-center gap-2 rounded-lg border px-3 py-2.5 text-left text-xs font-medium transition-all',
                                                 selectedDeptId === d.id
-                                                    ? 'border-brand-teal bg-teal-50 text-brand-navy'
-                                                    : 'border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50'
+                                                    ? 'border-brand-teal bg-teal-500/10 text-brand-navy dark:text-teal-400'
+                                                    : 'border-border text-muted-foreground hover:border-muted-foreground hover:bg-muted/50'
                                             )}
                                         >
-                                            <Building2 className="h-3.5 w-3.5 shrink-0 text-slate-400" />
+                                            <Building2 className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                                             <span className="truncate">{d.name}</span>
                                             {selectedDeptId === d.id && <Check className="ml-auto h-3.5 w-3.5 text-brand-teal shrink-0" />}
                                         </button>
@@ -260,7 +260,7 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
 
                             {/* Search */}
                             <div className="relative">
-                                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+                                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
                                 <Input
                                     placeholder="Search by name, role, or department..."
                                     value={search}
@@ -268,7 +268,7 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
                                     className="pl-8 h-8 text-xs"
                                 />
                                 {search && (
-                                    <button onClick={() => setSearch('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400">
+                                    <button onClick={() => setSearch('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground">
                                         <X className="h-3 w-3" />
                                     </button>
                                 )}
@@ -296,13 +296,13 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
                             )}
 
                             {/* User list */}
-                            <div className="rounded-lg border border-slate-200 max-h-[200px] overflow-y-auto">
+                            <div className="rounded-lg border border-border max-h-[200px] overflow-y-auto">
                                 {loadingUsers ? (
-                                    <div className="flex items-center justify-center py-6 text-slate-400 text-sm gap-2">
+                                    <div className="flex items-center justify-center py-6 text-muted-foreground text-sm gap-2">
                                         <Loader2 className="h-4 w-4 animate-spin" /> Loading users...
                                     </div>
                                 ) : filteredUsers.length === 0 ? (
-                                    <div className="py-6 text-center text-xs text-slate-400 italic">No users found.</div>
+                                    <div className="py-6 text-center text-xs text-muted-foreground italic">No users found.</div>
                                 ) : (
                                     filteredUsers.map((u) => {
                                         const selected = selectedIds.has(u.id)
@@ -312,8 +312,8 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
                                                 key={u.id}
                                                 onClick={() => toggleUser(u.id)}
                                                 className={cn(
-                                                    'w-full flex items-center gap-3 px-3 py-2.5 text-left transition-colors border-b border-slate-100 last:border-0',
-                                                    selected ? 'bg-teal-50' : 'hover:bg-slate-50'
+                                                    'w-full flex items-center gap-3 px-3 py-2.5 text-left transition-colors border-b border-border last:border-0',
+                                                    selected ? 'bg-teal-500/10 dark:bg-teal-500/20' : 'hover:bg-muted/50'
                                                 )}
                                             >
                                                 <div className={cn(
@@ -323,8 +323,8 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
                                                     {u.full_name[0]}
                                                 </div>
                                                 <div className="flex-1 min-w-0">
-                                                    <p className="text-xs font-semibold text-slate-800 truncate">{u.full_name}</p>
-                                                    <p className="text-[10px] text-slate-400 truncate">
+                                                    <p className="text-xs font-semibold text-foreground truncate">{u.full_name}</p>
+                                                    <p className="text-[10px] text-muted-foreground truncate">
                                                         {u.job_title ?? ''}
                                                         {u.job_title && dept ? ' · ' : ''}
                                                         {dept?.name ?? ''}
@@ -343,7 +343,7 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
                     <div className="space-y-1.5">
                         <div className="flex items-center justify-between">
                             <Label htmlFor="notice-subject">Subject *</Label>
-                            <span className={cn('text-[10px]', subject.length > 70 ? 'text-amber-500' : 'text-slate-400')}>
+                            <span className={cn('text-[10px]', subject.length > 70 ? 'text-amber-500' : 'text-muted-foreground')}>
                                 {subject.length}/80
                             </span>
                         </div>
@@ -360,7 +360,7 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
                     <div className="space-y-1.5">
                         <div className="flex items-center justify-between">
                             <Label htmlFor="notice-message">Message *</Label>
-                            <span className={cn('text-[10px]', message.length > 450 ? 'text-amber-500' : 'text-slate-400')}>
+                            <span className={cn('text-[10px]', message.length > 450 ? 'text-amber-500' : 'text-muted-foreground')}>
                                 {message.length}/500
                             </span>
                         </div>
@@ -389,6 +389,6 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
                     </Button>
                 </div>
             </DialogContent>
-        </Dialog>
+        </Dialog >
     )
 }

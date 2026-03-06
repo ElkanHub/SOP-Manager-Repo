@@ -21,10 +21,10 @@ interface ApprovalThreadProps {
 }
 
 const actionConfig: Record<string, { label: string; icon: React.ElementType; classes: string }> = {
-    comment: { label: 'Comment', icon: MessageSquare, classes: 'bg-slate-100 text-slate-600' },
-    changes_requested: { label: 'Changes Requested', icon: AlertCircle, classes: 'bg-amber-100 text-amber-700' },
-    approved: { label: 'Approved', icon: CheckCircle2, classes: 'bg-green-100 text-green-700' },
-    resubmitted: { label: 'Resubmitted', icon: RefreshCw, classes: 'bg-blue-100 text-blue-700' },
+    comment: { label: 'Comment', icon: MessageSquare, classes: 'bg-muted text-muted-foreground' },
+    changes_requested: { label: 'Changes Requested', icon: AlertCircle, classes: 'bg-amber-500/10 text-amber-600 dark:text-amber-500' },
+    approved: { label: 'Approved', icon: CheckCircle2, classes: 'bg-green-500/10 text-green-600 dark:text-green-500' },
+    resubmitted: { label: 'Resubmitted', icon: RefreshCw, classes: 'bg-blue-500/10 text-blue-600 dark:text-blue-500' },
 }
 
 export function ApprovalThread({ requestId, onUpdate }: ApprovalThreadProps) {
@@ -62,12 +62,12 @@ export function ApprovalThread({ requestId, onUpdate }: ApprovalThreadProps) {
         return () => { supabase.removeChannel(channel) }
     }, [requestId])
 
-    if (loading) return <div className="text-xs text-slate-400 py-4 text-center">Loading thread...</div>
+    if (loading) return <div className="text-xs text-muted-foreground py-4 text-center">Loading thread...</div>
 
     return (
         <div className="space-y-3">
             {comments.length === 0 ? (
-                <p className="text-xs text-slate-400 py-4 text-center italic">No comments yet.</p>
+                <p className="text-xs text-muted-foreground py-4 text-center italic">No comments yet.</p>
             ) : (
                 comments.map((c) => {
                     const cfg = actionConfig[c.action ?? 'comment'] ?? actionConfig.comment
@@ -79,19 +79,19 @@ export function ApprovalThread({ requestId, onUpdate }: ApprovalThreadProps) {
                             </div>
                             <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2 flex-wrap mb-1">
-                                    <span className="text-xs font-semibold text-slate-800">
+                                    <span className="text-xs font-semibold text-foreground">
                                         {c.profiles?.full_name ?? 'Unknown'}
                                     </span>
                                     <span className={cn('inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium', cfg.classes)}>
                                         <Icon className="h-2.5 w-2.5" />
                                         {cfg.label}
                                     </span>
-                                    <span className="text-[10px] text-slate-400 ml-auto">
+                                    <span className="text-[10px] text-muted-foreground ml-auto">
                                         {formatDistanceToNow(new Date(c.created_at), { addSuffix: true })}
                                     </span>
                                 </div>
                                 {c.comment && (
-                                    <p className="text-xs text-slate-600 leading-relaxed bg-slate-50 rounded-lg px-3 py-2 border border-slate-100">
+                                    <p className="text-xs text-muted-foreground leading-relaxed bg-muted/50 rounded-lg px-3 py-2 border border-border">
                                         {c.comment}
                                     </p>
                                 )}

@@ -4,79 +4,77 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@layer base {
-  :root {
-    /* Brand Colors */
-    --brand-navy: #0d2b55;
-    --brand-blue: #1a5ea8;
-    --brand-teal: #00c2a8;
+:root {
+  /* Brand Colors */
+  --brand-navy: #0d2b55;
+  --brand-blue: #1a5ea8;
+  --brand-teal: #00c2a8;
 
-    /* Primary Surface & Text */
-    --background: #f8fafc;
-    /* slate-50 */
-    --foreground: #1e293b;
-    /* slate-800 */
+  /* Primary Surface & Text */
+  --background: #f8fafc;
+  /* slate-50 */
+  --foreground: #1e293b;
+  /* slate-800 */
 
-    /* Shadcn UI Variables */
-    --card: #ffffff;
-    --card-foreground: #1e293b;
-    --popover: #ffffff;
-    --popover-foreground: #1e293b;
-    --primary: #00c2a8;
-    /* brand-teal */
-    --primary-foreground: #ffffff;
-    --secondary: #f1f5f9;
-    /* slate-100 */
-    --secondary-foreground: #1e293b;
-    --muted: #f1f5f9;
-    --muted-foreground: #64748b;
-    /* slate-500 */
-    --accent: #f1f5f9;
-    --accent-foreground: #1e293b;
-    --destructive: #dc2626;
-    /* red-600 */
-    --destructive-foreground: #ffffff;
-    --border: #cbd5e1;
-    /* slate-300 */
-    --input: #cbd5e1;
-    --ring: #00c2a8;
-    --radius: 0.5rem;
+  /* Shadcn UI Variables */
+  --card: #ffffff;
+  --card-foreground: #1e293b;
+  --popover: #ffffff;
+  --popover-foreground: #1e293b;
+  --primary: #00c2a8;
+  /* brand-teal */
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  /* slate-100 */
+  --secondary-foreground: #1e293b;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  /* slate-500 */
+  --accent: #f1f5f9;
+  --accent-foreground: #1e293b;
+  --destructive: #dc2626;
+  /* red-600 */
+  --destructive-foreground: #ffffff;
+  --border: #cbd5e1;
+  /* slate-300 */
+  --input: #cbd5e1;
+  --ring: #00c2a8;
+  --radius: 0.5rem;
 
-    /* Chart colors (adapted to brand) */
-    --chart-1: #1a5ea8;
-    --chart-2: #00c2a8;
-    --chart-3: #0d2b55;
-    --chart-4: #2e86de;
-    --chart-5: #64748b;
-  }
+  /* Chart colors (adapted to brand) */
+  --chart-1: #1a5ea8;
+  --chart-2: #00c2a8;
+  --chart-3: #0d2b55;
+  --chart-4: #2e86de;
+  --chart-5: #64748b;
+}
 
-  .dark {
-    --background: #0d1117;
-    --foreground: #f8fafc;
-    --card: #1e293b;
-    --card-foreground: #f8fafc;
-    --popover: #1e293b;
-    --popover-foreground: #f8fafc;
-    --primary: #00c2a8;
-    --primary-foreground: #000000;
-    --secondary: #334155;
-    --secondary-foreground: #f8fafc;
-    --muted: #334155;
-    --muted-foreground: #94a3b8;
-    --accent: #334155;
-    --accent-foreground: #f8fafc;
-    --destructive: #7f1d1d;
-    --destructive-foreground: #f8fafc;
-    --border: #334155;
-    --input: #334155;
-    --ring: #00c2a8;
+.dark {
+  --background: #0d1117;
+  --foreground: #f8fafc;
+  --card: #1e293b;
+  --card-foreground: #f8fafc;
+  --popover: #1e293b;
+  --popover-foreground: #f8fafc;
+  --primary: #00c2a8;
+  --primary-foreground: #000000;
+  --secondary: #334155;
+  --secondary-foreground: #f8fafc;
+  --muted: #334155;
+  --muted-foreground: #94a3b8;
+  --accent: #334155;
+  --accent-foreground: #f8fafc;
+  --destructive: #7f1d1d;
+  --destructive-foreground: #f8fafc;
+  --border: #334155;
+  --input: #334155;
+  --ring: #00c2a8;
 
-    --chart-1: #3b82f6;
-    --chart-2: #2dd4bf;
-    --chart-3: #60a5fa;
-    --chart-4: #818cf8;
-    --chart-5: #cbd5e1;
-  }
+  --chart-1: #3b82f6;
+  --chart-2: #2dd4bf;
+  --chart-3: #60a5fa;
+  --chart-4: #818cf8;
+  --chart-5: #cbd5e1;
 }
 
 @theme {

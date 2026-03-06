@@ -100,16 +100,16 @@ export function SignatureConfirmModal({
                 </DialogHeader>
 
                 {/* SOP info */}
-                <div className="rounded-lg bg-slate-50 border border-slate-200 p-4 space-y-1 text-sm">
-                    <p className="font-semibold text-brand-navy">{sopTitle}</p>
-                    <p className="text-slate-500 text-xs">Version: {sopVersion}</p>
+                <div className="rounded-lg bg-muted/50 border border-border p-4 space-y-1 text-sm">
+                    <p className="font-semibold text-foreground">{sopTitle}</p>
+                    <p className="text-muted-foreground text-xs">Version: {sopVersion}</p>
                 </div>
 
                 {/* Signature preview */}
                 <div className="space-y-2">
-                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Your Stored Signature</p>
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Your Stored Signature</p>
                     {signatureUrl ? (
-                        <div className="rounded-lg border border-slate-200 bg-white p-3 flex items-center justify-center min-h-[100px]">
+                        <div className="rounded-lg border border-border bg-card p-3 flex items-center justify-center min-h-[100px]">
                             <img
                                 src={signatureUrl}
                                 alt="Your signature"
@@ -117,13 +117,13 @@ export function SignatureConfirmModal({
                             />
                         </div>
                     ) : (
-                        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-700 text-center">
+                        <div className="rounded-lg border border-amber-500/20 bg-amber-500/10 p-4 text-sm text-amber-600 dark:text-amber-400 text-center">
                             No signature on file. Please complete your onboarding profile before signing.
                         </div>
                     )}
                 </div>
 
-                <p className="text-[11px] text-slate-400 leading-relaxed">
+                <p className="text-[11px] text-muted-foreground leading-relaxed">
                     By clicking &quot;Confirm &amp; Sign&quot; you are electronically signing this document. Your IP address and timestamp will be recorded.
                 </p>
 

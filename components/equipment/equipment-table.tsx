@@ -30,7 +30,7 @@ const freqColors: Record<string, string> = {
 }
 
 function NextDueCell({ date }: { date?: string }) {
-    if (!date) return <span className="text-slate-400">—</span>
+    if (!date) return <span className="text-muted-foreground">—</span>
     const days = differenceInCalendarDays(new Date(date), new Date())
     const classes =
         days < 0 ? 'text-red-600 font-bold' :

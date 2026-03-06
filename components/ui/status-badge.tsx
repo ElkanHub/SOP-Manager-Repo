@@ -11,35 +11,35 @@ interface StatusBadgeProps {
 const statusConfig: Record<string, { label: string; classes: string }> = {
     active: {
         label: 'Active',
-        classes: 'bg-green-100 text-green-800 border-green-200',
+        classes: 'bg-green-500/10 text-green-600 dark:text-green-500 border-green-500/20',
     },
     draft: {
         label: 'Draft',
-        classes: 'bg-amber-100 text-amber-800 border-amber-200',
+        classes: 'bg-amber-500/10 text-amber-600 dark:text-amber-500 border-amber-500/20',
     },
     pending_qa: {
         label: 'Pending QA',
-        classes: 'bg-blue-100 text-blue-800 border-blue-200',
+        classes: 'bg-blue-500/10 text-blue-600 dark:text-blue-500 border-blue-500/20',
     },
     superseded: {
         label: 'Superseded',
-        classes: 'bg-slate-100 text-slate-600 border-slate-200',
+        classes: 'bg-muted text-muted-foreground border-border',
     },
     overdue: {
         label: 'Overdue',
-        classes: 'bg-red-100 text-red-800 border-red-200',
+        classes: 'bg-red-500/10 text-red-600 dark:text-red-500 border-red-500/20',
     },
     pending: {
         label: 'Pending',
-        classes: 'bg-blue-100 text-blue-800 border-blue-200',
+        classes: 'bg-blue-500/10 text-blue-600 dark:text-blue-500 border-blue-500/20',
     },
     approved: {
         label: 'Approved',
-        classes: 'bg-green-100 text-green-800 border-green-200',
+        classes: 'bg-green-500/10 text-green-600 dark:text-green-500 border-green-500/20',
     },
     rejected: {
         label: 'Rejected',
-        classes: 'bg-red-100 text-red-800 border-red-200',
+        classes: 'bg-red-500/10 text-red-600 dark:text-red-500 border-red-500/20',
     },
 }
 
@@ -52,7 +52,7 @@ const sizeClasses = {
 export function StatusBadge({ status, size = 'md', className }: StatusBadgeProps) {
     const config = statusConfig[status] ?? {
         label: status,
-        classes: 'bg-slate-100 text-slate-600 border-slate-200',
+        classes: 'bg-muted text-muted-foreground border-border',
     }
 
     return (

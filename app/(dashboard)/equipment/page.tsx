@@ -31,13 +31,13 @@ export default function EquipmentPage() {
     return (
         <div className="flex flex-col h-full">
             {/* Page Header */}
-            <div className="flex items-center gap-3 border-b border-slate-200 bg-white px-6 py-4 shrink-0">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-navy text-white">
+            <div className="flex items-center gap-3 border-b border-border bg-card px-6 py-4 shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                     <Wrench className="h-4 w-4" />
                 </div>
                 <div>
-                    <h1 className="text-lg font-bold text-brand-navy">Equipment Registry</h1>
-                    <p className="text-xs text-slate-500">Assets & Preventive Maintenance Schedule</p>
+                    <h1 className="text-lg font-bold text-foreground">Equipment Registry</h1>
+                    <p className="text-xs text-muted-foreground">Assets & Preventive Maintenance Schedule</p>
                 </div>
             </div>
 

@@ -183,7 +183,7 @@ export function AddEquipmentModal({ open, onOpenChange, onSuccess }: AddEquipmen
                                     'flex-1 min-w-[70px] rounded-lg border py-2 text-sm font-medium capitalize transition-all',
                                     frequency === f
                                         ? 'border-brand-teal bg-teal-50 text-brand-navy'
-                                        : 'border-slate-200 text-slate-500 hover:border-slate-300'
+                                        : 'border-border text-muted-foreground hover:border-muted-foreground'
                                 )}
                             >
                                 {f}
@@ -200,7 +200,7 @@ export function AddEquipmentModal({ open, onOpenChange, onSuccess }: AddEquipmen
                                 onChange={(e) => setCustomDays(e.target.value)}
                                 className="max-w-[180px]"
                             />
-                            <span className="text-sm text-slate-500">days between services</span>
+                            <span className="text-sm text-muted-foreground">days between services</span>
                         </div>
                     )}
                 </div>
@@ -215,7 +215,7 @@ export function AddEquipmentModal({ open, onOpenChange, onSuccess }: AddEquipmen
                     <Label>Equipment Photo</Label>
                     <div
                         onClick={() => document.getElementById('eq-photo-input')?.click()}
-                        className="flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 p-6 cursor-pointer hover:border-brand-teal/50 transition-colors"
+                        className="flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border bg-muted/50 p-6 cursor-pointer hover:border-brand-teal/50 transition-colors"
                     >
                         <input
                             id="eq-photo-input"
@@ -226,15 +226,15 @@ export function AddEquipmentModal({ open, onOpenChange, onSuccess }: AddEquipmen
                         />
                         {photoFile ? (
                             <div className="flex items-center gap-2">
-                                <span className="text-sm text-brand-navy font-medium">{photoFile.name}</span>
-                                <button onClick={(e) => { e.stopPropagation(); setPhotoFile(null) }} className="text-slate-400 hover:text-slate-600">
+                                <span className="text-sm text-brand-navy font-medium dark:text-foreground">{photoFile.name}</span>
+                                <button onClick={(e) => { e.stopPropagation(); setPhotoFile(null) }} className="text-muted-foreground hover:text-foreground">
                                     <X className="h-4 w-4" />
                                 </button>
                             </div>
                         ) : (
                             <>
-                                <UploadCloud className="h-6 w-6 text-slate-300" />
-                                <p className="text-xs text-slate-500">Click to upload photo</p>
+                                <UploadCloud className="h-6 w-6 text-muted-foreground/30" />
+                                <p className="text-xs text-muted-foreground">Click to upload photo</p>
                             </>
                         )}
                     </div>

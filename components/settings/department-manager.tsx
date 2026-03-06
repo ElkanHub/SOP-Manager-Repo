@@ -126,17 +126,17 @@ export function DepartmentManager() {
     }
 
     if (loading) return (
-        <div className="flex h-32 items-center justify-center bg-white rounded-xl border border-slate-200">
+        <div className="flex h-32 items-center justify-center bg-card rounded-xl border border-border">
             <Loader2 className="h-6 w-6 animate-spin text-brand-teal" />
         </div>
     )
 
     return (
-        <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden animate-in fade-in duration-500">
-            <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-4 flex items-center justify-between">
+        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden animate-in fade-in duration-500">
+            <div className="border-b border-border bg-muted/50 px-6 py-4 flex items-center justify-between">
                 <div>
-                    <h2 className="text-lg font-bold text-brand-navy">Departments Manager</h2>
-                    <p className="text-sm text-slate-500">Add or modify company departments.</p>
+                    <h2 className="text-lg font-bold text-foreground">Departments Manager</h2>
+                    <p className="text-sm text-muted-foreground">Add or modify company departments.</p>
                 </div>
 
                 <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
@@ -186,7 +186,7 @@ export function DepartmentManager() {
 
             <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm border-collapse">
-                    <thead className="bg-slate-50 border-b border-slate-200 text-slate-500">
+                    <thead className="bg-muted/50 border-b border-border text-muted-foreground">
                         <tr>
                             <th className="px-6 py-3 font-semibold">Department Name</th>
                             <th className="px-6 py-3 font-semibold">Slug</th>
@@ -195,17 +195,17 @@ export function DepartmentManager() {
                             <th className="px-6 py-3 font-semibold text-right">Actions</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100">
+                    <tbody className="divide-y divide-border">
                         {departments.length === 0 ? (
                             <tr>
-                                <td colSpan={5} className="px-6 py-8 text-center text-slate-500">
-                                    <Building2 className="h-8 w-8 mx-auto text-slate-300 mb-2" />
+                                <td colSpan={5} className="px-6 py-8 text-center text-muted-foreground/70">
+                                    <Building2 className="h-8 w-8 mx-auto text-muted-foreground/30 mb-2" />
                                     No departments found.
                                 </td>
                             </tr>
                         ) : departments.map(dept => (
-                            <tr key={dept.id} className="hover:bg-slate-50/50 transition-colors">
-                                <td className="px-6 py-4 font-medium text-slate-900">
+                            <tr key={dept.id} className="hover:bg-muted/50 transition-colors">
+                                <td className="px-6 py-4 font-medium text-foreground">
                                     {editingId === dept.id ? (
                                         <Input
                                             value={editName}
@@ -217,7 +217,7 @@ export function DepartmentManager() {
                                         dept.name
                                     )}
                                 </td>
-                                <td className="px-6 py-4 font-mono text-xs text-slate-500">
+                                <td className="px-6 py-4 font-mono text-xs text-muted-foreground">
                                     {dept.slug}
                                 </td>
                                 <td className="px-6 py-4 text-center">
@@ -232,25 +232,25 @@ export function DepartmentManager() {
                                                 QA Role
                                             </span>
                                         ) : (
-                                            <span className="text-slate-300">-</span>
+                                            <span className="text-muted-foreground/30">-</span>
                                         )
                                     )}
                                 </td>
-                                <td className="px-6 py-4 text-slate-500 whitespace-nowrap">
+                                <td className="px-6 py-4 text-muted-foreground whitespace-nowrap">
                                     {format(new Date(dept.created_at), 'MMM d, yyyy')}
                                 </td>
                                 <td className="px-6 py-4 text-right">
                                     {editingId === dept.id ? (
                                         <div className="flex items-center justify-end gap-2">
-                                            <Button variant="ghost" size="sm" onClick={() => setEditingId(null)} className="h-8 text-xs text-slate-500">Cancel</Button>
+                                            <Button variant="ghost" size="sm" onClick={() => setEditingId(null)} className="h-8 text-xs text-muted-foreground">Cancel</Button>
                                             <Button size="sm" onClick={() => saveEdit(dept.id)} className="h-8 text-xs bg-brand-teal text-white hover:bg-teal-700">Save</Button>
                                         </div>
                                     ) : (
                                         <div className="flex items-center justify-end gap-1">
-                                            <Button variant="ghost" size="icon" onClick={() => startEdit(dept)} className="h-8 w-8 text-slate-400 hover:text-brand-navy" aria-label={`Edit ${dept.name} department`}>
+                                            <Button variant="ghost" size="icon" onClick={() => startEdit(dept)} className="h-8 w-8 text-muted-foreground hover:text-foreground" aria-label={`Edit ${dept.name} department`}>
                                                 <Pencil className="h-4 w-4" />
                                             </Button>
-                                            <Button variant="ghost" size="icon" onClick={() => handleDelete(dept.id, dept.name)} className="h-8 w-8 text-slate-400 hover:text-red-600" aria-label={`Delete ${dept.name} department`}>
+                                            <Button variant="ghost" size="icon" onClick={() => handleDelete(dept.id, dept.name)} className="h-8 w-8 text-muted-foreground hover:text-destructive" aria-label={`Delete ${dept.name} department`}>
                                                 <Trash2 className="h-4 w-4" />
                                             </Button>
                                         </div>

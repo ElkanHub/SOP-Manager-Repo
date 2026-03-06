@@ -69,11 +69,11 @@ export function SignatureGrid({ changeControlId, sopTitle, sopVersion, deptId }:
     const currentUserSigned = certMap.has(currentUserId)
 
     return (
-        <div className="rounded-xl border border-slate-200 overflow-hidden">
-            <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-3">
+        <div className="rounded-xl border border-border overflow-hidden">
+            <div className="flex items-center justify-between border-b border-border bg-muted/50 px-4 py-3">
                 <div className="flex items-center gap-2">
-                    <PenLine className="h-4 w-4 text-slate-400" />
-                    <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Required Signatures</span>
+                    <PenLine className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Required Signatures</span>
                 </div>
                 {currentUserIsSig && !currentUserSigned && (
                     <Button
@@ -87,9 +87,9 @@ export function SignatureGrid({ changeControlId, sopTitle, sopVersion, deptId }:
                 )}
             </div>
 
-            <div className="divide-y divide-slate-100">
+            <div className="divide-y divide-border">
                 {signatories.length === 0 ? (
-                    <div className="px-4 py-8 text-center text-sm text-slate-400 italic">
+                    <div className="px-4 py-8 text-center text-sm text-muted-foreground italic">
                         No required signatories found for this department.
                     </div>
                 ) : (
@@ -103,21 +103,21 @@ export function SignatureGrid({ changeControlId, sopTitle, sopVersion, deptId }:
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center gap-2 flex-wrap">
-                                        <span className="text-sm font-semibold text-slate-800">{s.full_name}</span>
-                                        <span className="text-xs capitalize text-slate-500 bg-slate-100 rounded-full px-2 py-0.5">{s.role}</span>
+                                        <span className="text-sm font-semibold text-foreground">{s.full_name}</span>
+                                        <span className="text-xs capitalize text-muted-foreground bg-muted rounded-full px-2 py-0.5">{s.role}</span>
                                         {s.departments && (
-                                            <span className="text-xs text-slate-400">{(s.departments as any).name}</span>
+                                            <span className="text-xs text-muted-foreground">{(s.departments as any).name}</span>
                                         )}
                                     </div>
-                                    {s.job_title && <p className="text-xs text-slate-500 mt-0.5">{s.job_title}</p>}
+                                    {s.job_title && <p className="text-xs text-muted-foreground mt-0.5">{s.job_title}</p>}
                                 </div>
                                 <div className="shrink-0">
                                     {signed ? (
                                         <div className="flex items-center gap-1.5">
                                             <CheckCircle2 className="h-4 w-4 text-green-500" />
                                             <div className="text-right">
-                                                <p className="text-xs font-semibold text-green-700">Signed</p>
-                                                <p className="text-[10px] text-slate-400">
+                                                <p className="text-xs font-semibold text-green-700 dark:text-green-500">Signed</p>
+                                                <p className="text-[10px] text-muted-foreground">
                                                     {format(new Date(cert!.signed_at), 'MMM d, h:mm a')}
                                                 </p>
                                             </div>

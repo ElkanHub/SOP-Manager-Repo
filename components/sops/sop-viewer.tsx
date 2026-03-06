@@ -86,7 +86,7 @@ export function SopViewer({ sopId }: SopViewerProps) {
             setHtmlContent(result.value)
         } catch (err) {
             // Non-critical — show message but don't block the whole viewer
-            setHtmlContent('<p class="text-slate-400 text-sm italic">Could not render document. Download the file to view it.</p>')
+            setHtmlContent('<p class="text-muted-foreground text-sm italic">Could not render document. Download the file to view it.</p>')
         } finally {
             setDocLoading(false)
         }
@@ -121,7 +121,7 @@ export function SopViewer({ sopId }: SopViewerProps) {
 
     if (loading) {
         return (
-            <div className="flex h-64 items-center justify-center gap-2 text-slate-400">
+            <div className="flex h-64 items-center justify-center gap-2 text-muted-foreground">
                 <Loader2 className="h-5 w-5 animate-spin" />
                 <span className="text-sm">Loading SOP...</span>
             </div>
@@ -139,31 +139,31 @@ export function SopViewer({ sopId }: SopViewerProps) {
 
     const dept = sop.departments
     const deptColorMap: Record<string, string> = {
-        purple: 'bg-purple-100 text-purple-800',
-        blue: 'bg-blue-100 text-blue-800',
-        teal: 'bg-teal-100 text-teal-800',
-        green: 'bg-green-100 text-green-800',
-        amber: 'bg-amber-100 text-amber-800',
+        purple: 'bg-purple-500/10 text-purple-600 dark:text-purple-400',
+        blue: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
+        teal: 'bg-teal-500/10 text-teal-700 dark:text-teal-400',
+        green: 'bg-green-500/10 text-green-700 dark:text-green-400',
+        amber: 'bg-amber-500/10 text-amber-700 dark:text-amber-400',
     }
-    const deptClass = deptColorMap[dept?.color ?? 'blue'] ?? 'bg-blue-100 text-blue-800'
+    const deptClass = deptColorMap[dept?.color ?? 'blue'] ?? 'bg-blue-500/10 text-blue-600 dark:text-blue-400'
 
     return (
         <div className="flex flex-col gap-0 h-full">
             {/* Viewer Header */}
-            <div className="flex flex-wrap items-start justify-between gap-4 border-b border-slate-200 bg-white px-6 py-4">
+            <div className="flex flex-wrap items-start justify-between gap-4 border-b border-border bg-card px-6 py-4">
                 <div className="space-y-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-mono text-sm font-bold text-brand-navy">{sop.sop_number}</span>
+                        <span className="font-mono text-sm font-bold text-foreground">{sop.sop_number}</span>
                         <StatusBadge status={sop.status} />
-                        <span className="text-xs text-slate-400 font-mono">{sop.version}</span>
+                        <span className="text-xs text-muted-foreground font-mono">{sop.version}</span>
                         {dept && (
                             <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${deptClass}`}>
                                 {dept.name}
                             </span>
                         )}
                     </div>
-                    <h2 className="text-lg font-semibold text-slate-800">{sop.title}</h2>
-                    <div className="flex flex-wrap gap-4 text-xs text-slate-500">
+                    <h2 className="text-lg font-semibold text-foreground">{sop.title}</h2>
+                    <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
                         {sop.date_listed && (
                             <span>Listed: {format(new Date(sop.date_listed), 'MMM d, yyyy')}</span>
                         )}
@@ -211,20 +211,20 @@ export function SopViewer({ sopId }: SopViewerProps) {
             </div>
 
             {/* Document Body */}
-            <div className="flex-1 overflow-y-auto bg-white px-8 py-6">
+            <div className="flex-1 overflow-y-auto bg-card px-8 py-6">
                 {!sop.file_url ? (
-                    <div className="flex h-48 flex-col items-center justify-center gap-2 text-slate-400">
+                    <div className="flex h-48 flex-col items-center justify-center gap-2 text-muted-foreground">
                         <FileText className="h-10 w-10" />
                         <p className="text-sm">No document file attached to this SOP.</p>
                     </div>
                 ) : docLoading ? (
-                    <div className="flex h-48 items-center justify-center gap-2 text-slate-400">
+                    <div className="flex h-48 items-center justify-center gap-2 text-muted-foreground">
                         <Loader2 className="h-5 w-5 animate-spin" />
                         <span className="text-sm">Rendering document...</span>
                     </div>
                 ) : (
                     <div
-                        className="prose prose-slate max-w-none prose-headings:text-brand-navy prose-a:text-brand-blue prose-strong:text-slate-700"
+                        className="prose prose-slate dark:prose-invert max-w-none prose-headings:text-foreground prose-a:text-brand-blue prose-strong:text-foreground text-foreground"
                         dangerouslySetInnerHTML={{ __html: htmlContent }}
                     />
                 )}

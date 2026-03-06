@@ -69,15 +69,15 @@ export function DataTable<TData, TValue>({
                 className="max-w-sm text-sm"
             />
 
-            <div className="rounded-xl border border-slate-200 overflow-hidden">
+            <div className="rounded-xl border border-border overflow-hidden">
                 <Table>
-                    <TableHeader className="bg-slate-50">
+                    <TableHeader className="bg-muted/50">
                         {table.getHeaderGroups().map((hg) => (
-                            <TableRow key={hg.id} className="border-slate-200">
+                            <TableRow key={hg.id} className="border-border">
                                 {hg.headers.map((header) => (
                                     <TableHead
                                         key={header.id}
-                                        className="text-xs font-semibold text-slate-500 uppercase tracking-wide whitespace-nowrap"
+                                        className="text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap"
                                     >
                                         {header.isPlaceholder
                                             ? null
@@ -93,13 +93,13 @@ export function DataTable<TData, TValue>({
                                 <TableRow
                                     key={row.id}
                                     className={cn(
-                                        'border-slate-100 transition-colors',
-                                        onRowClick && 'cursor-pointer hover:bg-blue-50/50'
+                                        'border-border transition-colors',
+                                        onRowClick && 'cursor-pointer hover:bg-muted/50'
                                     )}
                                     onClick={() => onRowClick?.(row.original)}
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id} className="text-sm text-slate-700">
+                                        <TableCell key={cell.id} className="text-sm text-foreground">
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}
@@ -107,10 +107,10 @@ export function DataTable<TData, TValue>({
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={columns.length} className="h-48 text-center text-slate-500">
+                                <TableCell colSpan={columns.length} className="h-48 text-center text-muted-foreground">
                                     <div className="flex flex-col items-center justify-center p-6 space-y-3">
                                         {emptyStateIcon && (
-                                            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+                                            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted text-muted-foreground">
                                                 {emptyStateIcon}
                                             </div>
                                         )}
@@ -124,7 +124,7 @@ export function DataTable<TData, TValue>({
                     </TableBody>
                 </Table>
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-muted-foreground">
                 {table.getFilteredRowModel().rows.length} result{table.getFilteredRowModel().rows.length !== 1 ? 's' : ''}
             </p>
         </div>

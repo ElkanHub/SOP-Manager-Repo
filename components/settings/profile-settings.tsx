@@ -88,7 +88,7 @@ export function ProfileSettings() {
     }
 
     if (loading) return (
-        <div className="flex h-64 items-center justify-center bg-white rounded-xl border border-slate-200">
+        <div className="flex h-64 items-center justify-center bg-card rounded-xl border border-border">
             <Loader2 className="h-6 w-6 animate-spin text-brand-teal" />
         </div>
     )
@@ -97,16 +97,16 @@ export function ProfileSettings() {
         <div className="space-y-6 animate-in fade-in duration-500">
 
             {/* Identity Form */}
-            <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
-                <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-4">
-                    <h2 className="text-lg font-bold text-brand-navy">Personal Details</h2>
-                    <p className="text-sm text-slate-500">Update your identity information.</p>
+            <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+                <div className="border-b border-border bg-muted/50 px-6 py-4">
+                    <h2 className="text-lg font-bold text-foreground">Personal Details</h2>
+                    <p className="text-sm text-muted-foreground">Update your identity information.</p>
                 </div>
 
                 <form onSubmit={handleSaveProfile} className="p-6 space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
-                            <Label htmlFor="full_name" className="text-slate-500 flex items-center gap-2">
+                            <Label htmlFor="full_name" className="text-muted-foreground flex items-center gap-2">
                                 <User className="h-4 w-4" /> Full Name
                             </Label>
                             <Input
@@ -155,7 +155,7 @@ export function ProfileSettings() {
                         </div>
                     </div>
 
-                    <div className="flex justify-end pt-4 border-t border-slate-100">
+                    <div className="flex justify-end pt-4 border-t border-border">
                         <Button type="submit" disabled={saving} className="bg-brand-navy hover:bg-brand-navy/90 text-white min-w-[120px]">
                             {saving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Save className="h-4 w-4 mr-2" />}
                             Save Changes
@@ -165,11 +165,11 @@ export function ProfileSettings() {
             </div>
 
             {/* Signature Management */}
-            <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
-                <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-4 flex items-center justify-between">
+            <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+                <div className="border-b border-border bg-muted/50 px-6 py-4 flex items-center justify-between">
                     <div>
-                        <h2 className="text-lg font-bold text-brand-navy">E-Signature</h2>
-                        <p className="text-sm text-slate-500">Manage your legally binding signature.</p>
+                        <h2 className="text-lg font-bold text-foreground">E-Signature</h2>
+                        <p className="text-sm text-muted-foreground">Manage your legally binding signature.</p>
                     </div>
                     {!isRedrawingSig && (
                         <Button variant="outline" size="sm" onClick={() => setIsRedrawingSig(true)} className="border-brand-teal text-brand-teal hover:bg-teal-50">
@@ -178,7 +178,7 @@ export function ProfileSettings() {
                     )}
                 </div>
 
-                <div className="p-6 bg-slate-50/30">
+                <div className="p-6 bg-muted/30">
                     {isRedrawingSig ? (
                         <div className="max-w-xl mx-auto">
                             <SignaturePad
@@ -187,7 +187,7 @@ export function ProfileSettings() {
                             />
                         </div>
                     ) : (
-                        <div className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-slate-200 rounded-xl bg-white max-w-xl mx-auto">
+                        <div className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-border rounded-xl bg-card max-w-xl mx-auto">
                             {profile.signature_url ? (
                                 <div className="space-y-4 w-full text-center">
                                     <div className="relative h-24 w-full mix-blend-multiply opacity-80">
@@ -203,11 +203,11 @@ export function ProfileSettings() {
                                 </div>
                             ) : (
                                 <div className="text-center">
-                                    <div className="h-10 w-10 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                                        <FileSignature className="h-5 w-5 text-slate-400" />
+                                    <div className="h-10 w-10 bg-muted rounded-full flex items-center justify-center mx-auto mb-3">
+                                        <FileSignature className="h-5 w-5 text-muted-foreground/70" />
                                     </div>
-                                    <p className="text-sm font-medium text-slate-600">No signature found</p>
-                                    <p className="text-xs text-slate-500 mt-1">You need to draw a signature to approve documents.</p>
+                                    <p className="text-sm font-medium text-foreground">No signature found</p>
+                                    <p className="text-xs text-muted-foreground mt-1">You need to draw a signature to approve documents.</p>
                                 </div>
                             )}
                         </div>

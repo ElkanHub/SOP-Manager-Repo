@@ -64,26 +64,26 @@ export function UserManager() {
     }
 
     if (loading) return (
-        <div className="flex h-32 items-center justify-center bg-white rounded-xl border border-slate-200">
+        <div className="flex h-32 items-center justify-center bg-card rounded-xl border border-border">
             <Loader2 className="h-6 w-6 animate-spin text-brand-teal" />
         </div>
     )
 
     return (
-        <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden animate-in fade-in duration-500">
-            <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-4 flex items-center justify-between pointer-events-none">
+        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden animate-in fade-in duration-500">
+            <div className="border-b border-border bg-muted/50 px-6 py-4 flex items-center justify-between pointer-events-none">
                 <div>
-                    <h2 className="text-lg font-bold text-brand-navy">User Access & Roles</h2>
-                    <p className="text-sm text-slate-500">Manage permissions across all registered staff.</p>
+                    <h2 className="text-lg font-bold text-foreground">User Access & Roles</h2>
+                    <p className="text-sm text-muted-foreground">Manage permissions across all registered staff.</p>
                 </div>
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100">
-                    <Users className="h-5 w-5 text-slate-400" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
+                    <Users className="h-5 w-5 text-muted-foreground/70" />
                 </div>
             </div>
 
             <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm border-collapse">
-                    <thead className="bg-slate-50 border-b border-slate-200 text-slate-500">
+                    <thead className="bg-muted/50 border-b border-border text-muted-foreground">
                         <tr>
                             <th className="px-6 py-3 font-semibold">User</th>
                             <th className="px-6 py-3 font-semibold">Department</th>
@@ -91,20 +91,20 @@ export function UserManager() {
                             <th className="px-6 py-3 font-semibold">Role Level</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100">
+                    <tbody className="divide-y divide-border">
                         {users.map(u => (
-                            <tr key={u.id} className="hover:bg-slate-50/50 transition-colors">
+                            <tr key={u.id} className="hover:bg-muted/50 transition-colors">
                                 <td className="px-6 py-4">
-                                    <div className="font-semibold text-brand-navy flex items-center gap-2">
+                                    <div className="font-semibold text-foreground flex items-center gap-2">
                                         {u.full_name}
-                                        {u.id === currentUserId && <span className="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">You</span>}
+                                        {u.id === currentUserId && <span className="text-[10px] bg-muted text-muted-foreground px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">You</span>}
                                     </div>
-                                    <div className="text-xs text-slate-500">{u.email}</div>
+                                    <div className="text-xs text-muted-foreground">{u.email}</div>
                                 </td>
-                                <td className="px-6 py-4 text-slate-600">
-                                    {u.departments?.name || <span className="text-slate-400 italic">Unassigned</span>}
+                                <td className="px-6 py-4 text-muted-foreground">
+                                    {u.departments?.name || <span className="text-muted-foreground/50 italic">Unassigned</span>}
                                 </td>
-                                <td className="px-6 py-4 text-slate-500 whitespace-nowrap">
+                                <td className="px-6 py-4 text-muted-foreground whitespace-nowrap">
                                     {format(new Date(u.created_at), 'MMM d, yyyy')}
                                 </td>
                                 <td className="px-6 py-4">
@@ -113,7 +113,7 @@ export function UserManager() {
                                         onValueChange={(val) => handleRoleChange(u.id, val)}
                                         disabled={u.id === currentUserId} // Prevent self demotion
                                     >
-                                        <SelectTrigger className="w-[140px] h-8 text-xs bg-white">
+                                        <SelectTrigger className="w-[140px] h-8 text-xs bg-background">
                                             <SelectValue placeholder="Role" />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -142,9 +142,9 @@ export function UserManager() {
                     </tbody>
                 </table>
             </div>
-            <div className="bg-amber-50/50 border-t border-slate-200 px-6 py-3 flex items-start gap-3">
+            <div className="bg-amber-500/10 border-t border-border px-6 py-3 flex items-start gap-3">
                 <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
-                <p className="text-xs text-amber-800">
+                <p className="text-xs text-amber-900 dark:text-amber-200">
                     <strong>Warning:</strong> Changing a user's role takes immediate effect. QA Admins have global read/write access to all departments. Managers can approve SOPs within their assigned department.
                 </p>
             </div>

@@ -1076,7 +1076,7 @@ const [activeSops, pendingApprovals, pmCompliance, dueSops] = await Promise.all(
 **Filter bar (shared across all reports):**
 - Date range picker (start date + end date inputs)
 - Department dropdown (QA/Admin see all, others see own dept)
-- Status filter (where applicable)
+- Status filter (where applicable)  
 
 **Phase 10 Checklist:**
 - [ ] All 5 reports render real data

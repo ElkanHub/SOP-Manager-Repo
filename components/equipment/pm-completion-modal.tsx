@@ -97,9 +97,9 @@ export function PmCompletionModal({
                     </DialogDescription>
                 </DialogHeader>
 
-                <div className="rounded-lg bg-slate-50 border border-slate-200 p-3 text-xs text-slate-600 space-y-1">
-                    <p><span className="font-semibold">Equipment:</span> {equipmentName}</p>
-                    <p><span className="font-semibold">Due Date:</span> {format(new Date(task.due_date), 'MMMM d, yyyy')}</p>
+                <div className="rounded-lg bg-muted/50 border border-border p-3 text-xs text-muted-foreground space-y-1">
+                    <p><span className="font-semibold text-foreground">Equipment:</span> {equipmentName}</p>
+                    <p><span className="font-semibold text-foreground">Due Date:</span> {format(new Date(task.due_date), 'MMMM d, yyyy')}</p>
                 </div>
 
                 <div className="space-y-1.5">
@@ -119,7 +119,7 @@ export function PmCompletionModal({
                     <Label>Photo Evidence (optional)</Label>
                     <div
                         onClick={() => document.getElementById('pm-photo-input')?.click()}
-                        className="flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 p-5 cursor-pointer hover:border-brand-teal/50 transition-colors"
+                        className="flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border bg-muted/50 p-5 cursor-pointer hover:border-brand-teal/50 transition-colors"
                     >
                         <input
                             id="pm-photo-input"
@@ -130,15 +130,15 @@ export function PmCompletionModal({
                         />
                         {photoFile ? (
                             <div className="flex items-center gap-2">
-                                <span className="text-sm text-brand-navy font-medium">{photoFile.name}</span>
-                                <button onClick={(e) => { e.stopPropagation(); setPhotoFile(null) }} className="text-slate-400 hover:text-slate-600">
+                                <span className="text-sm text-brand-navy font-medium dark:text-foreground">{photoFile.name}</span>
+                                <button onClick={(e) => { e.stopPropagation(); setPhotoFile(null) }} className="text-muted-foreground hover:text-foreground">
                                     <X className="h-4 w-4" />
                                 </button>
                             </div>
                         ) : (
                             <>
-                                <UploadCloud className="h-5 w-5 text-slate-300" />
-                                <p className="text-xs text-slate-500">Click to attach photo</p>
+                                <UploadCloud className="h-5 w-5 text-muted-foreground/30" />
+                                <p className="text-xs text-muted-foreground">Click to attach photo</p>
                             </>
                         )}
                     </div>

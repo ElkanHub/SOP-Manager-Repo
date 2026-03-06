@@ -60,36 +60,36 @@ export function ActivityFeed({ initialData, deptId }: { initialData: AuditLogEnt
 
     if (feed.length === 0) {
         return (
-            <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm min-h-[300px] flex flex-col items-center justify-center">
-                <Activity className="h-8 w-8 text-slate-200 mb-2" />
-                <p className="text-sm font-medium text-slate-500">No recent activity.</p>
+            <div className="flex flex-col items-center justify-center py-10 text-center space-y-3 bg-muted/20 rounded-xl border border-dashed border-border mt-2">
+                <Activity className="h-8 w-8 text-muted-foreground/30" />
+                <p className="text-sm font-medium text-muted-foreground">No recent activity.</p>
                 <p className="text-xs text-slate-400 mt-1 text-center">Actions taken in your department will appear here automatically.</p>
             </div>
         )
     }
 
     return (
-        <div className="rounded-xl border border-slate-200 bg-white shadow-sm h-[400px] flex flex-col overflow-hidden">
-            <div className="border-b border-slate-100 px-5 py-4 shrink-0 bg-slate-50/50">
-                <h3 className="text-sm font-bold text-brand-navy flex items-center gap-2">
+        <div className="rounded-xl border border-border bg-card shadow-sm h-[400px] flex flex-col overflow-hidden">
+            <div className="border-b border-border px-5 py-4 shrink-0 bg-muted/50">
+                <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
                     <Activity className="h-4 w-4 text-brand-teal" />
                     Activity Feed
                 </h3>
             </div>
             <div className="flex-1 overflow-y-auto p-2">
-                <div className="space-y-1 relative before:absolute before:inset-y-0 before:left-6 before:w-px before:bg-slate-100">
+                <div className="space-y-1 relative before:absolute before:inset-y-0 before:left-6 before:w-px before:bg-border">
                     {feed.map((entry) => (
-                        <div key={entry.id} className="relative flex items-start gap-4 rounded-lg p-3 hover:bg-slate-50 transition-colors animate-in slide-in-from-left-2 fade-in duration-300">
-                            <div className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-white bg-slate-100 text-slate-500">
+                        <div key={entry.id} className="relative flex items-start gap-4 rounded-lg p-3 hover:bg-muted/50 transition-colors animate-in slide-in-from-left-2 fade-in duration-300">
+                            <div className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-background bg-muted text-muted-foreground">
                                 {getIcon(entry.entity_type)}
                             </div>
                             <div className="flex-1 min-w-0 pt-1">
-                                <p className="text-sm text-slate-700 leading-snug">
-                                    <span className="font-semibold text-brand-navy">{entry.profiles?.full_name ?? 'System'}</span>
+                                <p className="text-sm text-foreground leading-snug">
+                                    <span className="font-semibold">{entry.profiles?.full_name ?? 'System'}</span>
                                     {' '}{entry.action}
-                                    <span className="text-slate-500"> · {entry.entity_type}</span>
+                                    <span className="text-muted-foreground"> · {entry.entity_type}</span>
                                 </p>
-                                <p className="text-xs text-slate-400 mt-0.5">
+                                <p className="text-xs text-muted-foreground/70 mt-0.5">
                                     {formatDistanceToNow(new Date(entry.created_at), { addSuffix: true })}
                                 </p>
                             </div>

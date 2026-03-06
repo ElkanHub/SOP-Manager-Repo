@@ -40,7 +40,7 @@ export function DeltaSummaryCard({ changeControlId, initialSummary }: DeltaSumma
         : []
 
     return (
-        <div className="rounded-xl border border-slate-200 bg-gradient-to-br from-brand-navy/5 via-transparent to-brand-teal/5 p-5">
+        <div className="rounded-xl border border-border bg-gradient-to-br from-brand-navy/5 via-transparent to-brand-teal/5 dark:bg-gradient-to-br dark:from-brand-navy/20 dark:via-muted/50 dark:to-brand-teal/10 p-5">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                     <Sparkles className="h-5 w-5 text-brand-teal" />
@@ -59,28 +59,28 @@ export function DeltaSummaryCard({ changeControlId, initialSummary }: DeltaSumma
             </div>
 
             {loading ? (
-                <div className="flex items-center gap-2 text-slate-400 text-sm py-4">
+                <div className="flex items-center gap-2 text-muted-foreground text-sm py-4">
                     <Loader2 className="h-4 w-4 animate-spin" />
                     Analysing document changes...
                 </div>
             ) : bullets.length > 0 ? (
                 <ul className="space-y-2">
                     {bullets.map((bullet, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-slate-700">
+                        <li key={i} className="flex items-start gap-2 text-sm text-foreground">
                             <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-teal" />
                             {bullet}
                         </li>
                     ))}
                 </ul>
             ) : summary ? (
-                <p className="text-sm text-slate-600 leading-relaxed">{summary}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{summary}</p>
             ) : (
-                <p className="text-sm text-slate-400 italic py-2">
+                <p className="text-sm text-muted-foreground italic py-2">
                     No AI summary yet. Click &quot;Generate&quot; to analyse the changes.
                 </p>
             )}
 
-            <p className="mt-4 text-[10px] text-slate-400 border-t border-slate-100 pt-3">
+            <p className="mt-4 text-[10px] text-muted-foreground border-t border-border pt-3">
                 ⚠ This summary is AI-generated. Review the full diff before signing.
             </p>
         </div>

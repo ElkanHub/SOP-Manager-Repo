@@ -19,26 +19,26 @@ const colorMap: Record<KpiColorScheme, { bg: string; icon: string }> = {
     red: { bg: 'bg-red-50', icon: 'text-red-500' },
     green: { bg: 'bg-green-50', icon: 'text-green-600' },
     amber: { bg: 'bg-amber-50', icon: 'text-amber-500' },
-    slate: { bg: 'bg-slate-50', icon: 'text-slate-500' },
+    slate: { bg: 'bg-muted/50 dark:bg-muted', icon: 'text-muted-foreground' },
 }
 
 export function KpiCard({ title, value, suffix = '', icon: Icon, colorScheme, href }: KpiCardProps) {
     const CardContent = (
         <div className={cn(
-            "flex h-full flex-col justify-between rounded-t-none rounded-b-lg border border-slate-200 bg-white p-4 shadow-none transition-all",
-            href && "hover:border-slate-300 hover:shadow-md cursor-pointer"
+            "flex h-full flex-col justify-between rounded-t-none rounded-b-lg border border-border bg-card p-4 shadow-none transition-all",
+            href && "hover:border-primary/50 hover:shadow-md cursor-pointer"
         )}>
             <div className="flex items-center justify-between">
-                <p className="text-sm font-semibold text-slate-500">{title}</p>
+                <p className="text-sm font-semibold text-muted-foreground">{title}</p>
                 <div className={cn("flex h-8 w-8 items-center justify-center rounded-lg", colorMap[colorScheme].bg)}>
                     <Icon className={cn("h-4 w-4", colorMap[colorScheme].icon)} />
                 </div>
             </div>
             <div className="mt-2 flex items-baseline gap-1">
-                <span className="text-2xl font-bold tracking-tight text-brand-navy">
+                <span className="text-2xl font-bold tracking-tight text-foreground">
                     <NumberTicker value={value} duration={0.6} decimalPlaces={suffix === '%' && value % 1 !== 0 ? 1 : 0} />
                 </span>
-                {suffix && <span className="text-sm font-semibold text-slate-400">{suffix}</span>}
+                {suffix && <span className="text-sm font-semibold text-muted-foreground">{suffix}</span>}
             </div>
         </div>
     )

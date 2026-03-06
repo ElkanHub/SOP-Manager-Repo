@@ -71,7 +71,7 @@ export function NoticeCard({ notice, currentUserId, isAuthor, isAcknowledged, on
     }
 
     return (
-        <div className="rounded-lg border border-blue-100 bg-white p-3 shadow-sm space-y-2 transition-all">
+        <div className="rounded-lg border border-border bg-card p-3 shadow-sm space-y-2 transition-all">
             {/* Author + meta */}
             <div className="flex items-start justify-between gap-2">
                 <div className="flex items-center gap-2">
@@ -79,12 +79,12 @@ export function NoticeCard({ notice, currentUserId, isAuthor, isAcknowledged, on
                         {notice.author_initials ?? '?'}
                     </div>
                     <div>
-                        <p className="text-[10px] font-semibold text-slate-600">{notice.author_name ?? 'System'}</p>
-                        <p className="text-[9px] text-slate-400">{formatDistanceToNow(new Date(notice.created_at), { addSuffix: true })}</p>
+                        <p className="text-[10px] font-semibold text-foreground">{notice.author_name ?? 'System'}</p>
+                        <p className="text-[9px] text-muted-foreground">{formatDistanceToNow(new Date(notice.created_at), { addSuffix: true })}</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-1">
-                    <span className="flex items-center gap-0.5 text-[9px] text-slate-400 bg-slate-100 rounded-full px-1.5 py-0.5 font-medium capitalize">
+                    <span className="flex items-center gap-0.5 text-[9px] text-muted-foreground bg-muted rounded-full px-1.5 py-0.5 font-medium capitalize">
                         <AudienceIcon audience={notice.audience} />
                         {notice.audience}
                     </span>
@@ -92,7 +92,7 @@ export function NoticeCard({ notice, currentUserId, isAuthor, isAcknowledged, on
                         <button
                             onClick={handleDelete}
                             disabled={deleting}
-                            className="text-slate-300 hover:text-red-400 transition-colors p-0.5"
+                            className="text-muted-foreground/50 hover:text-red-400 transition-colors p-0.5"
                         >
                             <Trash2 className="h-3 w-3" />
                         </button>
@@ -102,18 +102,18 @@ export function NoticeCard({ notice, currentUserId, isAuthor, isAcknowledged, on
 
             {/* Content */}
             <div>
-                <p className="text-xs font-semibold text-brand-navy leading-snug">{notice.subject}</p>
-                <p className="text-[11px] text-slate-600 mt-0.5 leading-relaxed line-clamp-3">{notice.message}</p>
+                <p className="text-xs font-semibold text-foreground leading-snug">{notice.subject}</p>
+                <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed line-clamp-3">{notice.message}</p>
             </div>
 
             {/* Acknowledge / author stats */}
             <div className="flex items-center justify-between pt-1">
                 {isAuthor && notice.ack_count !== undefined ? (
                     <div className="flex-1 mr-2">
-                        <div className="flex items-center justify-between text-[10px] text-slate-400 mb-0.5">
+                        <div className="flex items-center justify-between text-[10px] text-muted-foreground mb-0.5">
                             <span>{notice.ack_count}/{notice.total_count ?? '?'} acknowledged</span>
                         </div>
-                        <div className="h-1 w-full bg-slate-100 rounded-full overflow-hidden">
+                        <div className="h-1 w-full bg-muted rounded-full overflow-hidden">
                             <div
                                 className="h-full bg-green-400 rounded-full transition-all"
                                 style={{ width: `${notice.total_count ? (notice.ack_count / notice.total_count) * 100 : 0}%` }}
@@ -130,8 +130,8 @@ export function NoticeCard({ notice, currentUserId, isAuthor, isAcknowledged, on
                         className={cn(
                             'flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-semibold transition-all border',
                             acked
-                                ? 'bg-green-50 border-green-200 text-green-700'
-                                : 'bg-slate-100 border-slate-200 text-slate-500 hover:bg-slate-200'
+                                ? 'bg-green-500/10 border-green-500/20 text-green-600 dark:text-green-500'
+                                : 'bg-muted border-border text-muted-foreground hover:bg-muted/80'
                         )}
                     >
                         <Check className="h-2.5 w-2.5" />

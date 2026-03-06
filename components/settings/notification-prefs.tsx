@@ -64,19 +64,19 @@ export function NotificationPrefs() {
     }
 
     if (loading) return (
-        <div className="flex h-32 items-center justify-center bg-white rounded-xl border border-slate-200">
+        <div className="flex h-32 items-center justify-center bg-card rounded-xl border border-border">
             <Loader2 className="h-6 w-6 animate-spin text-brand-teal" />
         </div>
     )
 
     return (
-        <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden animate-in fade-in duration-500">
-            <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-4 flex items-center justify-between">
+        <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden animate-in fade-in duration-500">
+            <div className="border-b border-border bg-muted/50 px-6 py-4 flex items-center justify-between">
                 <div>
-                    <h2 className="text-lg font-bold text-brand-navy">Communication Settings</h2>
-                    <p className="text-sm text-slate-500">Decide how SOP-Guard Pro contacts you.</p>
+                    <h2 className="text-lg font-bold text-foreground">Communication Settings</h2>
+                    <p className="text-sm text-muted-foreground">Decide how SOP-Guard Pro contacts you.</p>
                 </div>
-                {saving && <Loader2 className="h-4 w-4 animate-spin text-slate-400" />}
+                {saving && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground/50" />}
             </div>
 
             <div className="p-6 space-y-8">
@@ -88,8 +88,8 @@ export function NotificationPrefs() {
                             <Mail className="h-5 w-5 text-blue-600" />
                         </div>
                         <div className="pt-1">
-                            <Label htmlFor="email-toggle" className="text-base font-semibold text-slate-800 cursor-pointer">Email Notifications</Label>
-                            <p className="text-sm text-slate-500 mt-1 max-w-md">Receive a daily digest of new PM assignments, overdue SOPs, and system notices directly to your inbox.</p>
+                            <Label htmlFor="email-toggle" className="text-base font-semibold text-foreground cursor-pointer">Email Notifications</Label>
+                            <p className="text-sm text-muted-foreground mt-1 max-w-md">Receive a daily digest of new PM assignments, overdue SOPs, and system notices directly to your inbox.</p>
                         </div>
                     </div>
                     <div className="pt-2">
@@ -102,7 +102,7 @@ export function NotificationPrefs() {
                     </div>
                 </div>
 
-                <div className="h-px bg-slate-100" />
+                <div className="h-px bg-border" />
 
                 {/* Pulse In-App Toggles */}
                 <div className="flex items-start justify-between">
@@ -111,8 +111,8 @@ export function NotificationPrefs() {
                             <SmartphoneNfc className="h-5 w-5 text-indigo-600" />
                         </div>
                         <div className="pt-1">
-                            <Label htmlFor="pulse-toggle" className="text-base font-semibold text-slate-800 cursor-pointer">"The Pulse" Alerts</Label>
-                            <p className="text-sm text-slate-500 mt-1 max-w-md">Allow the real-time sidebar to pop open and display urgent broadcast notices or immediate workflow tasks.</p>
+                            <Label htmlFor="pulse-toggle" className="text-base font-semibold text-foreground cursor-pointer">"The Pulse" Alerts</Label>
+                            <p className="text-sm text-muted-foreground mt-1 max-w-md">Allow the real-time sidebar to pop open and display urgent broadcast notices or immediate workflow tasks.</p>
                         </div>
                     </div>
                     <div className="pt-2">

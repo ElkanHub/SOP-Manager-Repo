@@ -37,11 +37,11 @@ export function SiteHeader() {
             {/* Center: Search */}
             <div className="hidden flex-1 items-center justify-center px-6 md:flex">
                 <div className="relative w-full max-w-md">
-                    <Search className="absolute left-2.5 top-2 h-4 w-4 text-slate-400" />
+                    <Search className="absolute left-2.5 top-2 h-4 w-4 text-muted-foreground" />
                     <Input
                         type="search"
                         placeholder="Search SOPs, Equipment, Notices..."
-                        className="h-8 w-full rounded-md border-slate-700 bg-slate-800/50 pl-9 pr-4 text-sm text-white placeholder:text-slate-400 focus-visible:ring-brand-teal border-none focus:outline-none focus:ring-1 focus:ring-brand-teal"
+                        className="h-8 w-full rounded-md border-slate-700 bg-slate-800/50 pl-9 pr-4 text-sm text-white placeholder:text-slate-400 focus-visible:ring-brand-teal border-none focus:outline-none focus:ring-1 focus:ring-brand-teal dark:bg-slate-800 dark:border-slate-700"
                     />
                 </div>
             </div>

@@ -18,7 +18,7 @@ export default function DashboardError({
     }, [error])
 
     return (
-        <div className="flex h-full w-full flex-col items-center justify-center p-8 text-center bg-slate-50">
+        <div className="flex h-full w-full flex-col items-center justify-center p-8 text-center bg-background">
             <div className="rounded-full bg-red-100 p-4 mb-6">
                 <AlertOctagon className="h-10 w-10 text-red-600" />
             </div>

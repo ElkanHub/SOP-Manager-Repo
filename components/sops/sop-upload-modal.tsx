@@ -199,15 +199,15 @@ export function SopUploadModal({ open, onOpenChange, defaultType = 'new', defaul
                             <div className={cn(
                                 'flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold border transition-colors',
                                 step > i + 1 ? 'bg-brand-teal border-brand-teal text-white' :
-                                    step === i + 1 ? 'border-brand-navy bg-brand-navy text-white' :
-                                        'border-slate-300 text-slate-400'
+                                    step === i + 1 ? 'border-brand-navy bg-brand-navy text-white dark:bg-foreground dark:border-foreground dark:text-background' :
+                                        'border-border text-muted-foreground'
                             )}>
                                 {step > i + 1 ? <CheckCircle2 className="h-3.5 w-3.5" /> : i + 1}
                             </div>
-                            <span className={cn('text-xs', step === i + 1 ? 'font-semibold text-brand-navy' : 'text-slate-400')}>
+                            <span className={cn('text-xs', step === i + 1 ? 'font-semibold text-brand-navy dark:text-foreground' : 'text-muted-foreground')}>
                                 {label}
                             </span>
-                            {i < 2 && <div className="flex-1 h-px bg-slate-200" />}
+                            {i < 2 && <div className="flex-1 h-px bg-border" />}
                         </div>
                     ))}
                 </div>
@@ -222,7 +222,7 @@ export function SopUploadModal({ open, onOpenChange, defaultType = 'new', defaul
                             onClick={() => fileInputRef.current?.click()}
                             className={cn(
                                 'flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-10 cursor-pointer transition-all',
-                                dragging ? 'border-brand-teal bg-teal-50' : 'border-slate-200 bg-slate-50 hover:border-brand-teal/50 hover:bg-slate-100'
+                                dragging ? 'border-brand-teal bg-teal-50' : 'border-border bg-muted/50 hover:border-brand-teal/50 hover:bg-muted'
                             )}
                         >
                             <input ref={fileInputRef} type="file" accept=".docx" className="hidden" onChange={handleFileInput} />
@@ -231,12 +231,12 @@ export function SopUploadModal({ open, onOpenChange, defaultType = 'new', defaul
                                     <FileText className="h-10 w-10 text-brand-teal" />
                                     <div className="text-center">
                                         <p className="text-sm font-semibold text-brand-navy">{file.name}</p>
-                                        <p className="text-xs text-slate-500 mt-1">{(file.size / 1024).toFixed(1)} KB</p>
+                                        <p className="text-xs text-muted-foreground mt-1">{(file.size / 1024).toFixed(1)} KB</p>
                                     </div>
                                     <Button
                                         variant="ghost"
                                         size="sm"
-                                        className="text-xs text-slate-400"
+                                        className="text-xs text-muted-foreground"
                                         onClick={(e) => { e.stopPropagation(); setFile(null) }}
                                     >
                                         <X className="mr-1 h-3 w-3" /> Remove
@@ -244,10 +244,10 @@ export function SopUploadModal({ open, onOpenChange, defaultType = 'new', defaul
                                 </>
                             ) : (
                                 <>
-                                    <UploadCloud className="h-10 w-10 text-slate-300" />
+                                    <UploadCloud className="h-10 w-10 text-muted-foreground/30" />
                                     <div className="text-center">
-                                        <p className="text-sm font-semibold text-brand-navy">Drag & drop your .docx file</p>
-                                        <p className="text-xs text-slate-500 mt-1">or click to browse</p>
+                                        <p className="text-sm font-semibold text-brand-navy dark:text-foreground">Drag & drop your .docx file</p>
+                                        <p className="text-xs text-muted-foreground mt-1">or click to browse</p>
                                     </div>
                                 </>
                             )}
@@ -274,7 +274,7 @@ export function SopUploadModal({ open, onOpenChange, defaultType = 'new', defaul
                                     {(['new', 'update'] as const).map((t) => (
                                         <button key={t} onClick={() => setType(t)} className={cn(
                                             'flex-1 rounded-lg border py-2 text-sm font-medium transition-all capitalize',
-                                            type === t ? 'border-brand-teal bg-teal-50 text-brand-navy' : 'border-slate-200 text-slate-500 hover:border-slate-300'
+                                            type === t ? 'border-brand-teal bg-teal-50 text-brand-navy dark:bg-teal-500/20 dark:text-teal-400' : 'border-border text-muted-foreground hover:border-muted-foreground'
                                         )}>
                                             {t}
                                         </button>
@@ -332,14 +332,14 @@ export function SopUploadModal({ open, onOpenChange, defaultType = 'new', defaul
                                 rows={5}
                                 className="resize-none"
                             />
-                            <p className="text-xs text-slate-400 text-right">{notes.length}/500</p>
+                            <p className="text-xs text-muted-foreground text-right">{notes.length}/500</p>
                         </div>
 
                         {/* Summary card */}
-                        <div className="rounded-lg bg-slate-50 border border-slate-200 px-4 py-3 text-xs space-y-1 text-slate-600">
-                            <div><span className="font-semibold">File:</span> {file?.name}</div>
-                            <div><span className="font-semibold">SOP:</span> {sopNumber} — {title}</div>
-                            <div><span className="font-semibold">Type:</span> {type === 'new' ? 'New SOP' : 'Update to existing'}</div>
+                        <div className="rounded-lg bg-muted/50 border border-border px-4 py-3 text-xs space-y-1 text-muted-foreground">
+                            <div><span className="font-semibold text-foreground">File:</span> {file?.name}</div>
+                            <div><span className="font-semibold text-foreground">SOP:</span> {sopNumber} — {title}</div>
+                            <div><span className="font-semibold text-foreground">Type:</span> {type === 'new' ? 'New SOP' : 'Update to existing'}</div>
                         </div>
 
                         <div className="flex justify-between">

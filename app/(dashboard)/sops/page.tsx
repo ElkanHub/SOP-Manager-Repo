@@ -43,13 +43,13 @@ export default function SopsPage() {
     return (
         <div className="flex flex-col h-full min-h-0">
             {/* Page Header */}
-            <div className="flex items-center gap-3 border-b border-slate-200 bg-white px-6 py-4 shrink-0">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-navy text-white">
+            <div className="flex items-center gap-3 border-b border-border bg-card px-6 py-4 shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                     <BookOpen className="h-4 w-4" />
                 </div>
                 <div>
-                    <h1 className="text-lg font-bold text-brand-navy">SOP Library</h1>
-                    <p className="text-xs text-slate-500">Standard Operating Procedures</p>
+                    <h1 className="text-lg font-bold text-foreground">SOP Library</h1>
+                    <p className="text-xs text-muted-foreground">Standard Operating Procedures</p>
                 </div>
                 <Button
                     size="sm"

@@ -145,10 +145,10 @@ export function SignaturePad({ onSave, onCancel }: SignaturePadProps) {
 
     return (
         <div className="space-y-4">
-            <div className="rounded-xl border border-slate-200 bg-white p-1">
-                <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50/50 p-4">
+            <div className="rounded-xl border border-border bg-card p-1">
+                <div className="flex items-center justify-between border-b border-border bg-muted/50 p-4">
                     <div className="flex flex-wrap items-center gap-4 w-full">
-                        <div className="flex items-center gap-2 text-brand-navy font-medium">
+                        <div className="flex items-center gap-2 text-foreground font-medium">
                             <PenTool className="h-4 w-4 text-brand-teal" />
                             Draw your signature
                         </div>
@@ -183,7 +183,7 @@ export function SignaturePad({ onSave, onCancel }: SignaturePadProps) {
                             <Button
                                 variant="ghost"
                                 size="sm"
-                                className="h-8 text-xs text-slate-500"
+                                className="h-8 text-xs text-muted-foreground"
                                 onClick={clearCanvas}
                                 disabled={saving || awaitingMobile}
                             >
@@ -194,7 +194,7 @@ export function SignaturePad({ onSave, onCancel }: SignaturePadProps) {
                     </div>
                 </div>
 
-                <div className="w-full bg-white relative">
+                <div className="w-full bg-white relative rounded-b-lg overflow-hidden">
                     <SignatureCanvas
                         ref={sigCanvas}
                         penColor="#0D2B55"
@@ -232,7 +232,7 @@ export function SignaturePad({ onSave, onCancel }: SignaturePadProps) {
             }}>
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
-                        <DialogTitle className="flex items-center gap-2 text-brand-navy">
+                        <DialogTitle className="flex items-center gap-2 text-foreground">
                             <Smartphone className="h-5 w-5 text-brand-teal" />
                             Sign on your Phone
                         </DialogTitle>
@@ -241,13 +241,13 @@ export function SignaturePad({ onSave, onCancel }: SignaturePadProps) {
                         </DialogDescription>
                     </DialogHeader>
 
-                    <div className="flex flex-col items-center justify-center space-y-6 py-6 border rounded-xl border-dashed border-slate-200 bg-slate-50 mt-4">
+                    <div className="flex flex-col items-center justify-center space-y-6 py-6 border rounded-xl border-dashed border-border bg-muted/50 mt-4">
                         {mobileToken && mobileUrl ? (
                             <>
                                 <div className="rounded-lg bg-white p-4 shadow-sm">
                                     <QRCode value={`${mobileUrl}/m/${mobileToken}`} size={200} fgColor="#0D2B55" />
                                 </div>
-                                <div className="flex flex-col items-center gap-2 text-sm text-slate-500">
+                                <div className="flex flex-col items-center gap-2 text-sm text-muted-foreground">
                                     <Loader2 className="h-5 w-5 animate-spin text-brand-teal" />
                                     <span>Waiting for you to sign on your phone...</span>
                                 </div>
