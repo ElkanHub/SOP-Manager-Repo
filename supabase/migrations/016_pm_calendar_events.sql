@@ -24,15 +24,15 @@ BEGIN
         RETURNING id INTO new_task_id;
 
       -- Auto-populate calendar with this PM event
-      INSERT INTO events (title, event_date, event_type, dept_id, metadata)
+      INSERT INTO events (title, start_date, event_type, dept_id, equipment_id, visibility)
         VALUES (
           'PM Due: ' || eq_record.name,
           new_due_date,
           'pm_auto',
           eq_record.dept_id,
-          jsonb_build_object('equipment_id', eq_record.id, 'pm_task_id', new_task_id)
-        )
-        ON CONFLICT DO NOTHING;
+          eq_record.id,
+          'dept'
+        );
     END IF;
   END IF;
 
