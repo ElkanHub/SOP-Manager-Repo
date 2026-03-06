@@ -28,11 +28,21 @@ interface NoticeComposerProps {
     onOpenChange: (open: boolean) => void
 }
 
+interface Department {
+    id: string
+    name: string
+}
+
 export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
     const [audience, setAudience] = useState<Audience>('everyone')
     const [subject, setSubject] = useState('')
     const [message, setMessage] = useState('')
     const [submitting, setSubmitting] = useState(false)
+
+    // Department state
+    const [departments, setDepartments] = useState<Department[]>([])
+    const [selectedDeptId, setSelectedDeptId] = useState<string>('')
+    const [loadingDepts, setLoadingDepts] = useState(false)
 
     // Individuals state
     const [allUsers, setAllUsers] = useState<Profile[]>([])
@@ -47,12 +57,21 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
         setSubject('')
         setMessage('')
         setSelectedIds(new Set())
+        setSelectedDeptId('')
         setSearch('')
     }
 
+    const loadDepartments = useCallback(async () => {
+        if (departments.length > 0) return
+        setLoadingDepts(true)
+        const { data } = await supabase.from('departments').select('id, name').order('name')
+        setDepartments((data ?? []) as Department[])
+        setLoadingDepts(false)
+    }, [departments.length])
+
     // Load users when Individuals is selected
     const loadUsers = useCallback(async () => {
-        if (allUsers.length > 0) return // cached
+        if (allUsers.length > 0) return
         setLoadingUsers(true)
         const { data } = await supabase
             .from('profiles')
@@ -64,7 +83,8 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
 
     useEffect(() => {
         if (audience === 'individuals') loadUsers()
-    }, [audience, loadUsers])
+        if (audience === 'department') loadDepartments()
+    }, [audience, loadUsers, loadDepartments])
 
     const toggleUser = (id: string) => {
         setSelectedIds((prev) => {
@@ -87,6 +107,10 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
             toast.error('Please select at least one recipient')
             return
         }
+        if (audience === 'department' && !selectedDeptId) {
+            toast.error('Please select a department')
+            return
+        }
 
         setSubmitting(true)
         try {
@@ -95,9 +119,7 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
 
             let deptId: string | null = null
             if (audience === 'department') {
-                const { data: profile } = await supabase
-                    .from('profiles').select('dept_id').eq('id', user.id).single()
-                deptId = profile?.dept_id ?? null
+                deptId = selectedDeptId || null
             }
 
             const { data: notice, error } = await supabase
@@ -155,7 +177,7 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
 
     const audienceOptions: { value: Audience; label: string; icon: React.ReactNode }[] = [
         { value: 'everyone', label: 'Everyone', icon: <Users className="h-4 w-4" /> },
-        { value: 'department', label: 'My Dept', icon: <Building2 className="h-4 w-4" /> },
+        { value: 'department', label: 'Department', icon: <Building2 className="h-4 w-4" /> },
         { value: 'individuals', label: 'Individuals', icon: <User className="h-4 w-4" /> },
     ]
 
@@ -192,6 +214,37 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
                             ))}
                         </div>
                     </div>
+
+                    {/* Department picker */}
+                    {audience === 'department' && (
+                        <div className="space-y-1.5">
+                            <Label>Select Department</Label>
+                            {loadingDepts ? (
+                                <div className="flex items-center gap-2 text-xs text-slate-400 py-2">
+                                    <Loader2 className="h-3.5 w-3.5 animate-spin" /> Loading departments...
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-2 gap-2">
+                                    {departments.map((d) => (
+                                        <button
+                                            key={d.id}
+                                            onClick={() => setSelectedDeptId(d.id)}
+                                            className={cn(
+                                                'flex items-center gap-2 rounded-lg border px-3 py-2.5 text-left text-xs font-medium transition-all',
+                                                selectedDeptId === d.id
+                                                    ? 'border-brand-teal bg-teal-50 text-brand-navy'
+                                                    : 'border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50'
+                                            )}
+                                        >
+                                            <Building2 className="h-3.5 w-3.5 shrink-0 text-slate-400" />
+                                            <span className="truncate">{d.name}</span>
+                                            {selectedDeptId === d.id && <Check className="ml-auto h-3.5 w-3.5 text-brand-teal shrink-0" />}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
 
                     {/* Individuals people-picker */}
                     {audience === 'individuals' && (
@@ -327,7 +380,7 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
                     <Button variant="ghost" onClick={() => { reset(); onOpenChange(false) }} disabled={submitting}>Cancel</Button>
                     <Button
                         onClick={handleSend}
-                        disabled={submitting || !subject || !message || (audience === 'individuals' && selectedIds.size === 0)}
+                        disabled={submitting || !subject || !message || (audience === 'individuals' && selectedIds.size === 0) || (audience === 'department' && !selectedDeptId)}
                         className="bg-brand-teal text-white hover:bg-teal-700 min-w-[120px]"
                     >
                         {submitting ? <Loader2 className="animate-spin h-4 w-4" /> : <>
