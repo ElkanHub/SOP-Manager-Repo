@@ -69,12 +69,6 @@ export default async function DashboardPage() {
 
     return (
         <div className="flex-1 space-y-6 animate-in fade-in duration-500 max-w-7xl mx-auto">
-            {/* <div className="flex items-end justify-between border-b border-slate-200 pb-4">
-                <div>
-                    <h2 className="text-3xl font-bold tracking-tight text-brand-navy">Dashboard</h2>
-                    <p className="text-sm font-medium text-slate-500 mt-1">{scopeLabel}</p>
-                </div>
-            </div> */}
             {/* Page Header */}
             <div className="flex items-center gap-3 border-b border-border bg-card px-6 py-4 shrink-0">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">

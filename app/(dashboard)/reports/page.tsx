@@ -147,20 +147,20 @@ export default function ReportsPage() {
     const TableHeaders = data.length > 0 ? Object.keys(data[0]) : []
 
     return (
-        <div className="flex flex-col h-full bg-slate-50 overflow-hidden">
+        <div className="flex flex-col h-full bg-background overflow-hidden">
             {/* Header */}
-            <div className="flex items-center gap-3 border-b border-slate-200 bg-white px-6 py-4 shrink-0">
+            <div className="flex items-center gap-3 border-b border-border bg-card px-6 py-4 shrink-0">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-navy text-white">
                     <FileText className="h-4 w-4" />
                 </div>
                 <div>
-                    <h1 className="text-lg font-bold text-brand-navy">Reports & Analytics</h1>
-                    <p className="text-xs text-slate-500">Query, export, and analyze operational data</p>
+                    <h1 className="text-lg font-bold text-foreground">Reports & Analytics</h1>
+                    <p className="text-xs text-muted-foreground">Query, export, and analyze operational data</p>
                 </div>
             </div>
 
             {/* Tab Bar */}
-            <div className="border-b border-slate-200 bg-white px-6 shrink-0 flex gap-4 overflow-x-auto">
+            <div className="border-b border-border bg-card px-6 shrink-0 flex gap-4 overflow-x-auto">
                 {tabs.map(tab => {
                     const Icon = tab.icon
                     const isAi = tab.id === 'ai'
@@ -171,8 +171,8 @@ export default function ReportsPage() {
                             className={cn(
                                 "flex items-center gap-2 py-3 text-sm font-semibold border-b-2 whitespace-nowrap transition-colors",
                                 activeTab === tab.id
-                                    ? isAi ? "border-purple-500 text-purple-700" : "border-brand-navy text-brand-navy"
-                                    : "border-transparent text-slate-500 hover:text-slate-700"
+                                    ? isAi ? "border-purple-500 text-purple-700 dark:text-purple-400" : "border-brand-teal text-brand-teal"
+                                    : "border-transparent text-muted-foreground hover:text-foreground"
                             )}
                         >
                             <Icon className="h-4 w-4" />
@@ -201,35 +201,35 @@ export default function ReportsPage() {
                             <AiRiskCard deptId={deptId} />
                         </div>
                     ) : (
-                        <div className="rounded-xl border border-slate-200 bg-white shadow-sm h-full flex flex-col">
+                        <div className="rounded-xl border border-border bg-card shadow-sm h-full flex flex-col">
                             {loading ? (
                                 <div className="flex-1 flex flex-col items-center justify-center">
                                     <div className="h-6 w-6 border-2 border-brand-teal border-t-transparent rounded-full animate-spin mb-4" />
-                                    <p className="text-sm font-medium text-slate-500">Compiling report...</p>
+                                    <p className="text-sm font-medium text-muted-foreground">Compiling report...</p>
                                 </div>
                             ) : data.length === 0 ? (
                                 <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
-                                    <div className="h-12 w-12 rounded-full bg-slate-100 flex items-center justify-center mb-4">
-                                        <FileText className="h-6 w-6 text-slate-400" />
+                                    <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-4">
+                                        <FileText className="h-6 w-6 text-muted-foreground" />
                                     </div>
-                                    <h3 className="text-sm font-bold text-slate-700">No Data Found</h3>
-                                    <p className="text-sm text-slate-500 max-w-sm mt-1">Try adjusting the department or date filters above to widen your search.</p>
+                                    <h3 className="text-sm font-bold text-foreground">No Data Found</h3>
+                                    <p className="text-sm text-muted-foreground max-w-sm mt-1">Try adjusting the department or date filters above to widen your search.</p>
                                 </div>
                             ) : (
                                 <div className="flex-1 min-h-0 overflow-auto">
                                     <table className="w-full text-left border-collapse text-sm">
-                                        <thead className="bg-slate-50 sticky top-0 z-10 shadow-[0_1px_0_hsl(var(--slate-200))]">
+                                        <thead className="bg-muted/50 sticky top-0 z-10 shadow-[0_1px_0_hsl(var(--border))]">
                                             <tr>
                                                 {TableHeaders.map(th => (
-                                                    <th key={th} className="px-5 py-3 font-semibold text-slate-600 whitespace-nowrap">{th}</th>
+                                                    <th key={th} className="px-5 py-3 font-semibold text-muted-foreground whitespace-nowrap">{th}</th>
                                                 ))}
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-slate-100">
+                                        <tbody className="divide-y divide-border">
                                             {data.map((row, i) => (
-                                                <tr key={i} className="hover:bg-slate-50/50 transition-colors">
+                                                <tr key={i} className="hover:bg-muted/50 transition-colors">
                                                     {TableHeaders.map(th => (
-                                                        <td key={th + i} className="px-5 py-3 text-slate-700">{row[th]}</td>
+                                                        <td key={th + i} className="px-5 py-3 text-foreground">{row[th]}</td>
                                                     ))}
                                                 </tr>
                                             ))}
@@ -237,7 +237,7 @@ export default function ReportsPage() {
                                     </table>
                                 </div>
                             )}
-                            <div className="border-t border-slate-200 bg-slate-50 px-5 py-3 text-xs font-semibold text-slate-500 shrink-0">
+                            <div className="border-t border-border bg-muted/50 px-5 py-3 text-xs font-semibold text-muted-foreground shrink-0">
                                 {data.length} row{data.length !== 1 ? 's' : ''} returned
                             </div>
                         </div>
