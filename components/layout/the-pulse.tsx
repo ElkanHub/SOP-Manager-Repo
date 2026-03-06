@@ -6,7 +6,9 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
-// import { usePulse } from "@/hooks/use-pulse"
+import { usePulse } from "@/hooks/use-pulse"
+import { formatDistanceToNow } from "date-fns"
+import Link from "next/link"
 
 function PulseSection({ title, icon: Icon, defaultOpen = true, children, count = 0 }: any) {
     const [isOpen, setIsOpen] = useState(defaultOpen)
@@ -39,9 +41,7 @@ function PulseSection({ title, icon: Icon, defaultOpen = true, children, count =
 }
 
 export function ThePulse() {
-    // Static state for Phase 3 - Realtime hook will be imported later
-    // const { connected } = usePulse()
-    const connected = true
+    const { connected, priorityApprovals, isQaOrAdmin } = usePulse()
 
     return (
         <aside className="fixed right-0 top-12 bottom-0 w-[300px] border-l border-slate-200 bg-slate-50 flex flex-col hidden md:flex z-40 transform transition-transform duration-300">
@@ -56,49 +56,44 @@ export function ThePulse() {
             </div>
 
             <ScrollArea className="flex-1 p-4">
-                <PulseSection title="Priority Approvals" icon={PenTool} count={2}>
-                    {/* Dummy content */}
-                    <div className="rounded-lg border border-red-100 bg-white p-3 shadow-sm cursor-pointer hover:border-red-200 transition-colors">
-                        <div className="flex items-start gap-2">
-                            <div className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]" />
-                            <div>
-                                <p className="text-xs font-semibold text-brand-navy leading-snug">SOP-042 Revision</p>
-                                <p className="text-[10px] text-slate-500 mt-1">Pending QA Approval • 2h ago</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="rounded-lg border border-red-100 bg-white p-3 shadow-sm cursor-pointer hover:border-red-200 transition-colors">
-                        <div className="flex items-start gap-2">
-                            <div className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]" />
-                            <div>
-                                <p className="text-xs font-semibold text-brand-navy leading-snug">New Centrifuge Checklist</p>
-                                <p className="text-[10px] text-slate-500 mt-1">Pending QA Approval • 5h ago</p>
-                            </div>
-                        </div>
-                    </div>
-                </PulseSection>
+                {/* Priority Approvals — QA/Admin only with live data */}
+                {isQaOrAdmin && (
+                    <PulseSection title="Priority Approvals" icon={PenTool} count={priorityApprovals.length}>
+                        {priorityApprovals.length === 0 ? (
+                            <p className="text-xs text-slate-400 py-2 text-center italic">No pending approvals.</p>
+                        ) : (
+                            priorityApprovals.map((a) => (
+                                <Link key={a.id} href={`/qa/approvals/${a.id}`} className="block">
+                                    <div className="rounded-lg border border-red-100 bg-white p-3 shadow-sm cursor-pointer hover:border-red-200 transition-colors">
+                                        <div className="flex items-start gap-2">
+                                            <div className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]" />
+                                            <div className="min-w-0">
+                                                <p className="text-xs font-semibold text-brand-navy leading-snug truncate">
+                                                    {(a.sops as any)?.sop_number} — {(a.sops as any)?.title}
+                                                </p>
+                                                <p className="text-[10px] text-slate-500 mt-1">
+                                                    {a.type === 'new' ? 'New' : 'Update'} by {(a.profiles as any)?.full_name} · {formatDistanceToNow(new Date(a.created_at), { addSuffix: true })}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Link>
+                            ))
+                        )}
+                    </PulseSection>
+                )}
 
-                <PulseSection title="Daily To-Do" icon={CheckCircle2} count={1}>
-                    <div className="rounded-lg border border-amber-100 bg-white p-3 shadow-sm flex items-start gap-2 cursor-pointer hover:border-amber-200 transition-colors">
-                        <input type="checkbox" className="mt-1 shrink-0 accent-brand-teal h-3 w-3 rounded-sm cursor-pointer" />
-                        <div>
-                            <p className="text-xs font-semibold text-brand-navy leading-snug">SOP-019 Acknowledgement</p>
-                            <p className="text-[10px] text-amber-600 font-medium mt-0.5">Due Today</p>
-                        </div>
-                    </div>
+                <PulseSection title="Daily To-Do" icon={CheckCircle2} count={0}>
+                    <p className="text-xs text-slate-400 py-2 text-center italic">No tasks due today.</p>
                 </PulseSection>
 
                 <PulseSection title="Notices" icon={BellRing}>
-                    <div className="rounded-lg border border-blue-100 bg-blue-50/80 p-3 shadow-sm cursor-pointer hover:border-brand-blue/30 transition-colors">
-                        <p className="text-xs font-semibold text-brand-navy leading-snug">All Hands Meeting</p>
-                        <p className="text-[10px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">The monthly safety review will take place in the main hall at 2PM today. Please remember to wear PPE when transiting.</p>
-                    </div>
+                    <p className="text-xs text-slate-400 py-2 text-center italic">No new notices.</p>
                 </PulseSection>
 
                 <PulseSection title="Today's Schedule" icon={CalendarDays} defaultOpen={false}>
                     <p className="text-xs text-slate-500 text-center py-4 italic">No events scheduled.</p>
                 </PulseSection>
-
             </ScrollArea>
 
             <div className="border-t border-slate-200 bg-white p-4">

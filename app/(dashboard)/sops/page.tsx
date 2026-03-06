@@ -5,14 +5,17 @@ import { createClient } from '@/lib/supabase/client'
 import { SopLibraryTable } from '@/components/sops/sop-library-table'
 import { SopTabStrip } from '@/components/sops/sop-tab-strip'
 import { SopViewer } from '@/components/sops/sop-viewer'
+import { SopUploadModal } from '@/components/sops/sop-upload-modal'
 import { useSopTabStore } from '@/stores/useSopTabStore'
 import type { SopRecordWithDept } from '@/types/app.types'
-import { BookOpen } from 'lucide-react'
+import { BookOpen, UploadCloud } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 export default function SopsPage() {
     const [sops, setSops] = useState<SopRecordWithDept[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const [uploadModalOpen, setUploadModalOpen] = useState(false)
     const { activeTabId, openTabs } = useSopTabStore()
     const supabase = createClient()
 
@@ -48,6 +51,14 @@ export default function SopsPage() {
                     <h1 className="text-lg font-bold text-brand-navy">SOP Library</h1>
                     <p className="text-xs text-slate-500">Standard Operating Procedures</p>
                 </div>
+                <Button
+                    size="sm"
+                    className="ml-auto bg-brand-teal hover:bg-teal-700 text-white"
+                    onClick={() => setUploadModalOpen(true)}
+                >
+                    <UploadCloud className="mr-2 h-4 w-4" />
+                    Upload SOP
+                </Button>
             </div>
 
             {/* Tab Strip (visible when tabs open) */}
@@ -67,6 +78,8 @@ export default function SopsPage() {
                     />
                 </div>
             )}
+
+            <SopUploadModal open={uploadModalOpen} onOpenChange={setUploadModalOpen} />
         </div>
     )
 }
