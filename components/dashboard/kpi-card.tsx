@@ -25,7 +25,7 @@ const colorMap: Record<KpiColorScheme, { bg: string; icon: string }> = {
 export function KpiCard({ title, value, suffix = '', icon: Icon, colorScheme, href }: KpiCardProps) {
     const CardContent = (
         <div className={cn(
-            "flex h-full flex-col justify-between rounded-none border border-slate-200 bg-white p-4 shadow-sm transition-all",
+            "flex h-full flex-col justify-between rounded-t-none rounded-b-lg border border-slate-200 bg-white p-4 shadow-none transition-all",
             href && "hover:border-slate-300 hover:shadow-md cursor-pointer"
         )}>
             <div className="flex items-center justify-between">
