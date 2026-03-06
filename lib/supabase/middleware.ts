@@ -39,15 +39,46 @@ export const updateSession = async (request: NextRequest) => {
     } = await supabase.auth.getUser()
 
     // protected routes logic
-    if (
-        !user &&
-        !request.nextUrl.pathname.startsWith('/login') &&
-        !request.nextUrl.pathname.startsWith('/signup') &&
-        !request.nextUrl.pathname.startsWith('/auth')
-    ) {
+    const isAuthPage = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/signup') || request.nextUrl.pathname.startsWith('/auth')
+
+    // 1. If not logged in and not on an auth page, redirect to login
+    if (!user && !isAuthPage) {
         const url = request.nextUrl.clone()
         url.pathname = '/login'
         return NextResponse.redirect(url)
+    }
+
+    // 2. If logged in, check profile for onboarding status
+    if (user) {
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('onboarding_complete')
+            .eq('id', user.id)
+            .single()
+
+        const isOnboardingComplete = profile?.onboarding_complete === true
+        const isOnboardingPage = request.nextUrl.pathname.startsWith('/onboarding')
+
+        // 2a. Logged in, auth page -> redirect to dashboard (or onboarding if incomplete)
+        if (isAuthPage) {
+            const url = request.nextUrl.clone()
+            url.pathname = isOnboardingComplete ? '/dashboard' : '/onboarding'
+            return NextResponse.redirect(url)
+        }
+
+        // 2b. Logged in, not on auth page, onboarding INCOMPLETE, NOT on onboarding page -> redirect to onboarding
+        if (!isOnboardingComplete && !isOnboardingPage && !isAuthPage) {
+            const url = request.nextUrl.clone()
+            url.pathname = '/onboarding'
+            return NextResponse.redirect(url)
+        }
+
+        // 2c. Logged in, onboarding COMPLETE, trying to access onboarding -> redirect to dashboard
+        if (isOnboardingComplete && isOnboardingPage) {
+            const url = request.nextUrl.clone()
+            url.pathname = '/dashboard'
+            return NextResponse.redirect(url)
+        }
     }
 
     return response
