@@ -69,8 +69,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     }, [])
 
     return (
-        <Sidebar collapsible="icon" className="border-r border-slate-200 bg-white" {...props}>
-            <SidebarHeader className="border-b border-slate-100 py-4">
+        <Sidebar collapsible="icon" className="pt-14 border-r border-slate-200 bg-white" {...props}>
+            <SidebarHeader className="border-b border-slate-100 py-1">
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarGroupLabel className="text-xs font-bold tracking-wider text-slate-500 uppercase group-data-[collapsible=icon]:hidden">
