@@ -73,14 +73,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarHeader className="border-b border-slate-100 py-4">
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarGroupLabel className="text-xs font-bold tracking-wider text-slate-500 uppercase">
+                        <SidebarGroupLabel className="text-xs font-bold tracking-wider text-slate-500 uppercase group-data-[collapsible=icon]:hidden">
                             My Department
                         </SidebarGroupLabel>
-                        <SidebarMenuButton size="lg" className="mt-2 bg-slate-50 pointer-events-none w-full justify-start">
+                        <SidebarMenuButton size="lg" className="mt-2 bg-slate-50 pointer-events-none w-full justify-start group-data-[collapsible=icon]:justify-center">
                             <div className="flex h-8 w-8 items-center justify-center rounded-md bg-brand-navy text-white shrink-0">
-                                <Building2 className="h-4 w-4" />
+                                <Building2 className="h-4 w-4 shrink-0" />
                             </div>
-                            <div className="flex flex-col gap-0.5 leading-none px-2 truncate">
+                            <div className="flex flex-col gap-0.5 leading-none px-2 truncate group-data-[collapsible=icon]:hidden">
                                 <span className="font-semibold text-brand-navy truncate">{department?.name || 'Loading...'}</span>
                                 <span className="text-xs text-slate-500 truncate">Active Workspace</span>
                             </div>
@@ -160,14 +160,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </SidebarMenuItem>
 
                     {/* User Profile Block */}
-                    <SidebarMenuItem className="mt-2 pt-4 border-t border-slate-100 group-data-[collapsible=icon]:hidden flex items-center gap-3">
-                        <Avatar className="h-10 w-10 border border-slate-200 shrink-0">
+                    <SidebarMenuItem className="mt-2 pt-4 border-t border-slate-100 flex items-center justify-center gap-3">
+                        <Avatar className="h-8 w-8 border border-slate-200 shrink-0">
                             <AvatarImage src={profile?.avatar_url || ''} alt="Avatar" />
                             <AvatarFallback className="bg-brand-navy text-xs text-white">
                                 {profile?.full_name?.charAt(0) || 'U'}
                             </AvatarFallback>
                         </Avatar>
-                        <div className="flex flex-col overflow-hidden leading-tight">
+                        <div className="flex flex-col overflow-hidden leading-tight flex-1 group-data-[collapsible=icon]:hidden">
                             <span className="text-sm font-semibold text-brand-navy truncate">
                                 {profile?.full_name || 'Loading...'}
                             </span>
