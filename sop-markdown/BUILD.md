@@ -58,6 +58,7 @@ These rules apply to every single phase. No exceptions.
 - Loading, empty, and error states are required for every data-fetching component. Not optional.
 
 ### Git Discipline
+- Leave all comits after each phase for the developer to review and push.
 - One commit per phase minimum. Commit message format: `phase-[N]: [short description]`
 - Never commit `.env` files. Use `.env.local` and ensure it is in `.gitignore`.
 
