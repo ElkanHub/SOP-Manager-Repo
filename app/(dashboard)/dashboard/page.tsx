@@ -68,54 +68,66 @@ export default async function DashboardPage() {
     const compliance = typeof complianceResult === 'number' ? complianceResult : 100
 
     return (
-        <div className="flex-1 space-y-6 p-8 pt-6 animate-in fade-in duration-500 max-w-7xl mx-auto">
-            <div className="flex items-end justify-between border-b border-slate-200 pb-4">
+        <div className="flex-1 space-y-6 animate-in fade-in duration-500 max-w-7xl mx-auto">
+            {/* <div className="flex items-end justify-between border-b border-slate-200 pb-4">
                 <div>
                     <h2 className="text-3xl font-bold tracking-tight text-brand-navy">Dashboard</h2>
                     <p className="text-sm font-medium text-slate-500 mt-1">{scopeLabel}</p>
                 </div>
-            </div>
-
-            {/* KPI Row */}
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <KpiCard
-                    title="Active SOPs"
-                    value={activeSops || 0}
-                    icon={FileText}
-                    colorScheme="blue"
-                    href="/sop-library"
-                />
-                <KpiCard
-                    title="Needs Revision"
-                    value={dueSops || 0}
-                    icon={FileWarning}
-                    colorScheme={dueSops && dueSops > 0 ? "amber" : "slate"}
-                    href="/sop-library?filter=due"
-                />
-                <KpiCard
-                    title="Pending Approvals"
-                    value={pendingApprovals || 0}
-                    icon={AlertCircle}
-                    colorScheme={pendingApprovals && pendingApprovals > 0 ? "red" : "slate"}
-                    href="/qa/approvals"
-                />
-                <KpiCard
-                    title="PM Compliance"
-                    value={compliance}
-                    suffix="%"
-                    icon={CalendarCheck}
-                    colorScheme={compliance >= 95 ? "green" : compliance >= 80 ? "amber" : "red"}
-                    href="/equipment"
-                />
-            </div>
-
-            {/* Bottom row: Feed + PMs */}
-            <div className="grid gap-6 md:grid-cols-7">
-                <div className="md:col-span-4">
-                    <ActivityFeed initialData={rawFeed as any} deptId={deptId} />
+            </div> */}
+            {/* Page Header */}
+            <div className="flex items-center gap-3 border-b border-border bg-card px-6 py-4 shrink-0">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                    <FileText className="h-4 w-4" />
                 </div>
-                <div className="md:col-span-3">
-                    <UpcomingPmList tasks={rawPms as any} />
+                <div>
+                    <h1 className="text-lg font-bold text-foreground">Dashboard</h1>
+                    <p className="text-xs text-muted-foreground">{scopeLabel}</p>
+                </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-6 space-y-6">
+                {/* KPI Row */}
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    <KpiCard
+                        title="Active SOPs"
+                        value={activeSops || 0}
+                        icon={FileText}
+                        colorScheme="blue"
+                        href="/sop-library"
+                    />
+                    <KpiCard
+                        title="Needs Revision"
+                        value={dueSops || 0}
+                        icon={FileWarning}
+                        colorScheme={dueSops && dueSops > 0 ? "amber" : "slate"}
+                        href="/sop-library?filter=due"
+                    />
+                    <KpiCard
+                        title="Pending Approvals"
+                        value={pendingApprovals || 0}
+                        icon={AlertCircle}
+                        colorScheme={pendingApprovals && pendingApprovals > 0 ? "red" : "slate"}
+                        href="/qa/approvals"
+                    />
+                    <KpiCard
+                        title="PM Compliance"
+                        value={compliance}
+                        suffix="%"
+                        icon={CalendarCheck}
+                        colorScheme={compliance >= 95 ? "green" : compliance >= 80 ? "amber" : "red"}
+                        href="/equipment"
+                    />
+                </div>
+
+                {/* Bottom row: Feed + PMs */}
+                <div className="grid gap-6 md:grid-cols-7">
+                    <div className="md:col-span-4">
+                        <ActivityFeed initialData={rawFeed as any} deptId={deptId} />
+                    </div>
+                    <div className="md:col-span-3">
+                        <UpcomingPmList tasks={rawPms as any} />
+                    </div>
                 </div>
             </div>
         </div>
