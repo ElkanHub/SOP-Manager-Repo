@@ -41,6 +41,22 @@ export interface SopRecord {
     updated_at: string
 }
 
+export interface SopRecordWithDept extends SopRecord {
+    departments?: {
+        name: string
+        color?: string
+    }
+    profiles?: {
+        full_name: string
+    }
+}
+
+export interface SopTab {
+    id: string
+    sop_number: string
+    title: string
+}
+
 export interface SopVersion {
     id: string
     sop_id: string
