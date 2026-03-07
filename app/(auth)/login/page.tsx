@@ -41,7 +41,7 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex min-h-svh w-full lg:grid lg:grid-cols-2">
+        <div className="flex min-h-svh w-full lg:grid lg:grid-cols-2 bg-background">
             {/* Left Panel: Branding */}
             <div className="hidden bg-brand-navy lg:block">
                 <div className="flex h-full flex-col justify-between p-12 text-white">
@@ -73,18 +73,18 @@ export default function LoginPage() {
                         </div>
                     </div>
 
-                    <div className="text-sm text-slate-400">
+                    <div className="text-sm text-slate-400 dark:text-slate-500">
                         © {new Date().getFullYear()} SOP-Guard Pro. Enterprise Edition.
                     </div>
                 </div>
             </div>
 
             {/* Right Panel: Form */}
-            <div className="flex flex-col items-center justify-center bg-slate-50 p-6 md:p-10">
-                <div className="w-full max-w-[420px] rounded-lg bg-white p-8 shadow-md">
+            <div className="flex flex-col items-center justify-center bg-muted/30 p-6 md:p-10">
+                <div className="w-full max-w-[420px] rounded-lg bg-card border border-border p-8 shadow-md">
                     <div className="mb-8 flex flex-col items-center gap-2 text-center">
-                        <h1 className="text-2xl font-bold text-brand-navy">Welcome back</h1>
-                        <p className="text-sm text-slate-500">
+                        <h1 className="text-2xl font-bold text-foreground">Welcome back</h1>
+                        <p className="text-sm text-muted-foreground">
                             Sign in to your account to continue
                         </p>
                     </div>
@@ -134,9 +134,9 @@ export default function LoginPage() {
                         </Button>
                     </form>
 
-                    <div className="mt-6 text-center text-sm text-slate-500">
+                    <div className="mt-6 text-center text-sm text-muted-foreground">
                         Don&apos;t have an account?{' '}
-                        <Link href="/signup" className="text-brand-blue font-medium hover:underline">
+                        <Link href="/signup" className="text-brand-blue font-medium hover:underline dark:text-blue-400">
                             Create your account
                         </Link>
                     </div>

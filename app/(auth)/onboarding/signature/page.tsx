@@ -153,16 +153,16 @@ export default function OnboardingSignature() {
     return (
         <div className="flex flex-col space-y-6 animate-in fade-in slide-in-from-right-8 duration-500">
             <div className="space-y-2 text-center md:text-left">
-                <h2 className="text-h2 font-bold text-brand-navy">Digital Signature</h2>
-                <p className="text-slate-500">
+                <h2 className="text-h2 font-bold text-foreground">Digital Signature</h2>
+                <p className="text-muted-foreground">
                     This will be legally binding for all SOP acknowledgements and workflows.
                 </p>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-white p-1">
-                <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50/50 p-4">
+            <div className="rounded-xl border border-border bg-card p-1">
+                <div className="flex items-center justify-between border-b border-border bg-muted/50 p-4">
                     <div className="flex flex-wrap items-center gap-4 w-full">
-                        <div className="flex items-center gap-2 text-brand-navy font-medium">
+                        <div className="flex items-center gap-2 text-foreground font-medium">
                             <PenTool className="h-4 w-4 text-brand-teal" />
                             Draw your signature
                         </div>
@@ -197,7 +197,7 @@ export default function OnboardingSignature() {
                             <Button
                                 variant="ghost"
                                 size="sm"
-                                className="h-8 text-xs text-slate-500"
+                                className="h-8 text-xs text-muted-foreground"
                                 onClick={clearCanvas}
                                 disabled={saving || awaitingMobile}
                             >
@@ -208,17 +208,17 @@ export default function OnboardingSignature() {
                     </div>
                 </div>
 
-                <div className="w-full bg-white relative">
+                <div className="w-full bg-card relative rounded-b-lg overflow-hidden">
                     <SignatureCanvas
                         ref={sigCanvas}
-                        penColor="#0D2B55"
+                        penColor="currentColor"
                         canvasProps={{
-                            className: "w-full h-64 sm:h-80 cursor-crosshair rounded-b-lg",
+                            className: "w-full h-64 sm:h-80 cursor-crosshair",
                             style: { touchAction: 'none' }
                         }}
                     />
-                    <div className="absolute bottom-[20%] left-[10%] right-[10%] h-px bg-slate-200 pointer-events-none" />
-                    <div className="absolute bottom-[20%] left-[10%] transform translate-y-4 text-xs font-mono text-slate-400 pointer-events-none">
+                    <div className="absolute bottom-[20%] left-[10%] right-[10%] h-px bg-border pointer-events-none" />
+                    <div className="absolute bottom-[20%] left-[10%] transform translate-y-4 text-xs font-mono text-muted-foreground pointer-events-none">
                         Sign on the line
                     </div>
                 </div>
@@ -261,7 +261,7 @@ export default function OnboardingSignature() {
             >
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
-                        <DialogTitle className="flex items-center gap-2 text-brand-navy">
+                        <DialogTitle className="flex items-center gap-2 text-foreground">
                             <Smartphone className="h-5 w-5 text-brand-teal" />
                             Sign on your Phone
                         </DialogTitle>
@@ -270,7 +270,7 @@ export default function OnboardingSignature() {
                         </DialogDescription>
                     </DialogHeader>
 
-                    <div className="flex flex-col items-center justify-center space-y-6 py-6 border rounded-xl border-dashed border-slate-200 bg-slate-50 mt-4">
+                    <div className="flex flex-col items-center justify-center space-y-6 py-6 border rounded-xl border-dashed border-border bg-muted/30 mt-4">
                         {mobileToken && mobileUrl ? (
                             <>
                                 <div className="rounded-lg bg-white p-4 shadow-sm">
@@ -280,7 +280,7 @@ export default function OnboardingSignature() {
                                         fgColor="#0D2B55"
                                     />
                                 </div>
-                                <div className="flex flex-col items-center gap-2 text-sm text-slate-500">
+                                <div className="flex flex-col items-center gap-2 text-sm text-muted-foreground">
                                     <Loader2 className="h-5 w-5 animate-spin text-brand-teal" />
                                     <span>Waiting for you to sign on your phone...</span>
                                 </div>

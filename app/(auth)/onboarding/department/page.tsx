@@ -62,8 +62,8 @@ export default function OnboardingDepartment() {
     return (
         <div className="flex flex-col space-y-6 animate-in fade-in slide-in-from-right-8 duration-500">
             <div className="space-y-2 text-center md:text-left">
-                <h2 className="text-h2 font-bold text-brand-navy">Select your department</h2>
-                <p className="text-slate-500">
+                <h2 className="text-h2 font-bold text-foreground">Select your department</h2>
+                <p className="text-muted-foreground">
                     This determines which SOPs are relevant to you and your approval workflows.
                 </p>
             </div>
@@ -82,10 +82,10 @@ export default function OnboardingDepartment() {
                                     key={dept.id}
                                     onClick={() => setSelectedId(dept.id)}
                                     className={cn(
-                                        "flex flex-col items-start gap-4 rounded-xl border-2 p-4 text-left transition-all hover:bg-slate-50",
+                                        "flex flex-col items-start gap-4 rounded-xl border-2 p-4 text-left transition-all hover:bg-muted/50",
                                         isSelected
-                                            ? "border-brand-teal bg-teal-50/50 shadow-sm ring-1 ring-brand-teal"
-                                            : "border-slate-200"
+                                            ? "border-brand-teal bg-brand-teal/10 shadow-sm ring-1 ring-brand-teal"
+                                            : "border-border bg-card"
                                     )}
                                 >
                                     <div className="flex w-full items-center justify-between">
@@ -102,7 +102,7 @@ export default function OnboardingDepartment() {
                                             <Check className="h-5 w-5 text-brand-teal" />
                                         )}
                                     </div>
-                                    <span className="font-semibold text-brand-navy">{dept.name}</span>
+                                    <span className="font-semibold text-foreground">{dept.name}</span>
                                 </button>
                             )
                         })}

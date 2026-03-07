@@ -38,8 +38,8 @@ export default function OnboardingRole() {
     return (
         <div className="flex flex-col space-y-6 animate-in fade-in slide-in-from-right-8 duration-500">
             <div className="space-y-2 text-center md:text-left">
-                <h2 className="text-h2 font-bold text-brand-navy">What is your role?</h2>
-                <p className="text-slate-500">
+                <h2 className="text-h2 font-bold text-foreground">What is your role?</h2>
+                <p className="text-muted-foreground">
                     This controls your permission level within your department.
                 </p>
             </div>
@@ -49,10 +49,10 @@ export default function OnboardingRole() {
                 <button
                     onClick={() => setSelectedRole('worker')}
                     className={cn(
-                        "relative flex flex-col items-center gap-4 rounded-2xl border-2 p-8 text-center transition-all hover:border-brand-blue hover:bg-blue-50/50",
+                        "relative flex flex-col items-center gap-4 rounded-2xl border-2 p-8 text-center transition-all hover:border-brand-blue hover:bg-brand-blue/10",
                         selectedRole === 'worker'
-                            ? "border-brand-blue bg-blue-50 shadow-md ring-1 ring-brand-blue"
-                            : "border-slate-200 bg-white"
+                            ? "border-brand-blue bg-brand-blue/5 shadow-md ring-1 ring-brand-blue"
+                            : "border-border bg-card"
                     )}
                 >
                     {selectedRole === 'worker' && (
@@ -64,8 +64,8 @@ export default function OnboardingRole() {
                         <Users className="h-8 w-8" />
                     </div>
                     <div className="space-y-2">
-                        <h3 className="text-xl font-bold text-brand-navy">Employee</h3>
-                        <p className="text-sm text-slate-500">
+                        <h3 className="text-xl font-bold text-foreground">Employee</h3>
+                        <p className="text-sm text-muted-foreground">
                             I need to read active SOPs, acknowledge updates, and perform assigned tasks.
                         </p>
                     </div>
@@ -75,10 +75,10 @@ export default function OnboardingRole() {
                 <button
                     onClick={() => setSelectedRole('manager')}
                     className={cn(
-                        "relative flex flex-col items-center gap-4 rounded-2xl border-2 p-8 text-center transition-all hover:border-brand-teal hover:bg-teal-50/50",
+                        "relative flex flex-col items-center gap-4 rounded-2xl border-2 p-8 text-center transition-all hover:border-brand-teal hover:bg-brand-teal/10",
                         selectedRole === 'manager'
-                            ? "border-brand-teal bg-teal-50 shadow-md ring-1 ring-brand-teal"
-                            : "border-slate-200 bg-white"
+                            ? "border-brand-teal bg-brand-teal/5 shadow-md ring-1 ring-brand-teal"
+                            : "border-border bg-card"
                     )}
                 >
                     {selectedRole === 'manager' && (
@@ -90,8 +90,8 @@ export default function OnboardingRole() {
                         <ShieldAlert className="h-8 w-8" />
                     </div>
                     <div className="space-y-2">
-                        <h3 className="text-xl font-bold text-brand-navy">Manager</h3>
-                        <p className="text-sm text-slate-500">
+                        <h3 className="text-xl font-bold text-foreground">Manager</h3>
+                        <p className="text-sm text-muted-foreground">
                             I need to create draft SOPs, manage department equipment, and view reporting.
                         </p>
                     </div>

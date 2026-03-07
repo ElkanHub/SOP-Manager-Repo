@@ -102,7 +102,7 @@ export default function OnboardingWelcome() {
 
     return (
         <div className="flex flex-col items-center text-center space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 ring-8 ring-slate-50 dark:bg-muted dark:ring-muted/50">
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 dark:bg-muted ring-8 ring-slate-50 dark:ring-muted/50">
                 <ShieldCheck className="h-10 w-10 text-brand-teal" />
             </div>
 
@@ -117,7 +117,7 @@ export default function OnboardingWelcome() {
 
             <div className="grid gap-4 w-full text-left bg-card p-6 rounded-xl border border-border shadow-sm">
                 <div className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-brand-blue">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-50 dark:bg-blue-500/10 text-brand-blue dark:text-blue-400">
                         <Zap className="h-5 w-5" />
                     </div>
                     <div>
@@ -127,7 +127,7 @@ export default function OnboardingWelcome() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-teal-50 text-brand-teal">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-teal-50 dark:bg-brand-teal/10 text-brand-teal dark:text-teal-400">
                         <FileText className="h-5 w-5" />
                     </div>
                     <div>

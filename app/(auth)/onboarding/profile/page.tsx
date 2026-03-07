@@ -78,8 +78,8 @@ export default function OnboardingProfile() {
     return (
         <div className="flex flex-col space-y-6 animate-in fade-in slide-in-from-right-8 duration-500">
             <div className="space-y-2 text-center md:text-left">
-                <h2 className="text-h2 font-bold text-brand-navy">Profile Details</h2>
-                <p className="text-slate-500">
+                <h2 className="text-h2 font-bold text-foreground">Profile Details</h2>
+                <p className="text-muted-foreground">
                     Almost done. Add your specific job details and an optional photo.
                 </p>
             </div>
@@ -87,7 +87,7 @@ export default function OnboardingProfile() {
             <form onSubmit={handleNext} className="space-y-8">
                 {/* Avatar Upload */}
                 <div className="flex flex-col items-center gap-4 py-4 sm:flex-row sm:items-start sm:gap-6">
-                    <div className="relative flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-dashed border-slate-300 bg-slate-50">
+                    <div className="relative flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-dashed border-border bg-muted">
                         {avatarUrl ? (
                             <img src={avatarUrl} alt="Avatar" className="h-full w-full object-cover" />
                         ) : uploading ? (
@@ -98,14 +98,14 @@ export default function OnboardingProfile() {
                     </div>
 
                     <div className="space-y-2 text-center sm:text-left">
-                        <h3 className="font-semibold text-brand-navy">Profile Picture</h3>
-                        <p className="text-sm text-slate-500 max-w-xs">
+                        <h3 className="font-semibold text-foreground">Profile Picture</h3>
+                        <p className="text-sm text-muted-foreground max-w-xs">
                             Upload a recognizable photo. It will appear on your digital signatures.
                         </p>
                         <div className="pt-2">
                             <Label
                                 htmlFor="avatar-upload"
-                                className="inline-flex cursor-pointer items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium text-brand-navy shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50"
+                                className="inline-flex cursor-pointer items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium text-foreground shadow-sm ring-1 ring-inset ring-border hover:bg-muted"
                             >
                                 <UploadCloud className="mr-2 h-4 w-4" />
                                 Upload Photo
@@ -123,7 +123,7 @@ export default function OnboardingProfile() {
                 </div>
 
                 {/* Form Fields */}
-                <div className="space-y-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div className="space-y-4 rounded-xl border border-border bg-card p-6 shadow-sm">
                     <div className="space-y-2">
                         <Label htmlFor="jobTitle">Job Title (Optional)</Label>
                         <Input
