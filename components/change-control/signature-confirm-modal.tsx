@@ -7,8 +7,10 @@ import {
     DialogTitle, DialogDescription,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
-import { Loader2, PenLine, ShieldCheck } from 'lucide-react'
+import { Loader2, PenLine, ShieldCheck, KeyRound } from 'lucide-react'
 
 interface SignatureConfirmModalProps {
     open: boolean
@@ -45,39 +47,38 @@ export function SignatureConfirmModal({
         setLoaded(true)
     }
 
+    const [password, setPassword] = useState('')
+
     const handleSign = async () => {
+        if (!password) {
+            toast.error('Password is required to sign')
+            return
+        }
         setSigning(true)
         try {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (!user) throw new Error('Not authenticated')
             if (!signatureUrl) throw new Error('No signature on file. Please complete onboarding first.')
 
-            // Get IP from our API route
-            let ip = 'unknown'
-            try {
-                const ipRes = await fetch('/api/user/ip')
-                const ipData = await ipRes.json() as { ip: string }
-                ip = ipData.ip
-            } catch {
-                // non-fatal — proceed without IP
-            }
-
-            const { error } = await supabase
-                .from('signature_certificates')
-                .insert({
-                    change_control_id: changeControlId,
-                    user_id: user.id,
-                    signature_url: signatureUrl,
-                    ip_address: ip,
+            const res = await fetch('/api/qa/sign', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    changeControlId,
+                    password,
+                    signatureUrl
                 })
+            })
 
-            if (error) throw error
+            if (!res.ok) {
+                const errData = await res.json()
+                throw new Error(errData.error || 'Failed to sign')
+            }
 
             toast.success('Signature confirmed', {
                 description: `You have signed off on ${sopTitle} v${sopVersion}.`,
             })
             onSigned()
             onOpenChange(false)
+            setPassword('')
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : 'Unknown error'
             toast.error('Signing failed', { description: message })
@@ -126,6 +127,20 @@ export function SignatureConfirmModal({
                 <p className="text-[11px] text-muted-foreground leading-relaxed">
                     By clicking &quot;Confirm &amp; Sign&quot; you are electronically signing this document. Your IP address and timestamp will be recorded.
                 </p>
+
+                <div className="space-y-1.5 pt-2">
+                    <Label htmlFor="signify-password" className="text-xs text-muted-foreground flex items-center gap-1.5">
+                        <KeyRound className="h-3 w-3" /> Re-enter password to verify identity
+                    </Label>
+                    <Input
+                        id="signify-password"
+                        type="password"
+                        placeholder="Your password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        disabled={signing}
+                    />
+                </div>
 
                 <div className="flex gap-2 justify-end">
                     <Button variant="ghost" onClick={() => onOpenChange(false)} disabled={signing}>

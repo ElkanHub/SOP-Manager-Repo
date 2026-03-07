@@ -121,16 +121,19 @@ export function SopUploadModal({ open, onOpenChange, defaultType = 'new', defaul
             const { data: { user } } = await supabase.auth.getUser()
             if (!user) throw new Error('Not authenticated')
 
-            // 1. Upload file to sop-uploads/{user_id}/{uuid}.docx
-            const fileId = crypto.randomUUID()
-            const filePath = `${user.id}/${fileId}.docx`
-            const { error: uploadErr } = await supabase.storage
-                .from('sop-uploads')
-                .upload(filePath, file, { contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' })
-            if (uploadErr) throw uploadErr
-
-            const { data: urlData } = supabase.storage.from('sop-uploads').getPublicUrl(filePath)
-            const fileUrl = urlData.publicUrl
+            // 1. Upload via secure API route
+            const formData = new FormData()
+            formData.append('file', file)
+            const uploadRes = await fetch('/api/storage/sop-upload', {
+                method: 'POST',
+                body: formData
+            })
+            if (!uploadRes.ok) {
+                const errData = await uploadRes.json()
+                throw new Error(errData.error || 'Upload failed')
+            }
+            const { filePath } = await uploadRes.json()
+            const fileUrl = filePath
 
             // 2. Upsert sops row (for 'new') or use existing sop_id (for 'update')
             let sopId: string

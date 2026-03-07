@@ -8,6 +8,7 @@ import type { SopRecordWithDept } from '@/types/app.types'
 import { format } from 'date-fns'
 import { CheckCircle2, FileText, Loader2, AlertCircle } from 'lucide-react'
 import { toast } from 'sonner'
+import DOMPurify from 'dompurify'
 
 interface SopViewerProps {
     sopId: string
@@ -63,7 +64,24 @@ export function SopViewer({ sopId }: SopViewerProps) {
 
             // Fetch and render docx if file_url exists
             if (data.file_url) {
-                await renderDocx(data.file_url)
+                // Determine path or extract from legacy absolute URL
+                let path = data.file_url
+                if (path.includes('http')) {
+                    try {
+                        const url = new URL(path)
+                        const parts = url.pathname.split('/sop-uploads/')
+                        if (parts.length > 1) path = parts[1]
+                    } catch (e) { }
+                }
+
+                // Get signed URL
+                const { data: signData } = await supabase.storage.from('sop-uploads').createSignedUrl(path, 3600)
+                const finalUrl = signData?.signedUrl || data.file_url
+
+                // Keep the signed url for the download button
+                setSop({ ...data, file_url: finalUrl } as SopRecordWithDept)
+
+                await renderDocx(finalUrl)
             }
         } catch (err: any) {
             setError(err.message || 'Failed to load SOP')
@@ -83,7 +101,11 @@ export function SopViewer({ sopId }: SopViewerProps) {
             // Dynamically import mammoth to keep bundle lean
             const mammoth = await import('mammoth')
             const result = await mammoth.convertToHtml({ arrayBuffer })
-            setHtmlContent(result.value)
+            const cleanHtml = DOMPurify.sanitize(result.value, {
+                ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'ul', 'ol', 'li', 'strong', 'em', 'table', 'tr', 'td', 'th', 'br'],
+                ALLOWED_ATTR: []
+            })
+            setHtmlContent(cleanHtml)
         } catch (err) {
             // Non-critical — show message but don't block the whole viewer
             setHtmlContent('<p class="text-muted-foreground text-sm italic">Could not render document. Download the file to view it.</p>')

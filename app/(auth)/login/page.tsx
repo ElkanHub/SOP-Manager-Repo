@@ -33,7 +33,7 @@ export default function LoginPage() {
             router.refresh()
         } catch (err: any) {
             toast.error('Login Failed', {
-                description: err.message || 'Invalid credentials. Please ensure your email and password are correct.'
+                description: 'Invalid credentials.'
             })
         } finally {
             setLoading(false)

@@ -11,6 +11,7 @@ interface Params {
 
 export default async function SopDetailPage({ params }: Params) {
     const { id } = await params
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) notFound()
     const supabase = await createClient()
 
     const { data: sop, error } = await supabase

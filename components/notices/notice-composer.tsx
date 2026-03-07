@@ -12,7 +12,13 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
+import { z } from 'zod'
 import { Loader2, Send, Users, Building2, User, Search, X, Check } from 'lucide-react'
+
+const noticeSchema = z.object({
+    subject: z.string().min(1, 'Subject is required').max(80, 'Subject is too long').regex(/^[^<>]*$/, 'HTML tags are not allowed'),
+    message: z.string().min(1, 'Message is required').max(500, 'Message is too long').regex(/^[^<>]*$/, 'HTML tags are not allowed'),
+})
 
 type Audience = 'everyone' | 'department' | 'individuals'
 
@@ -109,6 +115,12 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
         }
         if (audience === 'department' && !selectedDeptId) {
             toast.error('Please select a department')
+            return
+        }
+
+        const validationResult = noticeSchema.safeParse({ subject, message })
+        if (!validationResult.success) {
+            toast.error(validationResult.error.errors[0].message)
             return
         }
 

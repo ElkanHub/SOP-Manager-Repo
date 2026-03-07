@@ -7,6 +7,7 @@ import {
   IconNotification,
   IconUserCircle,
 } from "@tabler/icons-react"
+import { createClient } from "@/lib/supabase/client"
 
 import {
   Avatar,
@@ -98,7 +99,11 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={async () => {
+              const supabase = createClient()
+              await supabase.auth.signOut({ scope: 'global' })
+              window.location.href = '/login'
+            }}>
               <IconLogout />
               Log out
             </DropdownMenuItem>

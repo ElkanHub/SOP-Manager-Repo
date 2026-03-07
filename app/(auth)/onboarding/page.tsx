@@ -39,7 +39,7 @@ export default function OnboardingWelcome() {
     }
 
     const handleSignOut = async () => {
-        await supabase.auth.signOut()
+        await supabase.auth.signOut({ scope: 'global' })
         router.push('/login')
     }
 

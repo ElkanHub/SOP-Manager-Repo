@@ -7,6 +7,12 @@ export async function POST(req: NextRequest) {
 
         const supabase = await createClient()
 
+        // Verify session
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+        }
+
         // 1. Fetch the change control record
         const { data: cc, error: ccErr } = await supabase
             .from('change_controls')
