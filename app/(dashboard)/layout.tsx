@@ -17,7 +17,7 @@ export default function DashboardLayout({
 
                     {/* Main Content Area - Responsive Margins per UI Spec */}
                     {/* md:mr-[300px] pushes the content aside so it isn't buried underneath ThePulse */}
-                    <main className="flex-1 w-full overflow-y-auto overflow-x-hidden md:mr-[300px]">
+                    <main className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden xl:mr-[300px]">
                         {children}
                     </main>
 

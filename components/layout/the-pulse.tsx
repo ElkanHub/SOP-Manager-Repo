@@ -51,7 +51,7 @@ export function ThePulse() {
     }
 
     return (
-        <aside className="fixed right-0 top-12 bottom-0 w-[300px] border-l border-border bg-card flex flex-col hidden md:flex z-40 transform transition-transform duration-300">
+        <aside className="fixed right-0 top-12 bottom-0 w-[300px] border-l border-border bg-card flex-col hidden xl:flex z-40 transform transition-transform duration-300">
             <div className="flex h-12 shrink-0 items-center justify-between border-b border-border bg-card px-4 shadow-sm">
                 <div className="flex items-center gap-2">
                     <div className="relative flex h-2 w-2">

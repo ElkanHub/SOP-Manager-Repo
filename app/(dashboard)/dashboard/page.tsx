@@ -68,7 +68,7 @@ export default async function DashboardPage() {
     const compliance = typeof complianceResult === 'number' ? complianceResult : 100
 
     return (
-        <div className="flex-1 space-y-6 animate-in fade-in duration-500 max-w-7xl mx-auto">
+        <div className="flex-1 space-y-6 animate-in fade-in duration-500 w-full min-w-0">
             {/* Page Header */}
             <div className="flex items-center gap-3 border-b border-border bg-card px-6 py-4 shrink-0">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
@@ -82,7 +82,7 @@ export default async function DashboardPage() {
 
             <div className="flex-1 overflow-y-auto p-6 space-y-6">
                 {/* KPI Row */}
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <div className="grid gap-4 grid-cols-2 xl:grid-cols-4">
                     <KpiCard
                         title="Active SOPs"
                         value={activeSops || 0}
@@ -115,7 +115,7 @@ export default async function DashboardPage() {
                 </div>
 
                 {/* Bottom row: Feed + PMs */}
-                <div className="grid gap-6 md:grid-cols-7">
+                <div className="grid gap-6 xl:grid-cols-7">
                     <div className="md:col-span-4">
                         <ActivityFeed initialData={rawFeed as any} deptId={deptId} />
                     </div>
