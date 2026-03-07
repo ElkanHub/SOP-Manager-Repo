@@ -44,7 +44,10 @@ export function ThePulse({ open, onToggle }: { open: boolean; onToggle: () => vo
 
     // Keep local copy in sync when hook updates
     const displayNotices = notices
+    // Badge shows for any content — unread notices + all priority approvals
     const unreadCount = displayNotices.filter(n => !acknowledgedIds.has(n.id) && n.author_id !== currentUserId).length + priorityApprovals.length
+    // Total items badge: show if there's anything at all in the panel
+    const totalItems = displayNotices.length + priorityApprovals.length
 
     const handleDelete = (id: string) => {
         // The hook's Realtime subscription will auto-remove it
@@ -62,10 +65,13 @@ export function ThePulse({ open, onToggle }: { open: boolean; onToggle: () => vo
                 )}
                 aria-label={open ? 'Close The Pulse' : 'Open The Pulse'}
             >
-                {/* Unread badge */}
-                {!open && unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-white">
-                        {unreadCount > 9 ? '9+' : unreadCount}
+                {/* Badge — red if unread, teal if content exists but all read */}
+                {!open && totalItems > 0 && (
+                    <span className={cn(
+                        "absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold text-white",
+                        unreadCount > 0 ? "bg-destructive" : "bg-brand-teal"
+                    )}>
+                        {totalItems > 9 ? '9+' : totalItems}
                     </span>
                 )}
                 {open ? (
