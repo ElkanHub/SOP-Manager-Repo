@@ -10,7 +10,8 @@ import {
     Settings,
     ShieldAlert,
     Building2,
-    LogOut
+    LogOut,
+    MoreVertical
 } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -25,8 +26,18 @@ import {
     SidebarMenuButton,
     SidebarGroup,
     SidebarGroupLabel,
-    SidebarGroupContent
+    SidebarGroupContent,
+    useSidebar
 } from "@/components/ui/sidebar"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { createClient } from "@/lib/supabase/client"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
@@ -43,6 +54,7 @@ const mainNavItems = [
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const pathname = usePathname()
+    const { isMobile } = useSidebar()
     const supabase = createClient()
     const [profile, setProfile] = React.useState<any>(null)
     const [department, setDepartment] = React.useState<any>(null)
@@ -160,21 +172,72 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </SidebarMenuItem>
 
                     {/* User Profile Block */}
-                    <SidebarMenuItem className="mt-2 pt-4 border-t border-sidebar-border flex items-center justify-center gap-3">
-                        <Avatar className="h-8 w-8 border border-border shrink-0">
-                            <AvatarImage src={profile?.avatar_url || ''} alt="Avatar" />
-                            <AvatarFallback className="bg-brand-navy text-xs text-white">
-                                {profile?.full_name?.charAt(0) || 'U'}
-                            </AvatarFallback>
-                        </Avatar>
-                        <div className="flex flex-col overflow-hidden leading-tight flex-1 group-data-[collapsible=icon]:hidden">
-                            <span className="text-sm font-semibold text-sidebar-foreground truncate">
-                                {profile?.full_name || 'Loading...'}
-                            </span>
-                            <span className="text-xs text-sidebar-foreground/70 capitalize truncate">
-                                {profile?.role || '...'}
-                            </span>
-                        </div>
+                    <SidebarMenuItem>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <SidebarMenuButton
+                                    size="lg"
+                                    className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                                >
+                                    <Avatar className="h-8 w-8 rounded-lg border border-border shrink-0">
+                                        <AvatarImage src={profile?.avatar_url || ''} alt={profile?.full_name || 'User'} />
+                                        <AvatarFallback className="rounded-lg bg-brand-navy text-xs text-white">
+                                            {profile?.full_name?.charAt(0) || 'U'}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    <div className="grid flex-1 text-left text-sm leading-tight">
+                                        <span className="truncate font-medium">{profile?.full_name || 'Loading...'}</span>
+                                        <span className="truncate text-xs text-sidebar-foreground/70 capitalize">
+                                            {profile?.role || '...'}
+                                        </span>
+                                    </div>
+                                    <MoreVertical className="ml-auto size-4" />
+                                </SidebarMenuButton>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent
+                                className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                                side={isMobile ? "bottom" : "right"}
+                                align="end"
+                                sideOffset={4}
+                            >
+                                <DropdownMenuLabel className="p-0 font-normal">
+                                    <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                                        <Avatar className="h-8 w-8 rounded-lg border border-border">
+                                            <AvatarImage src={profile?.avatar_url || ''} alt={profile?.full_name || 'User'} />
+                                            <AvatarFallback className="rounded-lg bg-brand-navy text-white text-xs">
+                                                {profile?.full_name?.charAt(0) || 'U'}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <div className="grid flex-1 text-left text-sm leading-tight">
+                                            <span className="truncate font-medium">{profile?.full_name || 'User'}</span>
+                                            <span className="truncate text-xs text-muted-foreground capitalize">
+                                                {profile?.role || 'User'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuGroup>
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/settings" className="flex items-center w-full cursor-pointer">
+                                            <Settings className="mr-2 h-4 w-4" />
+                                            Settings
+                                        </Link>
+                                    </DropdownMenuItem>
+                                </DropdownMenuGroup>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                    className="text-red-600 focus:text-red-500 cursor-pointer"
+                                    onClick={async () => {
+                                        await supabase.auth.signOut({ scope: 'global' })
+                                        window.location.href = '/login'
+                                    }}
+                                >
+                                    <LogOut className="mr-2 h-4 w-4" />
+                                    Log out
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarFooter>
