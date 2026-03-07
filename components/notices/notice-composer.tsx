@@ -120,7 +120,7 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
 
         const validationResult = noticeSchema.safeParse({ subject, message })
         if (!validationResult.success) {
-            toast.error(validationResult.error.errors[0].message)
+            toast.error(validationResult.error.issues[0]?.message || 'Validation failed')
             return
         }
 

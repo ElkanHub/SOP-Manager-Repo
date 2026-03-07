@@ -15,7 +15,7 @@ export default function OnboardingWelcome() {
 
     useEffect(() => {
         async function checkFirstUser() {
-            const { data: adminExists, error } = await supabase.rpc('check_admin_exists')
+            const { data: adminExists, error } = await supabase.rpc('check_admin_exists' as any)
             if (error) {
                 console.error('Error checking admin status:', error)
             }
@@ -29,9 +29,9 @@ export default function OnboardingWelcome() {
 
     const handleAdminProceed = async () => {
         setApplying(true)
-        const { error } = await supabase.rpc('claim_admin_role')
-        if (error) {
-            console.error('Failed to claim admin role:', error)
+        const { error: claimErr } = await supabase.rpc('claim_admin_role' as any)
+        if (claimErr) {
+            console.error('Failed to claim admin role:', claimErr)
             setApplying(false)
             return // Prevent fast navigation if it fails
         }
