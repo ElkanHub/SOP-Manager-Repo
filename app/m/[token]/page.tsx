@@ -96,20 +96,20 @@ export default function MobileSigningPage({ params }: { params: Promise<{ token:
 
     if (status !== 'pending') {
         return (
-            <div className="flex min-h-svh flex-col items-center justify-center bg-slate-50 p-6 text-center">
+            <div className="flex min-h-svh flex-col items-center justify-center bg-background p-6 text-center">
                 {status === 'completed' ? (
                     <>
                         <CheckCircle2 className="mb-4 h-16 w-16 text-brand-teal" />
-                        <h1 className="mb-2 text-2xl font-bold text-brand-navy">Signature Captured!</h1>
-                        <p className="text-slate-500">
+                        <h1 className="mb-2 text-2xl font-bold text-foreground">Signature Captured!</h1>
+                        <p className="text-muted-foreground">
                             Your signature has been securely synced to your computer. You can close this window and return to your PC.
                         </p>
                     </>
                 ) : (
                     <>
                         <XCircle className="mb-4 h-16 w-16 text-red-500" />
-                        <h1 className="mb-2 text-2xl font-bold text-brand-navy">Link Expired</h1>
-                        <p className="text-slate-500">
+                        <h1 className="mb-2 text-2xl font-bold text-foreground">Link Expired</h1>
+                        <p className="text-muted-foreground">
                             This signature request is no longer valid or has already been completed. Please request a new link on your PC.
                         </p>
                     </>
@@ -120,32 +120,32 @@ export default function MobileSigningPage({ params }: { params: Promise<{ token:
 
     return (
         <div
-            className="flex flex-col bg-slate-50 overflow-hidden"
+            className="flex flex-col bg-background overflow-hidden"
             style={{ height: 'calc(var(--vh, 1vh) * 100)' }}
         >
-            <header className="flex h-16 items-center justify-center border-b border-slate-200 bg-white">
+            <header className="flex h-16 items-center justify-center border-b border-border bg-card">
                 <div className="flex items-center gap-2">
                     <ShieldCheck className="h-6 w-6 text-brand-teal" />
-                    <span className="text-lg font-bold text-brand-navy">SOP-Guard Pro</span>
+                    <span className="text-lg font-bold text-foreground">SOP-Guard Pro</span>
                 </div>
             </header>
 
             <main className="flex flex-1 flex-col p-4 relative">
                 <div className="mb-4 text-center">
-                    <h2 className="text-xl font-bold text-brand-navy">Sign below</h2>
-                    <p className="text-sm text-slate-500">Please draw your signature smoothly.</p>
+                    <h2 className="text-xl font-bold text-foreground">Sign below</h2>
+                    <p className="text-sm text-muted-foreground">Please draw your signature smoothly.</p>
                 </div>
 
-                <div className="flex-1 rounded-xl border-2 border-slate-200 bg-white shadow-sm overflow-hidden relative">
+                <div className="flex-1 rounded-xl border-2 border-border bg-card shadow-sm overflow-hidden relative">
                     <SignatureCanvas
                         ref={sigCanvas}
-                        penColor="#0D2B55"
+                        penColor="currentColor"
                         canvasProps={{
                             className: "w-full h-full cursor-crosshair touch-none absolute inset-0",
                         }}
                     />
                     {/* Baseline guide */}
-                    <div className="absolute bottom-[20%] left-[10%] right-[10%] h-px bg-slate-200 pointer-events-none" />
+                    <div className="absolute bottom-[20%] left-[10%] right-[10%] h-px bg-border pointer-events-none" />
                 </div>
 
                 <div className="mt-4 flex gap-3">

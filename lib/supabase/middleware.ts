@@ -40,9 +40,10 @@ export const updateSession = async (request: NextRequest) => {
 
     // protected routes logic
     const isAuthPage = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/signup') || request.nextUrl.pathname.startsWith('/auth')
+    const isMobileSignPage = request.nextUrl.pathname.startsWith('/m/')
 
-    // 1. If not logged in and not on an auth page, redirect to login
-    if (!user && !isAuthPage) {
+    // 1. If not logged in, not on an auth page, and not on the mobile signed out page, redirect to login
+    if (!user && !isAuthPage && !isMobileSignPage) {
         const url = request.nextUrl.clone()
         url.pathname = '/login'
         return NextResponse.redirect(url)
