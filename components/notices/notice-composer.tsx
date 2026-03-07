@@ -185,7 +185,7 @@ export function NoticeComposer({ open, onOpenChange }: NoticeComposerProps) {
         <Dialog open={open} onOpenChange={(o) => { if (!o) reset(); onOpenChange(o) }}>
             <DialogContent className="sm:max-w-[520px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle className="flex items-center gap-2 text-brand-navy">
+                    <DialogTitle className="flex items-center gap-2 text-primary">
                         <Send className="h-5 w-5 text-brand-teal" />
                         Send Notice
                     </DialogTitle>

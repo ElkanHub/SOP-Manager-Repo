@@ -49,11 +49,11 @@ export function SiteHeader() {
             <div className="flex items-center gap-2 pr-2">
                 <ThemeToggle />
                 {/* Bell Icon */}
-                <Button variant="ghost" size="icon" className="relative text-white hover:bg-slate-800">
-                    <Bell className="h-5 w-5" />
-                    {/* Static Unread Badge */}
-                    <span className="absolute right-1.5 top-1.5 flex h-2 w-2 rounded-full bg-brand-teal"></span>
-                </Button>
+                {/* <Button variant="ghost" size="icon" className="relative text-white hover:bg-slate-800">
+                    <Bell className="h-5 w-5" /> */}
+                {/* Static Unread Badge */}
+                {/* <span className="absolute right-1.5 top-1.5 flex h-2 w-2 rounded-full bg-brand-teal"></span>
+                </Button> */}
             </div>
         </header>
     )
