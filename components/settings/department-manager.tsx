@@ -174,7 +174,7 @@ export function DepartmentManager() {
                                 </Label>
                             </div>
                             <div className="pt-4 flex justify-end">
-                                <Button type="submit" disabled={addLoading} className="bg-brand-navy hover:bg-brand-navy/90">
+                                <Button type="submit" disabled={addLoading} className="bg-brand-teal hover:bg-teal-700 text-white">
                                     {addLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                                     Create Department
                                 </Button>

@@ -150,7 +150,7 @@ export default function ReportsPage() {
         <div className="flex flex-col h-full bg-background overflow-hidden">
             {/* Header */}
             <div className="flex items-center gap-3 border-b border-border bg-card px-6 py-4 shrink-0">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-navy text-white">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                     <FileText className="h-4 w-4" />
                 </div>
                 <div>
