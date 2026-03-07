@@ -68,7 +68,7 @@ export const updateSession = async (request: NextRequest) => {
         }
 
         // 2b. Logged in, not on auth page, onboarding INCOMPLETE, NOT on onboarding page -> redirect to onboarding
-        if (!isOnboardingComplete && !isOnboardingPage && !isAuthPage) {
+        if (!isOnboardingComplete && !isOnboardingPage && !isAuthPage && !isMobileSignPage) {
             const url = request.nextUrl.clone()
             url.pathname = '/onboarding'
             return NextResponse.redirect(url)
