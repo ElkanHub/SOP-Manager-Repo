@@ -96,6 +96,19 @@ export default function OnboardingSignature() {
         }
     }
 
+    // Convert a base64 data URL to a Blob without using fetch()
+    // (fetch() on data: URIs is blocked by our CSP policy)
+    const dataURLtoBlob = (dataURL: string): Blob => {
+        const [header, base64] = dataURL.split(',')
+        const mime = header.match(/:(.*?);/)?.[1] ?? 'image/png'
+        const binary = atob(base64)
+        const array = new Uint8Array(binary.length)
+        for (let i = 0; i < binary.length; i++) {
+            array[i] = binary.charCodeAt(i)
+        }
+        return new Blob([array], { type: mime })
+    }
+
     const processAndUploadSignature = async (dataURL: string) => {
         setSaving(true)
         setError(null)
@@ -104,8 +117,7 @@ export default function OnboardingSignature() {
             const { data: { user } } = await supabase.auth.getUser()
             if (!user) throw new Error('Not logged in')
 
-            const res = await fetch(dataURL)
-            const blob = await res.blob()
+            const blob = dataURLtoBlob(dataURL)
 
             const filePath = `${user.id}/signature.png`
 
