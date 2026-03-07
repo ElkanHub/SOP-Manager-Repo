@@ -164,12 +164,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenu>
 
                     {/* User Profile Block */}
-                    <SidebarMenuItem className="group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center">
+                    <SidebarMenuItem className="group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center transition-all duration-200">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <SidebarMenuButton
                                     size="lg"
-                                    className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-0"
+                                    className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-0 transition-all duration-200 overflow-hidden"
                                 >
                                     <Avatar className="h-8 w-8 rounded-lg border border-border shrink-0">
                                         <AvatarImage src={profile?.avatar_url || ''} alt={profile?.full_name || 'User'} />
@@ -177,13 +177,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                             {profile?.full_name?.charAt(0) || 'U'}
                                         </AvatarFallback>
                                     </Avatar>
-                                    <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
+                                    <div className="grid flex-1 text-left text-sm leading-tight transition-[opacity,max-width] duration-200 ease-linear group-data-[collapsible=icon]:max-w-0 group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:overflow-hidden">
                                         <span className="truncate font-medium">{profile?.full_name || 'Loading...'}</span>
                                         <span className="truncate text-xs text-sidebar-foreground/70 capitalize">
                                             {profile?.role || '...'}
                                         </span>
                                     </div>
-                                    <MoreVertical className="ml-auto size-4 group-data-[collapsible=icon]:hidden" />
+                                    <MoreVertical className="ml-auto size-4 transition-[opacity] duration-200 ease-linear group-data-[collapsible=icon]:opacity-0" />
                                 </SidebarMenuButton>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent
