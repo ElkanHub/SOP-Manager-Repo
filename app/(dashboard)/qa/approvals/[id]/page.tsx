@@ -21,6 +21,7 @@ interface ApprovalRequest {
     sop_id: string
     type: 'new' | 'update'
     status: string
+    submitted_by: string
     notes_to_qa: string | null
     created_at: string
     profiles: { full_name: string } | null
@@ -81,6 +82,7 @@ export default function ApprovalDetailPage({ params }: Props) {
     }
 
     const handleRequestChanges = async () => {
+        if (!request) return
         if (!changeComment.trim()) { toast.error('Please add a comment explaining the required changes.'); return }
         setSendingComment(true)
         try {
@@ -101,8 +103,25 @@ export default function ApprovalDetailPage({ params }: Props) {
             // Update request status
             await supabase
                 .from('sop_approval_requests')
-                .update({ status: 'changes_requested', updated_at: new Date().toISOString() })
+                .update({ status: 'needs_revision', updated_at: new Date().toISOString() })
                 .eq('id', id)
+
+            // Insert direct notice to the author
+            if (request.sops) {
+                const noticeData = {
+                    subject: `Revisions Required: ${request.sops.sop_number}`,
+                    message: `Your SOP submission requires revisions. Please check the Pulse panel for details.`,
+                    audience: 'individuals',
+                    author_id: user.id,
+                }
+                const { data: newNotice } = await supabase.from('notices').insert(noticeData).select().single()
+
+                if (newNotice) {
+                    await supabase.from('notice_recipients').insert({ notice_id: newNotice.id, user_id: request.submitted_by })
+                    // Broadcast to trigger Pulse globally
+                    supabase.channel('notices').send({ type: 'broadcast', event: 'new-notice', payload: newNotice })
+                }
+            }
 
             toast.success('Changes requested', { description: 'The submitter has been notified.' })
             setChangeComment('')
@@ -124,47 +143,47 @@ export default function ApprovalDetailPage({ params }: Props) {
     }
 
     if (!request) return null
-    const isPending = request.status === 'pending' || request.status === 'changes_requested'
+    const isPending = request.status === 'pending' || request.status === 'needs_revision'
 
     return (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full bg-background">
             {/* Breadcrumb */}
-            <div className="flex items-center gap-2 border-b border-slate-200 bg-white px-6 py-3 shrink-0">
+            <div className="flex items-center gap-2 border-b border-border bg-card px-6 py-3 shrink-0">
                 <button onClick={() => router.push('/qa/approvals')}
-                    className="flex items-center gap-1 text-sm text-slate-500 hover:text-brand-navy transition-colors">
+                    className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
                     <ChevronLeft className="h-4 w-4" />QA Approvals
                 </button>
-                <span className="text-slate-300">/</span>
-                <span className="text-sm font-semibold text-brand-navy">{request.sops?.sop_number}</span>
+                <span className="text-muted-foreground/50">/</span>
+                <span className="text-sm font-semibold text-foreground">{request.sops?.sop_number}</span>
                 <StatusBadge status={request.status} size="sm" className="ml-2" />
             </div>
 
             {/* Body: 65% viewer + 35% panel */}
             <div className="flex flex-1 overflow-hidden">
                 {/* Left: Document Viewer */}
-                <div className="flex-1 overflow-hidden border-r border-slate-200">
+                <div className="flex-1 overflow-hidden border-r border-border">
                     {viewerSopId && <SopViewer sopId={viewerSopId} />}
                 </div>
 
                 {/* Right: Approval Panel */}
-                <div className="w-[340px] shrink-0 flex flex-col overflow-hidden bg-white">
+                <div className="w-[340px] shrink-0 flex flex-col overflow-hidden bg-card border-l border-border">
                     {/* Request info */}
-                    <div className="border-b border-slate-100 p-4 space-y-3">
-                        <h3 className="font-semibold text-brand-navy text-sm">Submission Details</h3>
-                        <div className="space-y-2 text-xs text-slate-600">
+                    <div className="border-b border-border p-4 space-y-3">
+                        <h3 className="font-semibold text-foreground text-sm">Submission Details</h3>
+                        <div className="space-y-2 text-xs text-muted-foreground">
                             <div className="flex items-center gap-2">
-                                <User className="h-3.5 w-3.5 text-slate-400 shrink-0" />
-                                <span>{request.profiles?.full_name ?? 'Unknown'}</span>
-                                <span className={`ml-auto rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${request.type === 'new' ? 'bg-teal-100 text-teal-800' : 'bg-amber-100 text-amber-800'}`}>
+                                <User className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                                <span className="text-foreground font-medium">{request.profiles?.full_name ?? 'Unknown'}</span>
+                                <span className={`ml-auto rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${request.type === 'new' ? 'bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-400' : 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-400'}`}>
                                     {request.type}
                                 </span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <Calendar className="h-3.5 w-3.5 text-slate-400 shrink-0" />
+                                <Calendar className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
                                 <span>{formatDistanceToNow(new Date(request.created_at), { addSuffix: true })}</span>
                             </div>
                             {request.notes_to_qa && (
-                                <div className="rounded-lg bg-slate-50 border border-slate-100 p-3 text-slate-600 italic leading-relaxed text-xs">
+                                <div className="rounded-lg bg-muted/50 border border-border p-3 text-foreground italic leading-relaxed text-xs">
                                     "{request.notes_to_qa}"
                                 </div>
                             )}
@@ -185,7 +204,7 @@ export default function ApprovalDetailPage({ params }: Props) {
                                 <Button
                                     size="sm"
                                     variant="outline"
-                                    className="w-full border-amber-300 text-amber-700 hover:bg-amber-50"
+                                    className="w-full border-amber-300 text-amber-700 hover:bg-amber-50 dark:border-amber-500/50 dark:text-amber-400 dark:hover:bg-amber-950/50"
                                     onClick={() => setShowChangesForm(!showChangesForm)}
                                     disabled={approving}
                                 >
@@ -218,8 +237,8 @@ export default function ApprovalDetailPage({ params }: Props) {
                     </div>
 
                     {/* Approval Thread */}
-                    <div className="flex-1 overflow-y-auto p-4">
-                        <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Activity Thread</h4>
+                    <div className="flex-1 overflow-y-auto p-4 bg-background/50">
+                        <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Activity Thread</h4>
                         <ApprovalThread requestId={id} onUpdate={fetchRequest} />
                     </div>
                 </div>

@@ -5,6 +5,7 @@ export interface PulseApproval {
     id: string
     sop_id: string
     type: 'new' | 'update'
+    status: 'pending' | 'needs_revision'
     created_at: string
     sops?: { sop_number: string; title: string } | null
     profiles?: { full_name: string } | null
@@ -33,8 +34,8 @@ export function usePulse() {
     const fetchApprovals = useCallback(async () => {
         const { data } = await supabase
             .from('sop_approval_requests')
-            .select('id, sop_id, type, created_at, sops(sop_number, title), profiles!submitted_by(full_name)')
-            .eq('status', 'pending')
+            .select('id, sop_id, type, status, created_at, sops(sop_number, title), profiles!submitted_by(full_name)')
+            .in('status', ['pending', 'needs_revision'])
             .order('created_at', { ascending: false })
             .limit(10)
         setPriorityApprovals((data ?? []) as PulseApproval[])
@@ -83,7 +84,7 @@ export function usePulse() {
 
         const isQA = profile?.role === 'admin' || (profile?.departments as any)?.is_qa === true
         setIsQaOrAdmin(isQA)
-        if (isQA) fetchApprovals()
+        fetchApprovals()
 
         fetchNotices(user.id)
     }, [fetchApprovals, fetchNotices])

@@ -1,8 +1,4 @@
--- 013_approve_sop_function.sql (v2)
--- Fixed: properly populates change_controls row when approving an update
-
-DROP FUNCTION IF EXISTS approve_sop_request(uuid, uuid);
-
+-- Fix audit_log column names in approve_sop_request
 CREATE OR REPLACE FUNCTION approve_sop_request(
   p_request_id uuid,
   p_qa_user_id uuid
@@ -40,7 +36,6 @@ BEGIN
 
   ELSIF v_request.type = 'update' THEN
     -- Insert a complete change_controls row using current sop data as old version
-    -- The new file was uploaded to sop-uploads and set on sops.file_url
     INSERT INTO change_controls (
       sop_id, old_version, new_version,
       old_file_url, new_file_url,
@@ -51,7 +46,7 @@ BEGIN
       v_sop.version,
       'v' || (CAST(REPLACE(v_sop.version, 'v', '') AS numeric) + 0.1)::text,
       COALESCE(v_sop.file_url, ''),
-      COALESCE(v_sop.file_url, ''),  -- new file is the one just uploaded (same field updated)
+      COALESCE(v_sop.file_url, ''),
       p_qa_user_id,
       'pending_signatures'
     );
@@ -60,7 +55,7 @@ BEGIN
     v_outcome := 'change_control_issued';
   END IF;
 
-  INSERT INTO audit_log (actor_id, action, target_type, target_id, metadata)
+  INSERT INTO audit_log (actor_id, action, entity_type, entity_id, metadata)
   VALUES (
     p_qa_user_id, 'approved_sop_request', 'sop_approval_requests', p_request_id,
     jsonb_build_object('outcome', v_outcome, 'sop_id', v_request.sop_id)
@@ -69,5 +64,3 @@ BEGIN
   RETURN jsonb_build_object('outcome', v_outcome, 'sop_id', v_request.sop_id);
 END;
 $$;
-
-GRANT EXECUTE ON FUNCTION approve_sop_request TO authenticated;

@@ -41,6 +41,14 @@ const statusConfig: Record<string, { label: string; classes: string }> = {
         label: 'Rejected',
         classes: 'bg-red-500/10 text-red-600 dark:text-red-500 border-red-500/20',
     },
+    needs_revision: {
+        label: 'Needs Revision',
+        classes: 'bg-amber-500/10 text-amber-600 dark:text-amber-500 border-amber-500/20',
+    },
+    changes_requested: {
+        label: 'Needs Revision',
+        classes: 'bg-amber-500/10 text-amber-600 dark:text-amber-500 border-amber-500/20',
+    },
 }
 
 const sizeClasses = {

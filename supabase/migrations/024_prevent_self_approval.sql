@@ -1,8 +1,4 @@
--- 013_approve_sop_function.sql (v2)
--- Fixed: properly populates change_controls row when approving an update
-
-DROP FUNCTION IF EXISTS approve_sop_request(uuid, uuid);
-
+-- Migration to prevent self-approvals
 CREATE OR REPLACE FUNCTION approve_sop_request(
   p_request_id uuid,
   p_qa_user_id uuid
@@ -69,5 +65,3 @@ BEGIN
   RETURN jsonb_build_object('outcome', v_outcome, 'sop_id', v_request.sop_id);
 END;
 $$;
-
-GRANT EXECUTE ON FUNCTION approve_sop_request TO authenticated;

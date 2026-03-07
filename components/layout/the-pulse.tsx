@@ -100,23 +100,28 @@ export function ThePulse({ open, onToggle }: { open: boolean; onToggle: () => vo
                 </div>
 
                 <ScrollArea className="flex-1 p-4">
-                    {/* Priority Approvals — QA/Admin only */}
-                    {isQaOrAdmin && (
+                    {/* Priority Approvals — QA/Admin (always see) or Author (sees own pending) */}
+                    {(isQaOrAdmin || priorityApprovals.length > 0) && (
                         <PulseSection title="Priority Approvals" icon={PenTool} count={priorityApprovals.length}>
                             {priorityApprovals.length === 0 ? (
                                 <p className="text-xs text-muted-foreground/70 py-2 text-center italic">No pending approvals.</p>
                             ) : (
                                 priorityApprovals.map((a) => (
-                                    <Link key={a.id} href={`/qa/approvals/${a.id}`} className="block">
-                                        <div className="rounded-lg border border-destructive/20 bg-card p-3 shadow-sm cursor-pointer hover:border-destructive/40 transition-colors">
+                                    <Link key={a.id} href={a.status === 'needs_revision' ? `/sops/drafts/${a.id}` : `/qa/approvals/${a.id}`} className="block">
+                                        <div className="rounded-lg border bg-card p-3 shadow-sm cursor-pointer transition-colors border-border hover:border-brand-teal/40">
                                             <div className="flex items-start gap-2">
-                                                <div className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]" />
+                                                <div className={cn(
+                                                    "mt-0.5 h-2 w-2 shrink-0 rounded-full",
+                                                    a.status === 'needs_revision'
+                                                        ? "bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]"
+                                                        : "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]"
+                                                )} />
                                                 <div className="min-w-0">
                                                     <p className="text-xs font-semibold text-foreground leading-snug truncate">
                                                         {(a.sops as any)?.sop_number} — {(a.sops as any)?.title}
                                                     </p>
                                                     <p className="text-[10px] text-muted-foreground mt-1">
-                                                        {a.type === 'new' ? 'New' : 'Update'} by {(a.profiles as any)?.full_name} · {formatDistanceToNow(new Date(a.created_at), { addSuffix: true })}
+                                                        {a.status === 'needs_revision' ? <span className="text-amber-600 font-medium">Needs Revision</span> : <span className="text-red-600 font-medium">Pending Review</span>} · {a.type === 'new' ? 'New' : 'Update'} by {(a.profiles as any)?.full_name} · {formatDistanceToNow(new Date(a.created_at), { addSuffix: true })}
                                                     </p>
                                                 </div>
                                             </div>

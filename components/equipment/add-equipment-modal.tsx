@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import {
     Dialog, DialogContent, DialogHeader,
@@ -51,17 +51,38 @@ export function AddEquipmentModal({ open, onOpenChange, onSuccess }: AddEquipmen
         const { data: { user } } = await supabase.auth.getUser()
         if (!user) return
 
-        const [{ data: depts }, { data: sopData }, { data: profile }] = await Promise.all([
-            supabase.from('departments').select('id, name').order('name'),
-            supabase.from('sops').select('id, sop_number, title, dept_id, version, status, file_url, date_listed, date_revised, due_for_revision, submitted_by, approved_by, created_at, updated_at').eq('status', 'active').order('sop_number'),
-            supabase.from('profiles').select('dept_id').eq('id', user.id).single(),
-        ])
+        try {
+            const [
+                { data: depts, error: deptsErr },
+                { data: sopData, error: sopErr },
+                { data: profile, error: profErr }
+            ] = await Promise.all([
+                supabase.from('departments').select('id, name').order('name'),
+                supabase.from('sops').select('id, sop_number, title, dept_id, version, status').eq('status', 'active').order('sop_number'),
+                supabase.from('profiles').select('dept_id').eq('id', user.id).single(),
+            ])
 
-        setDepartments(depts ?? [])
-        setSops((sopData ?? []) as SopRecord[])
-        setDeptId(profile?.dept_id ?? '')
-        setLoaded(true)
-    }, [loaded])
+            if (deptsErr) console.error('Error loading depts:', deptsErr)
+            if (sopErr) console.error('Error loading sops:', sopErr)
+
+            setDepartments(depts ?? [])
+            setSops((sopData ?? []) as SopRecord[])
+            if (profile?.dept_id) {
+                setDeptId(profile.dept_id)
+            } else if (depts && depts.length > 0) {
+                setDeptId(depts[0].id)
+            }
+            setLoaded(true)
+        } catch (err) {
+            console.error('Failed to load modal metadata:', err)
+        }
+    }, [loaded, supabase])
+
+    useEffect(() => {
+        if (open) {
+            loadMetadata()
+        }
+    }, [open, loadMetadata])
 
     const reset = () => {
         setAssetId(''); setName(''); setSerial(''); setModel('')
@@ -123,10 +144,10 @@ export function AddEquipmentModal({ open, onOpenChange, onSuccess }: AddEquipmen
     }
 
     return (
-        <Dialog open={open} onOpenChange={(o) => { if (o) loadMetadata(); if (!o) reset(); onOpenChange(o) }}>
+        <Dialog open={open} onOpenChange={(o) => { if (!o) reset(); onOpenChange(o) }}>
             <DialogContent className="sm:max-w-[560px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle className="text-brand-navy">Add Equipment</DialogTitle>
+                    <DialogTitle className="text-primary">Add Equipment</DialogTitle>
                     <DialogDescription>Register a new asset for QA review and PM scheduling.</DialogDescription>
                 </DialogHeader>
 
@@ -182,7 +203,7 @@ export function AddEquipmentModal({ open, onOpenChange, onSuccess }: AddEquipmen
                                 className={cn(
                                     'flex-1 min-w-[70px] rounded-lg border py-2 text-sm font-medium capitalize transition-all',
                                     frequency === f
-                                        ? 'border-brand-teal bg-teal-50 text-brand-navy'
+                                        ? 'border-brand-teal bg-teal-50 text-brand-navy dark:bg-teal-900/30 dark:text-teal-400'
                                         : 'border-border text-muted-foreground hover:border-muted-foreground'
                                 )}
                             >
@@ -191,7 +212,7 @@ export function AddEquipmentModal({ open, onOpenChange, onSuccess }: AddEquipmen
                         ))}
                     </div>
                     {frequency === 'custom' && (
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 mt-2">
                             <Input
                                 type="number"
                                 min={1}
@@ -211,7 +232,7 @@ export function AddEquipmentModal({ open, onOpenChange, onSuccess }: AddEquipmen
                 </div>
 
                 {/* Photo upload */}
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 pb-2">
                     <Label>Equipment Photo</Label>
                     <div
                         onClick={() => document.getElementById('eq-photo-input')?.click()}
