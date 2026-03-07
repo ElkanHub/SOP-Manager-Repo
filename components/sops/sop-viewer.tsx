@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { StatusBadge } from '@/components/ui/status-badge'
 import { Button } from '@/components/ui/button'
@@ -8,7 +8,6 @@ import type { SopRecordWithDept } from '@/types/app.types'
 import { format } from 'date-fns'
 import { CheckCircle2, FileText, Loader2, AlertCircle } from 'lucide-react'
 import { toast } from 'sonner'
-import DOMPurify from 'dompurify'
 
 interface SopViewerProps {
     sopId: string
@@ -17,6 +16,7 @@ interface SopViewerProps {
 export function SopViewer({ sopId }: SopViewerProps) {
     const [sop, setSop] = useState<SopRecordWithDept | null>(null)
     const [htmlContent, setHtmlContent] = useState<string>('')
+    const containerRef = useRef<HTMLDivElement>(null)
     const [loading, setLoading] = useState(true)
     const [docLoading, setDocLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
@@ -92,23 +92,35 @@ export function SopViewer({ sopId }: SopViewerProps) {
 
     const renderDocx = async (fileUrl: string) => {
         setDocLoading(true)
+        setError(null)
         try {
-            // Fetch file as ArrayBuffer
+            // Fetch file as ArrayBuffer for native JS rendering
             const response = await fetch(fileUrl)
             if (!response.ok) throw new Error('Failed to fetch document file')
             const arrayBuffer = await response.arrayBuffer()
 
-            // Dynamically import mammoth to keep bundle lean
-            const mammoth = await import('mammoth')
-            const result = await mammoth.convertToHtml({ arrayBuffer })
-            const cleanHtml = DOMPurify.sanitize(result.value, {
-                ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'ul', 'ol', 'li', 'strong', 'em', 'table', 'tr', 'td', 'th', 'br'],
-                ALLOWED_ATTR: []
+            const container = containerRef.current
+            if (!container) return
+
+            // Dynamically load parser to keep bundle small
+            const docx = await import('docx-preview')
+            await docx.renderAsync(arrayBuffer, container, undefined, {
+                className: 'docx',
+                inWrapper: true,
+                ignoreWidth: false,
+                ignoreHeight: false,
+                ignoreFonts: false,
+                breakPages: true,
+                ignoreLastRenderedPageBreak: true,
+                experimental: false,
+                trimXmlDeclaration: true,
+                debug: false
             })
-            setHtmlContent(cleanHtml)
+
+            // Mark as rendered so loading spinner hides
+            setHtmlContent('rendered')
         } catch (err) {
-            // Non-critical — show message but don't block the whole viewer
-            setHtmlContent('<p class="text-muted-foreground text-sm italic">Could not render document. Download the file to view it.</p>')
+            setError('Viewer error: Could not render document.')
         } finally {
             setDocLoading(false)
         }
@@ -242,12 +254,12 @@ export function SopViewer({ sopId }: SopViewerProps) {
                 ) : docLoading ? (
                     <div className="flex h-48 items-center justify-center gap-2 text-muted-foreground">
                         <Loader2 className="h-5 w-5 animate-spin" />
-                        <span className="text-sm">Rendering document...</span>
+                        <span className="text-sm">Connecting to secure viewer...</span>
                     </div>
                 ) : (
                     <div
-                        className="prose prose-slate dark:prose-invert max-w-none prose-headings:text-foreground prose-a:text-brand-blue prose-strong:text-foreground text-foreground"
-                        dangerouslySetInnerHTML={{ __html: htmlContent }}
+                        ref={containerRef}
+                        className={`w-full min-h-[800px] border border-border rounded-md shadow-sm bg-white overflow-hidden ${htmlContent ? 'block' : 'hidden'}`}
                     />
                 )}
             </div>
