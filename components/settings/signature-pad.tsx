@@ -95,6 +95,19 @@ export function SignaturePad({ onSave, onCancel }: SignaturePadProps) {
         }
     }
 
+    // Convert a base64 data URL to a Blob without using fetch()
+    // (fetch() on data: URIs is blocked by our CSP policy)
+    const dataURLtoBlob = (dataURL: string): Blob => {
+        const [header, base64] = dataURL.split(',')
+        const mime = header.match(/:(.*?);/)?.[1] ?? 'image/png'
+        const binary = atob(base64)
+        const array = new Uint8Array(binary.length)
+        for (let i = 0; i < binary.length; i++) {
+            array[i] = binary.charCodeAt(i)
+        }
+        return new Blob([array], { type: mime })
+    }
+
     const processAndUploadSignature = async (dataURL: string) => {
         setSaving(true)
         setError(null)
@@ -103,8 +116,7 @@ export function SignaturePad({ onSave, onCancel }: SignaturePadProps) {
             const { data: { user } } = await supabase.auth.getUser()
             if (!user) throw new Error('Not logged in')
 
-            const res = await fetch(dataURL)
-            const blob = await res.blob()
+            const blob = dataURLtoBlob(dataURL)
 
             const filePath = `${user.id}/signature.png`
 
@@ -194,24 +206,24 @@ export function SignaturePad({ onSave, onCancel }: SignaturePadProps) {
                     </div>
                 </div>
 
-                <div className="w-full bg-white relative rounded-b-lg overflow-hidden">
+                <div className="w-full bg-card relative rounded-b-lg overflow-hidden">
                     <SignatureCanvas
                         ref={sigCanvas}
-                        penColor="#0D2B55"
+                        penColor="currentColor"
                         canvasProps={{
                             className: "w-full h-64 sm:h-80 cursor-crosshair rounded-b-lg",
                             style: { touchAction: 'none' }
                         }}
                     />
-                    <div className="absolute bottom-[20%] left-[10%] right-[10%] h-px bg-slate-200 pointer-events-none" />
-                    <div className="absolute bottom-[20%] left-[10%] transform translate-y-4 text-xs font-mono text-slate-400 pointer-events-none">
+                    <div className="absolute bottom-[20%] left-[10%] right-[10%] h-px bg-border pointer-events-none" />
+                    <div className="absolute bottom-[20%] left-[10%] transform translate-y-4 text-xs font-mono text-muted-foreground pointer-events-none">
                         Sign on the line
                     </div>
                 </div>
             </div>
 
             {error && (
-                <div className="text-sm rounded-md bg-red-50 text-red-600 p-3">
+                <div className="text-sm rounded-md bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 p-3">
                     {error}
                 </div>
             )}
