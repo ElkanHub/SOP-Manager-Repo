@@ -62,7 +62,7 @@ export default function OnboardingWelcome() {
                     <h1 className="text-display font-bold text-foreground">
                         Critical Notice: Initial Setup
                     </h1>
-                    <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-xl text-left space-y-3">
+                    <div className="bg-red-500/10 border border-red-500/20 p-10 rounded-none text-left space-y-6">
                         <p className="text-sm font-semibold text-red-600 dark:text-red-400">
                             You are the very first user to sign in to this application workspace.
                         </p>
