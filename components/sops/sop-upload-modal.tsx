@@ -186,7 +186,7 @@ export function SopUploadModal({ open, onOpenChange, defaultType = 'new', defaul
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[560px]">
                 <DialogHeader>
-                    <DialogTitle className="flex items-center gap-2 text-brand-navy">
+                    <DialogTitle className="flex items-center gap-2 text-primary">
                         <UploadCloud className="h-5 w-5 text-brand-teal" />
                         Submit SOP for Review
                     </DialogTitle>

@@ -77,7 +77,7 @@ export function NewEventModal({ open, onOpenChange, defaultDate, onSuccess }: Ne
         <Dialog open={open} onOpenChange={(o) => { if (!o) reset(); onOpenChange(o) }}>
             <DialogContent className="sm:max-w-[420px]">
                 <DialogHeader>
-                    <DialogTitle className="text-brand-navy">New Event</DialogTitle>
+                    <DialogTitle className="text-primary">New Event</DialogTitle>
                     <DialogDescription>Add an event to the company calendar.</DialogDescription>
                 </DialogHeader>
 
