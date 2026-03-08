@@ -6,7 +6,7 @@ import { StatusBadge } from '@/components/ui/status-badge'
 import { Button } from '@/components/ui/button'
 import type { SopRecordWithDept } from '@/types/app.types'
 import { format } from 'date-fns'
-import { CheckCircle2, FileText, Loader2, AlertCircle } from 'lucide-react'
+import { CheckCircle2, FileText, Loader2, AlertCircle, ChevronUp, ChevronDown } from 'lucide-react'
 import { toast } from 'sonner'
 
 interface SopViewerProps {
@@ -22,6 +22,7 @@ export function SopViewer({ sopId }: SopViewerProps) {
     const [error, setError] = useState<string | null>(null)
     const [hasAcknowledged, setHasAcknowledged] = useState(false)
     const [acknowledging, setAcknowledging] = useState(false)
+    const [isHeaderExpanded, setIsHeaderExpanded] = useState(true)
     const [userRole, setUserRole] = useState<string>('')
     const [userId, setUserId] = useState<string>('')
     const supabase = createClient()
@@ -108,11 +109,11 @@ export function SopViewer({ sopId }: SopViewerProps) {
                 className: 'docx',
                 inWrapper: true,
                 ignoreWidth: false,
-                ignoreHeight: false,
+                ignoreHeight: false, // Emulate physical A4 paper bounds
                 ignoreFonts: false,
-                breakPages: true,
+                breakPages: true,    // Attempt auto-pagination on breaks
                 ignoreLastRenderedPageBreak: true,
-                experimental: false,
+                experimental: true,
                 trimXmlDeclaration: true,
                 debug: false
             })
@@ -120,7 +121,7 @@ export function SopViewer({ sopId }: SopViewerProps) {
             // Mark as rendered so loading spinner hides
             setHtmlContent('rendered')
         } catch (err) {
-            setError('Viewer error: Could not render document.')
+            setError('Viewer error: Could not render natively.')
         } finally {
             setDocLoading(false)
         }
@@ -184,68 +185,94 @@ export function SopViewer({ sopId }: SopViewerProps) {
     return (
         <div className="flex flex-col gap-0 h-full">
             {/* Viewer Header */}
-            <div className="flex flex-wrap items-start justify-between gap-4 border-b border-border bg-card px-6 py-4">
-                <div className="space-y-1">
-                    <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-mono text-sm font-bold text-foreground">{sop.sop_number}</span>
-                        <StatusBadge status={sop.status} />
-                        <span className="text-xs text-muted-foreground font-mono">{sop.version}</span>
-                        {dept && (
-                            <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${deptClass}`}>
-                                {dept.name}
+            {isHeaderExpanded && (
+                <div className="flex flex-wrap items-start justify-between gap-4 border-b border-border bg-card px-6 py-4 shrink-0 transition-all">
+                    <div className="space-y-1">
+                        <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-mono text-sm font-bold text-foreground">{sop.sop_number}</span>
+                            <StatusBadge status={sop.status} />
+                            <span className="text-xs text-muted-foreground font-mono">{sop.version}</span>
+                            {dept && (
+                                <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${deptClass}`}>
+                                    {dept.name}
+                                </span>
+                            )}
+                        </div>
+                        <h2 className="text-lg font-semibold text-foreground">{sop.title}</h2>
+                        <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
+                            {sop.date_listed && (
+                                <span>Listed: {format(new Date(sop.date_listed), 'MMM d, yyyy')}</span>
+                            )}
+                            {sop.date_revised && (
+                                <span>Revised: {format(new Date(sop.date_revised), 'MMM d, yyyy')}</span>
+                            )}
+                            {sop.profiles && (
+                                <span>Approved by: {(sop.profiles as any).full_name}</span>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Action Bar */}
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                        {sop.status === 'active' && !hasAcknowledged && userRole === 'worker' && (
+                            <Button
+                                size="sm"
+                                className="bg-brand-teal hover:bg-teal-700 text-white"
+                                onClick={handleAcknowledge}
+                                disabled={acknowledging}
+                            >
+                                {acknowledging ? (
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                ) : (
+                                    <CheckCircle2 className="mr-2 h-4 w-4" />
+                                )}
+                                Acknowledge
+                            </Button>
+                        )}
+                        {hasAcknowledged && (
+                            <span className="flex items-center gap-1.5 text-xs text-green-600 font-medium">
+                                <CheckCircle2 className="h-4 w-4" />
+                                Acknowledged
                             </span>
                         )}
-                    </div>
-                    <h2 className="text-lg font-semibold text-foreground">{sop.title}</h2>
-                    <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
-                        {sop.date_listed && (
-                            <span>Listed: {format(new Date(sop.date_listed), 'MMM d, yyyy')}</span>
-                        )}
-                        {sop.date_revised && (
-                            <span>Revised: {format(new Date(sop.date_revised), 'MMM d, yyyy')}</span>
-                        )}
-                        {sop.profiles && (
-                            <span>Approved by: {(sop.profiles as any).full_name}</span>
+                        {sop.file_url && (
+                            <Button variant="outline" size="sm" asChild>
+                                <a href={sop.file_url} download target="_blank" rel="noopener noreferrer">
+                                    <FileText className="mr-2 h-4 w-4" />
+                                    Download .docx
+                                </a>
+                            </Button>
                         )}
                     </div>
                 </div>
+            )}
 
-                {/* Action Bar */}
-                <div className="flex items-center gap-2 flex-shrink-0">
-                    {sop.status === 'active' && !hasAcknowledged && userRole === 'worker' && (
-                        <Button
-                            size="sm"
-                            className="bg-brand-teal hover:bg-teal-700 text-white"
-                            onClick={handleAcknowledge}
-                            disabled={acknowledging}
-                        >
-                            {acknowledging ? (
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            ) : (
-                                <CheckCircle2 className="mr-2 h-4 w-4" />
-                            )}
-                            Acknowledge
-                        </Button>
+            {/* Mini Toggle Bar */}
+            <div className="flex items-center justify-between border-b border-border bg-muted/40 px-6 py-1.5 shrink-0 z-10 transition-colors">
+                {!isHeaderExpanded ? (
+                    <div className="flex items-center gap-3">
+                        <span className="font-mono text-xs font-bold text-foreground">{sop.sop_number}</span>
+                        <span className="text-xs font-medium text-muted-foreground truncate max-w-[250px]">{sop.title}</span>
+                        <StatusBadge status={sop.status} size="sm" />
+                    </div>
+                ) : (
+                    <div />
+                )}
+
+                <button
+                    onClick={() => setIsHeaderExpanded(!isHeaderExpanded)}
+                    className="flex text-[10px] items-center gap-1 font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground ml-auto py-1"
+                >
+                    {isHeaderExpanded ? (
+                        <><ChevronUp className="h-3 w-3" /> Hide Info</>
+                    ) : (
+                        <><ChevronDown className="h-3 w-3" /> Show Info</>
                     )}
-                    {hasAcknowledged && (
-                        <span className="flex items-center gap-1.5 text-xs text-green-600 font-medium">
-                            <CheckCircle2 className="h-4 w-4" />
-                            Acknowledged
-                        </span>
-                    )}
-                    {sop.file_url && (
-                        <Button variant="outline" size="sm" asChild>
-                            <a href={sop.file_url} download target="_blank" rel="noopener noreferrer">
-                                <FileText className="mr-2 h-4 w-4" />
-                                Download .docx
-                            </a>
-                        </Button>
-                    )}
-                </div>
+                </button>
             </div>
 
             {/* Document Body */}
-            <div className="flex-1 overflow-y-auto bg-card px-8 py-6">
+            <div className="flex-1 overflow-y-auto bg-muted/30 px-8 py-6">
                 {!sop.file_url ? (
                     <div className="flex h-48 flex-col items-center justify-center gap-2 text-muted-foreground">
                         <FileText className="h-10 w-10" />
@@ -259,7 +286,8 @@ export function SopViewer({ sopId }: SopViewerProps) {
                 ) : (
                     <div
                         ref={containerRef}
-                        className={`w-full min-h-[800px] border border-border rounded-md shadow-sm bg-white overflow-hidden ${htmlContent ? 'block' : 'hidden'}`}
+                        className={`w-full min-h-[800px] bg-transparent overflow-y-auto ${htmlContent ? 'block' : 'hidden'}`}
+                        style={{ paddingBottom: '40px' }}
                     />
                 )}
             </div>
